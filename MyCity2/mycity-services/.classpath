@@ -32,5 +32,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="/mycity-entities"/>
+	<classpathentry kind="src" path="/mycity-persistence"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

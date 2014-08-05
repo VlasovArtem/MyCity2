@@ -3,6 +3,10 @@
 	<name>mycity-persistence</name>
 	<comment></comment>
 	<projects>
+		<project>mycity-entities</project>
+		<project>mycity-model</project>
+		<project>mycity-services</project>
+		<project>mycity2</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

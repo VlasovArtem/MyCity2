@@ -1,5 +1,6 @@
 package org.hillel.it.mycity.service;
 
+
 import java.util.List;
 
 import org.hillel.it.mycity.model.entity.Administrator;
@@ -14,19 +15,7 @@ import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.model.entity.User;
 
 public interface ServiceMyCity {
-	//Establishment repository
-	// CREATE Establishment
-	/* @timur Тут можно попробовать реализовать шаблон FactoryMethod.
-	 * Тогда будет всего один метод типа
-	 * public void addEstablishment(EstType estType), 
-	 * где EstType - перечисление Restaurant, NightClub, Cinema.
-	 * 
-	 * Параметр Administrator administrator надо убирать и менять реализацию.
-	 * В системе будет существовать объект типа Person person, который будет содержать инфу
-	 * о залогинившемся пользователе. Реализация метода addEstablishmentRestaurant
-	 * будет обращаться к методу person.inGroup("admin"). 
-	 * 
-	 */ 
+	
 	public void addRestaurant(Restaurant restaurant);
 	public void addNightClub(NightClub nightClub);
 	public void addCinema(Cinema cinema);
