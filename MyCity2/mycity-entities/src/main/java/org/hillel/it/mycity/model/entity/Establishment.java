@@ -9,12 +9,10 @@ public class Establishment extends BaseEntity{
 	private int baseEntityId;
 	private String name;
 	private String address;
-	private String phone; //формат (0482) 34-56-15, можно добавить форматирование по
+	private String phone;
 	private String description;
 	private List<Comment> commentsOfEstablishment;
 	private List<Assessment> assessmentsOfEstablishment;
-	
-	
 	
 	public int getBaseEntityId() {
 		return baseEntityId;
@@ -114,4 +112,22 @@ public class Establishment extends BaseEntity{
 			throw new RuntimeException();
 		}
 	}
+
+	public List<Comment> getCommentsOfEstablishment() {
+		return commentsOfEstablishment;
+	}
+
+	public void setCommentsOfEstablishment(List<Comment> commentsOfEstablishment) {
+		this.commentsOfEstablishment = commentsOfEstablishment;
+	}
+
+	public List<Assessment> getAssessmentsOfEstablishment() {
+		return assessmentsOfEstablishment;
+	}
+
+	public void setAssessmentsOfEstablishment(
+			List<Assessment> assessmentsOfEstablishment) {
+		this.assessmentsOfEstablishment = assessmentsOfEstablishment;
+	}
+	
 }

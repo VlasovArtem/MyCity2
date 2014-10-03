@@ -14,7 +14,7 @@ public class BaseEntity implements Serializable{
 		setCreateDate(new Date());	
 	}
 	
-	private void setCreateDate(Date createdDate){
+	public void setCreateDate(Date createdDate){
 		this.createdDate = createdDate;
 	}
 	

@@ -14,6 +14,7 @@ import org.hillel.it.mycity.model.entity.Establishment;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
+import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

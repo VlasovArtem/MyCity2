@@ -19,15 +19,23 @@ import org.hillel.it.mycity.persistence.repository.CommentRepository;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
 import org.hillel.it.mycity.persistence.repository.UserRepository;
 import org.hillel.it.mycity.service.ServiceMyCity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-
+@Service
+@Transactional(rollbackFor=Exception.class, readOnly=true)
 public class ServiceImpl implements ServiceMyCity {
+	@Autowired
 	private EstablishmentRepository establishmentRepository;
+	@Autowired
 	private UserRepository userRepository;
+	@Autowired
 	private CommentRepository commentRepository;
+	@Autowired
 	private AssessmentRepository assessmentRepository;
 	private Person loggedUser;
-	
+
 	public ServiceImpl() {
 	}
 	public ServiceImpl(EstablishmentRepository establishmentRepository, UserRepository userRepository, CommentRepository commentRepository, AssessmentRepository assessmentRepository) {

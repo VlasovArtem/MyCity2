@@ -13,6 +13,7 @@ import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Person;
 import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.model.entity.User;
+import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
 
 public interface ServiceMyCity {
 	
@@ -88,4 +89,7 @@ public interface ServiceMyCity {
 	public List<Assessment> getAssessments();
 	
 	public void setLoggedUser(Person user);
+	
+	public void setEstablishmentRepository(
+			EstablishmentRepository establishmentRepository);
 }

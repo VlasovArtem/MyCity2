@@ -42,6 +42,9 @@ public class Comment extends BaseEntity{
 	public int getCommentAssessment() {
 		return commentAssessment;
 	}
+	public void setCommentAssessment(int commentAssessment) {
+		this.commentAssessment = commentAssessment;
+	}
 	
 	public void setCommentToModerate(Person user) {
 		checkUserForComment(user);
