@@ -7,4 +7,12 @@
   </parent>
   <artifactId>mycity-services</artifactId>
   <packaging>war</packaging>
+  <dependencies>
+  	<dependency><groupId>org.hillel.it</groupId>
+    <artifactId>mycity-entities</artifactId>
+    <version>0.0.1-SNAPSHOT</version></dependency>
+    <dependency><groupId>org.hillel.it</groupId>
+    <artifactId>mycity-persistence</artifactId>
+    <version>0.0.1-SNAPSHOT</version></dependency>
+  </dependencies>
 </project>

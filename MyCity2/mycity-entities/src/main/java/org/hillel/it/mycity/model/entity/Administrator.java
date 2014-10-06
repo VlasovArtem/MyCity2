@@ -1,5 +1,10 @@
 package org.hillel.it.mycity.model.entity;
- 
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="PERSON")
 public class Administrator extends Person {
 	
 	public Administrator(String email, String password) {

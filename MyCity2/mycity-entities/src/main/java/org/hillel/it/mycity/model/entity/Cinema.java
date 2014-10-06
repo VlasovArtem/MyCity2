@@ -1,8 +1,17 @@
 package org.hillel.it.mycity.model.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="CINEMA")
 public class Cinema extends Establishment{
+	@Column(name="number_of_halls")
 	private int numberOfHalls;
+	@Column(name="number_of_seats_in_hall")
 	private int numberOfSeatsInHall;
+	@Column(name="cinema_technology")
 	private String cinemaTechnology;
 	
 	public Cinema() {

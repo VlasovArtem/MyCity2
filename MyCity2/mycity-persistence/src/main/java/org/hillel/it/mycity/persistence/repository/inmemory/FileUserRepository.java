@@ -15,6 +15,7 @@ import org.hillel.it.mycity.model.entity.Moderator;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.persistence.repository.UserRepository;
 
+@Deprecated
 public class FileUserRepository extends InMemoryUserRepository implements UserRepository {
 
 	private File file;

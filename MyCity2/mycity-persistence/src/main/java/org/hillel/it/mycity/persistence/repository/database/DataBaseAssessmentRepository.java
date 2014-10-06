@@ -2,6 +2,7 @@ package org.hillel.it.mycity.persistence.repository.database;
 
 import java.util.List;
 
+import org.glassfish.grizzly.http.server.Session;
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.Establishment;
 import org.hillel.it.mycity.model.entity.Person;
@@ -37,7 +38,6 @@ public class DataBaseAssessmentRepository implements AssessmentRepository{
 
 	@Override
 	public Assessment getAssessment(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

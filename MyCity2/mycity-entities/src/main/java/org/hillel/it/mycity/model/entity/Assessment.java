@@ -1,7 +1,13 @@
 package org.hillel.it.mycity.model.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Assessment")
 public class Assessment extends BaseEntity{
-	
+	@Column(name="assessment")
 	private int assessment;
 	private Establishment establishment;
 	

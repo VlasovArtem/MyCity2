@@ -5,10 +5,16 @@ import java.time.LocalTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+@MappedSuperclass
 public abstract class RestaurantsAndNightClubs extends Establishment{
 	//protected AdditionalService additionalService; //я думаю, что можно создать класс с дополнительными услугами.
+	@Column(name="time_open")
 	private LocalTime timeOpen;
+	@Column(name="time_close")
 	private LocalTime timeClose;
+	@Column(name="average_check")
 	private int averageCheck;
 	private boolean twentyFourHour;
 	

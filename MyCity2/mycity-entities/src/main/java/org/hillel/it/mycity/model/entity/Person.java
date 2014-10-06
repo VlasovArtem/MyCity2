@@ -8,18 +8,28 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.hillel.it.mycity.helper.CryptoHelper;
 
+@MappedSuperclass
 public class Person extends BaseEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	@Column(name="firstname")
 	private String firstName;
+	@Column(name="lastname")
 	private String lastName;
+	@Column(name="username")
 	private String username;
+	@Column(name="email")
 	private String email;
+	@Column(name="password")
 	private String password;
+	@Column(name="group")
 	private Group group;
 	private boolean emailVerified; //прошел ли email проверку на подлинность, можно использовать
 	//при вызове методов добавления и удаление файлов.

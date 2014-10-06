@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(rollbackFor=Exception.class, readOnly=true)
 public class ServiceImpl implements ServiceMyCity {
 	@Autowired
 	private EstablishmentRepository establishmentRepository;
@@ -36,14 +35,14 @@ public class ServiceImpl implements ServiceMyCity {
 	private AssessmentRepository assessmentRepository;
 	private Person loggedUser;
 
-	public ServiceImpl() {
-	}
-	public ServiceImpl(EstablishmentRepository establishmentRepository, UserRepository userRepository, CommentRepository commentRepository, AssessmentRepository assessmentRepository) {
-		this.establishmentRepository = establishmentRepository;
-		this.userRepository = userRepository;
-		this.commentRepository = commentRepository;
-		this.assessmentRepository = assessmentRepository;
-	}
+//	public ServiceImpl() {
+//	}
+//	public ServiceImpl(EstablishmentRepository establishmentRepository, UserRepository userRepository, CommentRepository commentRepository, AssessmentRepository assessmentRepository) {
+//		this.establishmentRepository = establishmentRepository;
+//		this.userRepository = userRepository;
+//		this.commentRepository = commentRepository;
+//		this.assessmentRepository = assessmentRepository;
+//	}
 	// CREATE Establishment
 	public void addRestaurant(Restaurant restaurant) {
 		checkUser(restaurant);

@@ -1,5 +1,9 @@
 package org.hillel.it.mycity.model.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 	/*
 	 * @timur Думаю объект класса Comment должен представлять 
 	 * один комментарий. Один комментарий - это комментарий 
@@ -10,9 +14,12 @@ package org.hillel.it.mycity.model.entity;
 	 * 2) Список всех комментариев пользователя. Например, это будет поле класса RegisteredUser. 
 	 * 
 	 */
+@Entity
+@Table(name="COMMENT")
 public class Comment extends BaseEntity{
-	
+	@Column(name="comment_assessment")
 	private int commentAssessment;
+	@Column(name="comment")
 	private String comment;
 	private boolean needToModerate;
 	private Establishment establishment;

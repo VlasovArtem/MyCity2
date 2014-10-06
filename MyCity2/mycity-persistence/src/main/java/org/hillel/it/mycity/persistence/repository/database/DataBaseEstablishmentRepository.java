@@ -3,9 +3,13 @@ package org.hillel.it.mycity.persistence.repository.database;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Restaurant;
+import org.hillel.it.mycity.persistence.hibernate.HibernateUtil;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
 import org.springframework.stereotype.Repository;
 
@@ -32,8 +36,18 @@ public class DataBaseEstablishmentRepository implements EstablishmentRepository{
 
 	@Override
 	public Cinema getCinema(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		SessionFactory factory = null;
+		Cinema cinema = null;
+		try {
+			factory = HibernateUtil.getSessionFactory();
+			execute(factory, (session) -> {
+				(Cinema) session.get(Cinema.class, id);
+			});
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+			throw new HibernateException(ex);
+		}
+		return cinema;
 	}
 
 	@Override
@@ -102,4 +116,40 @@ public class DataBaseEstablishmentRepository implements EstablishmentRepository{
 		
 	}
 	
+	public void execute(SessionFactory factory, Action runner) {
+		Session session = factory.getCurrentSession();
+		session.beginTransaction();
+		try {
+			runner.run(session);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
+	public <T> T execute(SessionFactory factory, ReturnAction<T> runner) {
+		Session session = factory.getCurrentSession();
+		session.beginTransaction();
+		T t = null;
+		try {
+			t = runner.run(session);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+		return t;
+	}
+	interface Action {
+		void run(Session session);
+	}
+	interface ReturnAction<T> {
+		T run(Session session);
+	}
 }

@@ -5,22 +5,21 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Establishment extends BaseEntity{
-	private int baseEntityId;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public abstract class Establishment extends BaseEntity{
+	@Column(name="name")
 	private String name;
+	@Column(name="address")
 	private String address;
+	@Column(name="telephone")
 	private String phone;
+	@Column(name="description")
 	private String description;
 	private List<Comment> commentsOfEstablishment;
 	private List<Assessment> assessmentsOfEstablishment;
-	
-	public int getBaseEntityId() {
-		return baseEntityId;
-	}
-
-	public void setBaseEntityId(int baseEntityId) {
-		this.baseEntityId = baseEntityId;
-	}
 
 	public Establishment() {
 		commentsOfEstablishment = new ArrayList<>();
