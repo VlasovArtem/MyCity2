@@ -5,43 +5,47 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-@MappedSuperclass
-public abstract class Establishment extends BaseEntity{
-	@Column(name="name")
+@Entity
+@Table(name="establishment")
+@Inheritance(strategy=InheritanceType.JOINED)
+@AttributeOverride(name="id", column = @Column(name="establishment_id", insertable=false, updatable=false))
+public class Establishment extends BaseEntity{
 	private String name;
-	@Column(name="address")
 	private String address;
-	@Column(name="telephone")
 	private String phone;
-	@Column(name="description")
 	private String description;
 	private List<Comment> commentsOfEstablishment;
 	private List<Assessment> assessmentsOfEstablishment;
-
-	public Establishment() {
-		commentsOfEstablishment = new ArrayList<>();
-		assessmentsOfEstablishment = new ArrayList<>();
-	}
-	
 	public void setName(String nameOfEstablishment){
-		this.name = nameOfEstablishment;
+		commentsOfEstablishment = new ArrayList<Comment>();
+		assessmentsOfEstablishment = new ArrayList<Assessment>();
 	}
-
+	@Column(name="name")
 	public String getName() {
 		return name;
 	}
-	
 	public void setAddress(String addressOfEstablishment) {
 		this.address = addressOfEstablishment;
 	}
-	
+	@Column(name="address")
 	public String getAddress() {
 		return address;
 	}
-	
 	public void setPhone(String telephoneOfEstablishment) throws ClassNotFoundException {
 		if(!checkTelephoneOfEstablishment(telephoneOfEstablishment)) {
 			System.out.println("Incorrect format");
@@ -49,19 +53,32 @@ public abstract class Establishment extends BaseEntity{
 		}
 		this.phone = telephoneOfEstablishment;
 	}
-	
+	@Column(name="telephone")
 	public String getPhone() {
 		return phone;
 	}
-	
 	public void setDescription(String descriptionOfEstablishment) {
 		this.description = descriptionOfEstablishment;
 	}
-	
+	@Column(name="description")
 	public String getDescription() {
 		return description;
 	}
-	
+	public void setCommentsOfEstablishment(List<Comment> commentsOfEstablishment) {
+		this.commentsOfEstablishment = commentsOfEstablishment;
+	}
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment")
+	public List<Comment> getCommentsOfEstablishment() {
+		return commentsOfEstablishment;
+	}
+	public void setAssessmentsOfEstablishment(
+			List<Assessment> assessmentsOfEstablishment) {
+		this.assessmentsOfEstablishment = assessmentsOfEstablishment;
+	}
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment")
+	public List<Assessment> getAssessmentsOfEstablishment() {
+		return assessmentsOfEstablishment;
+	}
 	/**
 	 * Method that set comment for Establishment. checkEstablishment - check if this comment is belongs 
 	 * to this Establishment (if it was changed). checkId - check if this comment is created in Repository
@@ -73,13 +90,21 @@ public abstract class Establishment extends BaseEntity{
 		comment.setEstablishment(this);
 		commentsOfEstablishment.add(comment);
 	}
-	
 	public void setAssessment(Assessment assessment) {
-			checkAddAssessment(assessment);
+		checkAddAssessment(assessment);
 		assessment.setEstablishment(this);
 		assessmentsOfEstablishment.add(assessment);
 	}
-	
+	@Override
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public int getId() {
+		return id;
+	}
+	@Override
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * Check insert telephone number on regex. Standart format 0939580099. Check Telephones for 
 	 * Odessa Region.
@@ -91,8 +116,7 @@ public abstract class Establishment extends BaseEntity{
 		Matcher telephoneMatcher = telephonePattern.matcher(telephoneOfEstablishment);
 		return telephoneMatcher.find();
 	}
-	
-	private void checkAddComment(Comment comment) {
+	protected void checkAddComment(Comment comment) {
 		try {
 			comment.checkEstablishment(this);
 			comment.checkId(comment.getId());
@@ -101,8 +125,7 @@ public abstract class Establishment extends BaseEntity{
 			throw new RuntimeException();
 		}
 	}
-	
-	private void checkAddAssessment(Assessment assessment) {
+	protected void checkAddAssessment(Assessment assessment) {
 		try {
 			assessment.checkEstablishment(this);
 			assessment.checkId(assessment.getId());
@@ -111,22 +134,4 @@ public abstract class Establishment extends BaseEntity{
 			throw new RuntimeException();
 		}
 	}
-
-	public List<Comment> getCommentsOfEstablishment() {
-		return commentsOfEstablishment;
-	}
-
-	public void setCommentsOfEstablishment(List<Comment> commentsOfEstablishment) {
-		this.commentsOfEstablishment = commentsOfEstablishment;
-	}
-
-	public List<Assessment> getAssessmentsOfEstablishment() {
-		return assessmentsOfEstablishment;
-	}
-
-	public void setAssessmentsOfEstablishment(
-			List<Assessment> assessmentsOfEstablishment) {
-		this.assessmentsOfEstablishment = assessmentsOfEstablishment;
-	}
-	
 }

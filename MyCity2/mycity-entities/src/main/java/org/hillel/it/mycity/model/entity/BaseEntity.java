@@ -4,22 +4,22 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable{
-	@Id
-	@GeneratedValue
-	private int id;
-	@Column(name="created_date")
+	protected int id;
 	private Date createdDate;
-	@Column(name="modified_date")
 	private Date modifiedDate;
-	@Column(name="created_by")
 	private Person createdBy;
-	@Column(name="modified_by")
 	private Person modifiedBy;
 
 	public BaseEntity(){
@@ -29,7 +29,8 @@ public abstract class BaseEntity implements Serializable{
 	public void setCreateDate(Date createdDate){
 		this.createdDate = createdDate;
 	}
-	
+	@Column(name="created_date", nullable=false)
+	@Temporal(TemporalType.DATE)
 	public Date getCreatedDate(){
 		return createdDate;
 	}
@@ -37,7 +38,8 @@ public abstract class BaseEntity implements Serializable{
 	public void setModifiedDate(Date modifiedDate){
 		this.modifiedDate = modifiedDate;
 	}
-	
+	@Column(name="modified_date")
+	@Temporal(TemporalType.DATE)
 	public Date getModifiedDate(){
 		return modifiedDate;
 	}
@@ -50,7 +52,9 @@ public abstract class BaseEntity implements Serializable{
 		checkDataIsNotNull(this.createdBy, "CreatedBy user is alredy exist. You can not add another one.");
 		this.createdBy = createdBy;
 	}
-	
+	@Column(name="created_by")
+	@OneToOne
+	@JoinColumn(name="person_id")
 	public Person getCreatedBy(){
 		return createdBy;
 	}
@@ -59,7 +63,9 @@ public abstract class BaseEntity implements Serializable{
 		checkUser(modifiedBy);
 		this.modifiedBy = modifiedBy;
 	}
-	
+	@Column(name="modified_by")
+	@OneToOne
+	@JoinColumn(name="person_id")
 	public Person getModifiedBy(){
 		return modifiedBy;
 	}

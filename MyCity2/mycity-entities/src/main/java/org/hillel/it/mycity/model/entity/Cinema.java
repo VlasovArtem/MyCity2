@@ -1,45 +1,48 @@
 package org.hillel.it.mycity.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="CINEMA")
+@Table(name="cinema")
+@PrimaryKeyJoinColumn(name="cinema_id")
 public class Cinema extends Establishment{
-	@Column(name="number_of_halls")
 	private int numberOfHalls;
-	@Column(name="number_of_seats_in_hall")
 	private int numberOfSeatsInHall;
-	@Column(name="cinema_technology")
 	private String cinemaTechnology;
-	
 	public Cinema() {
 		super();
 	}
-	
 	public void setNumberOfHalls(int numberOfHalls) {
 		this.numberOfHalls = numberOfHalls;
 	}
-	
+	@Column(name="number_of_halls")
 	public int getNumberOfHalls() {
 		return numberOfHalls;
 	}
-	
 	public void setNumberOfSeatsInHall(int numberOfSeatsInHall) {
 		this.numberOfSeatsInHall = numberOfSeatsInHall;
 	}
-	
+	@Column(name="number_of_seats_in_hall")
 	public int getNumberOfSeatsInHall() {
 		return numberOfSeatsInHall;
 	}
-	
 	public void setCinemaTechnology(String cinemaTechnology) {
 		this.cinemaTechnology = cinemaTechnology;
 	}
-	
+	@Column(name="cinema_technology")
 	public String getCinemaTechnology() {	
 		return cinemaTechnology;
 	}
-	
 }

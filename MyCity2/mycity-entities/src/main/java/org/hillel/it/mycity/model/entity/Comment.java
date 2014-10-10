@@ -2,6 +2,9 @@ package org.hillel.it.mycity.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 	/*
@@ -15,11 +18,9 @@ import javax.persistence.Table;
 	 * 
 	 */
 @Entity
-@Table(name="COMMENT")
+@Table(name="comment")
 public class Comment extends BaseEntity{
-	@Column(name="comment_assessment")
 	private int commentAssessment;
-	@Column(name="comment")
 	private String comment;
 	private boolean needToModerate;
 	private Establishment establishment;
@@ -28,15 +29,13 @@ public class Comment extends BaseEntity{
 		commentAssessment = 0;
 		needToModerate = false;
 	}
-	
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+	@Column(name="comment")
 	public String getComment() {
 		return comment;
 	}
-	
 	//наверно нужно добавить проверка, на количество вызовов метода одним пользователем. 
 	public void setCommentPositiveAssessment() {
 		++commentAssessment;
@@ -45,23 +44,27 @@ public class Comment extends BaseEntity{
 	public void setCommentNegativeAssessment() {
 		--commentAssessment;
 	}
-	
+	@Column(name="comment_assessment")
 	public int getCommentAssessment() {
 		return commentAssessment;
 	}
 	public void setCommentAssessment(int commentAssessment) {
 		this.commentAssessment = commentAssessment;
 	}
-	
+	public Establishment getEstablishment() {
+		return establishment;
+	}
 	public void setCommentToModerate(Person user) {
 		checkUserForComment(user);
 		needToModerate = true;
 	}
-	
-	public boolean checkCommentForModeration() {
-		return needToModerate;
+	@Override
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="assessment_id")
+	public int getId() {
+		return id;
 	}
-	
 	/**
 	 * This method add Establishment object to the Comment object. Check is this comment establishment 
 	 * is not empty.
@@ -71,7 +74,9 @@ public class Comment extends BaseEntity{
 		checkDataIsNotNull(this.establishment, "You can not add additional Establishment to this Comment");
 		this.establishment = establishment;
 	}
-	
+	public boolean checkCommentForModeration() {
+		return needToModerate;
+	}
 	/**
 	 * Method that return true if <code>Establishment</code> of this Comment object is equals
 	 * to Establishment object that get by argument.
@@ -80,7 +85,6 @@ public class Comment extends BaseEntity{
 	public boolean checkEstablishment(Establishment establishment) {
 		return this.establishment.equals(establishment);
 	}
-	
 	public void checkUserForComment(Person user) {
 		if(!user.inGroup(Group.Moderator) && !user.inGroup(Group.Administrator)) {
 			throw new RuntimeException("This user can`t mark comment to moderate");

@@ -2,34 +2,31 @@ package org.hillel.it.mycity.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.hillel.it.mycity.helper.CryptoHelper;
 
-@MappedSuperclass
+@Entity
+@Table(name="person")
+@AttributeOverride(name="id", column=@Column(name="person_id", insertable=false, updatable=false))
 public class Person extends BaseEntity implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	@Column(name="firstname")
 	private String firstName;
-	@Column(name="lastname")
 	private String lastName;
-	@Column(name="username")
 	private String username;
-	@Column(name="email")
 	private String email;
-	@Column(name="password")
 	private String password;
-	@Column(name="group")
 	private Group group;
 	private boolean emailVerified; //прошел ли email проверку на подлинность, можно использовать
 	//при вызове методов добавления и удаление файлов.
@@ -42,84 +39,72 @@ public class Person extends BaseEntity implements Serializable{
 		emailVerified = false;
 		setUsername("user" + (getId()+256));
 	}
-	
 	public Person() {
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * Method that return group of class Person (Administrator, Moderator, User)
-	 * @param group It is eNum of groups
-	 * @return true if group of the person equals to group in argument otherwise return false  
-	 */
-	public boolean inGroup(Group group){
-		return group == this.group;
-	}
 	
+	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	
+	@Column(name="firstname")
 	public String getFirstName() {
 		return firstName;
 	}
-	
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+	@Column(name="lastname")
 	public String getLastName() {
 		return lastName;
 	}
-
 	public void setUsername(String username) {
 		if(!checkUserName(username)) {
 			return;
 		}
 		this.username = username;
 	}
-	
+	@Column(name="username")
 	public String getUsername() {
 		return username;
 	}
-	
-	/**
-	 * Method that allows a person to log in. 
-	 * @param username
-	 * @param password
-	 * @return Object of Person type
-	 * @deprecated
-	 */
-	public static Person logIn(String username, String password){
-		// Смотрит есть ли пользователь с такими именем пользователя и паролем в БД. 
-		// В случае успешного входа создаем объект на этого пользователя.
-		// Предлагаю вынести этот метод в класс InMemoryUserRepository
-		return PersonFactory.getPerson(Group.Administrator);
-	}
-	
 	public void setEmail(String email) {
 		checkEmail(email);
 		this.email = email;
 	}
-	
+	@Column(name="email", unique=true, nullable=false)
 	public String getEmail() {
 		return email;
 	}
-	
 	public void setPassword(String password) {
 		this.password = CryptoHelper.shaOne(password);
 	}
-	
-	//может сделать проверку на получение password?
-	//то есть его может получить только Administrator или его User
+	@Column(name="password", nullable=false)
 	public String getPassword() {
 		return password;
 	}
-	
 	public void setGroup(Group group) {
 		this.group = group;
 	}
-	
+	@Column(name="group")
+	public Group getGroup() {
+		return group;
+	}
+	@Column(name="verified")
+	public boolean isEmailVerified() {
+		return emailVerified;
+	}
+	public void setEmailVerified(boolean emailVerified) {
+		this.emailVerified = emailVerified;
+	}
+	@Override
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public int getId() {
+		return id;
+	}
+	@Override
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * This method create Comment.
 	 * @param userComment String type comment that received from user
@@ -132,7 +117,6 @@ public class Person extends BaseEntity implements Serializable{
 		comment.setComment(userComment);
 		return comment;
 	}
-	
 	/**
 	 * 
 	 * @param comment
@@ -145,7 +129,6 @@ public class Person extends BaseEntity implements Serializable{
 		comment.setModifiedBy(this);
 		comment.setModifiedDate(new Date());
 	}
-	
 	public Assessment createAssessment(int userAssessment) {
 		checkId(getId());
 		Assessment assessment = new Assessment();
@@ -153,14 +136,20 @@ public class Person extends BaseEntity implements Serializable{
 		assessment.setAssessment(userAssessment);
 		return assessment;
 	}
-	
 	public void changeAssessment(Assessment assessment, int userAssessment) {
 		checkUserData(assessment);
 		assessment.setAssessment(userAssessment);
 		assessment.setModifiedBy(this);
 		assessment.setModifiedDate(new Date());
 	}
-	
+	/**
+	 * Method that return group of class Person (Administrator, Moderator, User)
+	 * @param group It is eNum of groups
+	 * @return true if group of the person equals to group in argument otherwise return false  
+	 */
+	public boolean inGroup(Group group){
+		return group == this.group;
+	}
 	/**
 	 * Method <code>checkUserName</code> return true if <code>userName</code> is pass all checks. False if
 	 * <code>userName</code> length less than 4 symbols or <code>userName</code> is Empty (== null)
@@ -182,11 +171,6 @@ public class Person extends BaseEntity implements Serializable{
 		return true;
 		
 	}
-	
-	public void setEmailVarified() {
-		emailVerified = true;
-	}
-	
 	/**
 	 * Check user data for change different type of parameter. For class Comment this check
 	 * pass successful if creater of this Comment is this user or user with aministrator rights
@@ -204,7 +188,6 @@ public class Person extends BaseEntity implements Serializable{
 			}
 		}
 	}
-	
 	/**
 	 * Check email on validation with help of Apache Commons Validator - EmailValidator.
 	 * @param email 
@@ -214,9 +197,4 @@ public class Person extends BaseEntity implements Serializable{
 			throw new RuntimeException("Incorrect email");
 		}
 	}
-	
-	public Group getGroup() {
-		return group;
-	}
-
 }

@@ -2,6 +2,11 @@ package org.hillel.it.mycity.service.impl;
 
 import java.util.List;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.hillel.it.mycity.model.entity.Administrator;
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.BaseEntity;
@@ -24,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Path("service")
 public class ServiceImpl implements ServiceMyCity {
 	@Autowired
 	private EstablishmentRepository establishmentRepository;
@@ -279,6 +285,9 @@ public class ServiceImpl implements ServiceMyCity {
 	public void setAssessmentRepository(AssessmentRepository assessmentRepository) {
 		this.assessmentRepository = assessmentRepository;
 	}
-	
-	
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getTest() {
+		return "Hello, World!";
+	}
 }
