@@ -39,10 +39,14 @@ public class Assessment extends BaseEntity{
 		return id;
 	}
 	public boolean checkEstablishment(Establishment establishment) {
-		if(!this.establishment.equals(establishment)) {
+		if(this.establishment == null) {
+			return true;
+		}
+		else if(!this.establishment.equals(establishment)) {
 			System.out.println("You can not add additional Establishment to this Assessment");
 			return false;
 		}
 		return true;
 	}
+	
 }

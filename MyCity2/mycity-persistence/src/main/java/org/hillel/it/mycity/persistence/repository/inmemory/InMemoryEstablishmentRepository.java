@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
+@Deprecated
 public class InMemoryEstablishmentRepository implements EstablishmentRepository{
 	protected List<Cinema> cinemas;
 	protected List<NightClub> nightClubs;

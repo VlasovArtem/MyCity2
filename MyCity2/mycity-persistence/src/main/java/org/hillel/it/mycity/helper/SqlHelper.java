@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSourceFactory;
 import org.apache.commons.io.IOUtils;
-import org.hillel.it.mycity.model.entity.RestaurantsAndNightClubs;
 import org.hillel.it.mycity.persistence.repository.inmemory.DataBaseEstablishmentRepository;
 
 public class SqlHelper {

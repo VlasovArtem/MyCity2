@@ -25,7 +25,7 @@ class EstablishmentDao implements AdditionalGenericDao<Establishment>{
 		String create = "INSERT INTO establishment (base_entity_id,name,address,telephone,"
 				+ "description) VALUES(?,?,?,?,?)";
 		jdbcTemplate.update(create, baseEntityDao.getLastId(), establishment.getName(), 
-				establishment.getAddress(), establishment.getPhone(), establishment.getDescription());
+				establishment.getAddress(), establishment.getTelephone(), establishment.getDescription());
 		lastId = jdbcTemplate.queryForObject("SELECT last_insert_id()", Integer.class);
 	}
 	public Establishment read(Establishment establishment, int id) {
@@ -44,7 +44,7 @@ class EstablishmentDao implements AdditionalGenericDao<Establishment>{
 		MapSqlParameterSource source = new MapSqlParameterSource();
 		source.addValue("name", establishment.getName());
 		source.addValue("address", establishment.getAddress());
-		source.addValue("telephone", establishment.getPhone());
+		source.addValue("telephone", establishment.getTelephone());
 		source.addValue("description", establishment.getDescription());
 		parameterJdbcTemplate.update(update, source);
 	}

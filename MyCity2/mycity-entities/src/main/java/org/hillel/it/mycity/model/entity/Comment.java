@@ -2,9 +2,12 @@ package org.hillel.it.mycity.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 	/*
@@ -51,6 +54,8 @@ public class Comment extends BaseEntity{
 	public void setCommentAssessment(int commentAssessment) {
 		this.commentAssessment = commentAssessment;
 	}
+	@ManyToOne(fetch=FetchType.EAGER, optional=false, cascade={})
+	@JoinColumn(name="establishment_id")
 	public Establishment getEstablishment() {
 		return establishment;
 	}
@@ -74,6 +79,13 @@ public class Comment extends BaseEntity{
 		checkDataIsNotNull(this.establishment, "You can not add additional Establishment to this Comment");
 		this.establishment = establishment;
 	}
+	
+	public boolean isNeedToModerate() {
+		return needToModerate;
+	}
+	public void setNeedToModerate(boolean needToModerate) {
+		this.needToModerate = needToModerate;
+	}
 	public boolean checkCommentForModeration() {
 		return needToModerate;
 	}
@@ -83,10 +95,13 @@ public class Comment extends BaseEntity{
 	 * @param establishment
 	 */
 	public boolean checkEstablishment(Establishment establishment) {
+		if(this.establishment == null) {
+			return true;
+		}
 		return this.establishment.equals(establishment);
 	}
 	public void checkUserForComment(Person user) {
-		if(!user.inGroup(Group.Moderator) && !user.inGroup(Group.Administrator)) {
+		if(!user.inGroup(PersonGroup.Moderator) && !user.inGroup(PersonGroup.Administrator)) {
 			throw new RuntimeException("This user can`t mark comment to moderate");
 		}
 	}

@@ -15,6 +15,7 @@ import org.hillel.it.mycity.model.entity.Moderator;
 import org.hillel.it.mycity.model.entity.Person;
 import org.hillel.it.mycity.persistence.repository.UserRepository;
 
+@Deprecated
 public class DataBaseUserRepository extends FileUserRepository implements UserRepository{
 
 	private static final long serialVersionUID = 5676602279246927895L;

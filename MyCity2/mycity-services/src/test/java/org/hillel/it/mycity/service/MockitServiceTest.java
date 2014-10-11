@@ -2,7 +2,7 @@ package org.hillel.it.mycity.service;
 
 import org.hillel.it.mycity.model.entity.Administrator;
 import org.hillel.it.mycity.model.entity.Cinema;
-import org.hillel.it.mycity.model.entity.Group;
+import org.hillel.it.mycity.model.entity.PersonGroup;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
 import org.hillel.it.mycity.service.impl.ServiceImpl;
 import org.junit.Assert;
@@ -28,7 +28,7 @@ public class MockitServiceTest {
 		cinema.setId(1);
 		administrator = Mockito.mock(Administrator.class);
 		cinema.setCreatedBy(administrator);
-		Mockito.when(administrator.inGroup(Group.Administrator)).thenReturn(true);
+		Mockito.when(administrator.inGroup(PersonGroup.Administrator)).thenReturn(true);
 		Mockito.when(administrator.getId()).thenReturn(1);
 		serviceImpl.setLoggedUser(administrator);
 		Mockito.doAnswer((invocation) -> {

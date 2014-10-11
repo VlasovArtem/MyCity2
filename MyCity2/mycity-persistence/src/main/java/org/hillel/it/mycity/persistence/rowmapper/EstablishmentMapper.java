@@ -17,7 +17,7 @@ public class EstablishmentMapper implements RowMapper<Establishment>{
 		establishment.setName(rs.getString("name"));
 		establishment.setAddress(rs.getString("address"));
 		try {
-			establishment.setPhone(rs.getString("telephone"));
+			establishment.setTelephone(rs.getString("telephone"));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

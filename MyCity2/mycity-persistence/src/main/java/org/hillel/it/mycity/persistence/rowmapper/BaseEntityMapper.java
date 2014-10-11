@@ -15,7 +15,7 @@ public class BaseEntityMapper implements RowMapper<BaseEntity>{
 	@Override
 	public BaseEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
 		AdministratorDao administratorDao = new AdministratorDao();
-		baseEntity.setCreateDate(rs.getDate("created_date"));
+		baseEntity.setCreatedDate(rs.getDate("created_date"));
 		baseEntity.setModifiedDate(rs.getDate("modified_date"));
 		baseEntity.setCreatedBy(administratorDao.read(rs.getInt("created_by")));
 		baseEntity.setModifiedBy(administratorDao.read(rs.getInt("modified_by")));

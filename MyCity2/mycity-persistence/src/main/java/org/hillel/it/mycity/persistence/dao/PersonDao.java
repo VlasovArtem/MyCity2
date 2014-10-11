@@ -2,7 +2,7 @@ package org.hillel.it.mycity.persistence.dao;
 
 import java.sql.SQLException;
 
-import org.hillel.it.mycity.model.entity.Group;
+import org.hillel.it.mycity.model.entity.PersonGroup;
 import org.hillel.it.mycity.model.entity.Moderator;
 import org.hillel.it.mycity.model.entity.Person;
 import org.hillel.it.mycity.model.entity.User;
@@ -46,7 +46,7 @@ public class PersonDao implements GenericDao<Person>{
 				+ "AND group = 'Moderator' OR group = 'User'";
 		Person person = jdbcTemplate.queryForObject(read, new PersonMapper());
 		baseEntityDao.read(person, jdbcTemplate.queryForObject(select, Integer.class));
-		if(person.getGroup() == Group.Moderator) {
+		if(person.getGroup() == PersonGroup.Moderator) {
 			return (Moderator) person;
 		} else {
 			return (User) person;

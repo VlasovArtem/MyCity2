@@ -3,10 +3,19 @@
 	<name>mycity-model</name>
 	<comment></comment>
 	<projects>
+		<project>mycity-entities</project>
+		<project>mycity-persistence</project>
+		<project>mycity-services</project>
+		<project>mycity2</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -17,6 +26,7 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>org.sonar.ide.eclipse.core.sonarNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>

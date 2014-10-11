@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,13 +23,12 @@ import org.hillel.it.mycity.helper.CryptoHelper;
 @AttributeOverride(name="id", column=@Column(name="person_id", insertable=false, updatable=false))
 public class Person extends BaseEntity implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
 	private String firstName;
 	private String lastName;
 	private String username;
 	private String email;
 	private String password;
-	private Group group;
+	private PersonGroup group;
 	private boolean emailVerified; //прошел ли email проверку на подлинность, можно использовать
 	//при вызове методов добавления и удаление файлов.
 	//private boolean deleted - есть пользователь удалил аккаунт, сообщения остаются, если их не удаляют
@@ -81,11 +82,12 @@ public class Person extends BaseEntity implements Serializable{
 	public String getPassword() {
 		return password;
 	}
-	public void setGroup(Group group) {
+	public void setGroup(PersonGroup group) {
 		this.group = group;
 	}
-	@Column(name="group")
-	public Group getGroup() {
+	@Column(name="persongroup")
+	@Enumerated(EnumType.STRING)
+	public PersonGroup getGroup() {
 		return group;
 	}
 	@Column(name="verified")
@@ -105,6 +107,7 @@ public class Person extends BaseEntity implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	/**
 	 * This method create Comment.
 	 * @param userComment String type comment that received from user
@@ -147,7 +150,7 @@ public class Person extends BaseEntity implements Serializable{
 	 * @param group It is eNum of groups
 	 * @return true if group of the person equals to group in argument otherwise return false  
 	 */
-	public boolean inGroup(Group group){
+	public boolean inGroup(PersonGroup group){
 		return group == this.group;
 	}
 	/**
@@ -179,7 +182,7 @@ public class Person extends BaseEntity implements Serializable{
 	 */
 	public <T extends BaseEntity> void checkUserData(T t) {
 		if(t.getClass() == Comment.class) {
-			if(t.getCreatedBy() != this && !inGroup(Group.Administrator)) {
+			if(t.getCreatedBy() != this && !inGroup(PersonGroup.Administrator)) {
 				throw new RuntimeException("This user cannot change this comment");
 			}
 		} else if(t.getClass() == Assessment.class) {

@@ -15,10 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name="establishment")
@@ -27,38 +25,41 @@ import javax.persistence.Transient;
 public class Establishment extends BaseEntity{
 	private String name;
 	private String address;
-	private String phone;
+	private String telephone;
 	private String description;
 	private List<Comment> commentsOfEstablishment;
 	private List<Assessment> assessmentsOfEstablishment;
-	public void setName(String nameOfEstablishment){
+	public Establishment() {
 		commentsOfEstablishment = new ArrayList<Comment>();
 		assessmentsOfEstablishment = new ArrayList<Assessment>();
+	}
+	public void setName(String nam){
+		this.name = name;
 	}
 	@Column(name="name")
 	public String getName() {
 		return name;
 	}
-	public void setAddress(String addressOfEstablishment) {
-		this.address = addressOfEstablishment;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	@Column(name="address")
 	public String getAddress() {
 		return address;
 	}
-	public void setPhone(String telephoneOfEstablishment) throws ClassNotFoundException {
-		if(!checkTelephoneOfEstablishment(telephoneOfEstablishment)) {
+	public void setTelephone(String telephone) throws ClassNotFoundException {
+		if(!checkTelephoneOfEstablishment(telephone)) {
 			System.out.println("Incorrect format");
 			return;
 		}
-		this.phone = telephoneOfEstablishment;
+		this.telephone = telephone;
 	}
 	@Column(name="telephone")
-	public String getPhone() {
-		return phone;
+	public String getTelephone() {
+		return telephone;
 	}
-	public void setDescription(String descriptionOfEstablishment) {
-		this.description = descriptionOfEstablishment;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	@Column(name="description")
 	public String getDescription() {
@@ -67,7 +68,7 @@ public class Establishment extends BaseEntity{
 	public void setCommentsOfEstablishment(List<Comment> commentsOfEstablishment) {
 		this.commentsOfEstablishment = commentsOfEstablishment;
 	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment", orphanRemoval=true)
 	public List<Comment> getCommentsOfEstablishment() {
 		return commentsOfEstablishment;
 	}
@@ -75,10 +76,11 @@ public class Establishment extends BaseEntity{
 			List<Assessment> assessmentsOfEstablishment) {
 		this.assessmentsOfEstablishment = assessmentsOfEstablishment;
 	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment", orphanRemoval=true)
 	public List<Assessment> getAssessmentsOfEstablishment() {
 		return assessmentsOfEstablishment;
 	}
+	
 	/**
 	 * Method that set comment for Establishment. checkEstablishment - check if this comment is belongs 
 	 * to this Establishment (if it was changed). checkId - check if this comment is created in Repository

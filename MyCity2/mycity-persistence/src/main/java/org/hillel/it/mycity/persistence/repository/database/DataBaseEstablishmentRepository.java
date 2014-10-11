@@ -3,6 +3,8 @@ package org.hillel.it.mycity.persistence.repository.database;
 import java.sql.SQLException;
 import java.util.List;
 
+
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +13,7 @@ import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.persistence.hibernate.HibernateUtil;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,8 +21,13 @@ public class DataBaseEstablishmentRepository implements EstablishmentRepository{
 
 	@Override
 	public void addCinema(Cinema cinema) {
-		// TODO Auto-generated method stub
-		
+		SessionFactory factory = HibernateUtil.getSessionFactory();
+		execute(factory, new Action() {
+			@Override
+			public void run(Session session) {
+				session.save(cinema);
+			}
+		});
 	}
 
 	@Override
@@ -36,7 +44,7 @@ public class DataBaseEstablishmentRepository implements EstablishmentRepository{
 
 	@Override
 	public Cinema getCinema(int id) {
-		SessionFactory factory = null;
+		/*SessionFactory factory = null;
 		Cinema cinema = null;
 		try {
 			factory = HibernateUtil.getSessionFactory();
@@ -47,7 +55,8 @@ public class DataBaseEstablishmentRepository implements EstablishmentRepository{
 			ex.printStackTrace();
 			throw new HibernateException(ex);
 		}
-		return cinema;
+		return cinema;*/
+		return null;
 	}
 
 	@Override

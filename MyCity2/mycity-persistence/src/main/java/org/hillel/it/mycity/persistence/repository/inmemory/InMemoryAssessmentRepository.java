@@ -15,6 +15,7 @@ import org.hillel.it.mycity.persistence.repository.AssessmentRepository;
 
 import com.google.common.collect.ImmutableList;
 
+@Deprecated
 public class InMemoryAssessmentRepository implements AssessmentRepository{
 	
 	private List<Assessment> assessments;

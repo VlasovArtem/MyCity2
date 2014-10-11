@@ -4,15 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable{
@@ -23,10 +18,10 @@ public abstract class BaseEntity implements Serializable{
 	private Person modifiedBy;
 
 	public BaseEntity(){
-		setCreateDate(new Date());	
+		setCreatedDate(new Date());	
 	}
 	
-	public void setCreateDate(Date createdDate){
+	public void setCreatedDate(Date createdDate){
 		this.createdDate = createdDate;
 	}
 	@Column(name="created_date", nullable=false)
@@ -52,9 +47,10 @@ public abstract class BaseEntity implements Serializable{
 		checkDataIsNotNull(this.createdBy, "CreatedBy user is alredy exist. You can not add another one.");
 		this.createdBy = createdBy;
 	}
-	@Column(name="created_by")
+	@Transient
+	/*@Column(name="created_by")
 	@OneToOne
-	@JoinColumn(name="person_id")
+	@JoinColumn(name="person_id")*/
 	public Person getCreatedBy(){
 		return createdBy;
 	}
@@ -63,9 +59,10 @@ public abstract class BaseEntity implements Serializable{
 		checkUser(modifiedBy);
 		this.modifiedBy = modifiedBy;
 	}
-	@Column(name="modified_by")
+	@Transient
+	/*@Column(name="modified_by")
 	@OneToOne
-	@JoinColumn(name="person_id")
+	@JoinColumn(name="person_id")*/
 	public Person getModifiedBy(){
 		return modifiedBy;
 	}
@@ -92,7 +89,7 @@ public abstract class BaseEntity implements Serializable{
 	}
 	
 	public void checkUser(Person modifiedBy) {
-		if(modifiedBy != createdBy && !modifiedBy.inGroup(Group.Administrator)) {
+		if(modifiedBy != createdBy && !modifiedBy.inGroup(PersonGroup.Administrator)) {
 			throw new RuntimeException("This person can not modify information");
 		}
 	}

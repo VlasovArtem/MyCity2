@@ -13,7 +13,7 @@ import org.hillel.it.mycity.model.entity.BaseEntity;
 import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.Comment;
 import org.hillel.it.mycity.model.entity.Establishment;
-import org.hillel.it.mycity.model.entity.Group;
+import org.hillel.it.mycity.model.entity.PersonGroup;
 import org.hillel.it.mycity.model.entity.Moderator;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Person;
@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Path("service")
 public class ServiceImpl implements ServiceMyCity {
 	@Autowired
 	private EstablishmentRepository establishmentRepository;
@@ -261,7 +260,7 @@ public class ServiceImpl implements ServiceMyCity {
 	 * @param t
 	 */
 	private <T extends BaseEntity>void checkUser(T t) {
-		if(loggedUser.inGroup(Group.Administrator) == false && !(t.getClass() == Assessment.class) && !(t.getClass() == Comment.class)) {
+		if(loggedUser.inGroup(PersonGroup.Administrator) == false && !(t.getClass() == Assessment.class) && !(t.getClass() == Comment.class)) {
 			throw new RuntimeException("Administrator has no login");
 		} else if(t.getCreatedBy().getId() == 0 || !loggedUser.equals(t.getCreatedBy())) {
 			throw new RuntimeException("This user cannot create/delete object");
@@ -284,10 +283,5 @@ public class ServiceImpl implements ServiceMyCity {
 	}
 	public void setAssessmentRepository(AssessmentRepository assessmentRepository) {
 		this.assessmentRepository = assessmentRepository;
-	}
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getTest() {
-		return "Hello, World!";
 	}
 }

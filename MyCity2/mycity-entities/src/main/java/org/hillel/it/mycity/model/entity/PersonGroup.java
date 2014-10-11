@@ -1,6 +1,6 @@
 package org.hillel.it.mycity.model.entity;
 
-public enum Group {
+public enum PersonGroup {
 	
 	Administrator, Moderator, User
 

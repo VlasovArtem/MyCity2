@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hillel.it.mycity.model.entity.Administrator;
-import org.hillel.it.mycity.model.entity.Group;
+import org.hillel.it.mycity.model.entity.PersonGroup;
 import org.springframework.jdbc.core.RowMapper;
 
 public class AdministratorMapper implements RowMapper<Administrator>{
@@ -18,8 +18,8 @@ public class AdministratorMapper implements RowMapper<Administrator>{
 		administrator.setUsername(rs.getString("username"));
 		administrator.setFirstName(rs.getString("firstname"));
 		administrator.setLastName(rs.getString("lastname"));
-		administrator.setGroup(Group.Administrator);
-		administrator.setCreateDate(rs.getDate("created_date"));
+		administrator.setGroup(PersonGroup.Administrator);
+		administrator.setCreatedDate(rs.getDate("created_date"));
 		administrator.setModifiedDate(rs.getDate("modified_date"));
 		Administrator test = new Administrator("test", "test@mail.com");
 		test.setId(rs.getInt("created_by"));

@@ -16,6 +16,7 @@ import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
 
+@Deprecated
 public class DataBaseEstablishmentRepository extends
 		InMemoryEstablishmentRepository implements EstablishmentRepository {
 	private DataSource dataSource;
@@ -51,7 +52,7 @@ public class DataBaseEstablishmentRepository extends
 				ps.setInt(1, baseEntityId);
 				ps.setString(2, t.getName());
 				ps.setString(3, t.getAddress());
-				ps.setString(4, t.getPhone());
+				ps.setString(4, t.getTelephone());
 				ps.setString(5, t.getDescription());
 				establishmentId = SqlHelper.getLastInsertID(connection, insertEstablishmentSQL);
 			}
@@ -89,8 +90,8 @@ public class DataBaseEstablishmentRepository extends
 			try (PreparedStatement ps = connection
 					.prepareStatement(insertRestaurantSQL)) {
 				ps.setInt(1, establishmentId);
-				ps.setTime(2, SqlHelper.getSqlTime(restaurant.getTimeOpen()));
-				ps.setTime(3, SqlHelper.getSqlTime(restaurant.getTimeClose()));
+				//ps.setTime(2, SqlHelper.getSqlTime(restaurant.getTimeOpen()));
+				//ps.setTime(3, SqlHelper.getSqlTime(restaurant.getTimeClose()));
 				ps.setInt(4, restaurant.getAverageCheck());
 				restaurant.setId(SqlHelper.getLastInsertID(connection, insertRestaurantSQL));
 			}
@@ -108,8 +109,8 @@ public class DataBaseEstablishmentRepository extends
 			try (PreparedStatement ps = connection
 					.prepareStatement(insertNightClubSQL)) {
 				ps.setInt(1, establishmentId);
-				ps.setTime(2, SqlHelper.getSqlTime(nightClub.getTimeOpen()));
-				ps.setTime(3, SqlHelper.getSqlTime(nightClub.getTimeClose()));
+				//ps.setTime(2, SqlHelper.getSqlTime(nightClub.getTimeOpen()));
+				//ps.setTime(3, SqlHelper.getSqlTime(nightClub.getTimeClose()));
 				ps.setInt(4, nightClub.getAverageCheck());
 				nightClub.setId(SqlHelper.getLastInsertID(connection, insertNightClubSQL));
 			}
@@ -148,7 +149,7 @@ public class DataBaseEstablishmentRepository extends
 					.prepareStatement(updateEstablishment)) {
 				ps.setString(1, t.getName());
 				ps.setString(2, t.getAddress());
-				ps.setString(3, t.getPhone());
+				ps.setString(3, t.getTelephone());
 				ps.setString(4, t.getDescription());
 				ps.setInt(5, t.getId());
 			}
@@ -194,8 +195,8 @@ public class DataBaseEstablishmentRepository extends
 		try (Connection connection = dataSource.getConnection()) {
 			try (PreparedStatement ps = connection
 					.prepareStatement(updateRestaurant)) {
-				ps.setTime(2, SqlHelper.getSqlTime(restaurant.getTimeOpen()));
-				ps.setTime(3, SqlHelper.getSqlTime(restaurant.getTimeClose()));
+				//ps.setTime(2, SqlHelper.getSqlTime(restaurant.getTimeOpen()));
+				//ps.setTime(3, SqlHelper.getSqlTime(restaurant.getTimeClose()));
 				ps.setInt(3, restaurant.getAverageCheck());
 				ps.setInt(4, restaurant.getId());
 			}
@@ -222,8 +223,8 @@ public class DataBaseEstablishmentRepository extends
 		try (Connection connection = dataSource.getConnection()) {
 			try (PreparedStatement ps = connection
 					.prepareStatement(updateNightClub)) {
-				ps.setTime(2, SqlHelper.getSqlTime(nightClub.getTimeOpen()));
-				ps.setTime(3, SqlHelper.getSqlTime(nightClub.getTimeClose()));
+				//ps.setTime(2, SqlHelper.getSqlTime(nightClub.getTimeOpen()));
+				//ps.setTime(3, SqlHelper.getSqlTime(nightClub.getTimeClose()));
 				ps.setInt(3, nightClub.getAverageCheck());
 				ps.setInt(4, nightClub.getId());
 			}

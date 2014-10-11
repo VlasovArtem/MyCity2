@@ -14,7 +14,7 @@ import org.hillel.it.mycity.persistence.repository.CommentRepository;
 import com.google.common.collect.ImmutableList;
 
 //Подумать насчет оптимизации методов по удаление и добавлению объектов.
-
+@Deprecated
 public class InMemoryCommentRepository implements CommentRepository{
 	
 	private List<Comment> comments;

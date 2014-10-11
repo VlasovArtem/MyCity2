@@ -1,7 +1,5 @@
 package org.hillel.it.mycity.persistence.hibernate;
 
-import java.lang.annotation.Annotation;
-
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -17,15 +15,15 @@ public class HibernateUtil {
 	public static SessionFactory buildSessionFactory() {
 		try {
 			Configuration configuration = new Configuration()
-				.addAnnotatedClass(Administrator.class)
 				.addAnnotatedClass(Assessment.class)
+				.addAnnotatedClass(BaseEntity.class)
 				.addAnnotatedClass(Cinema.class)
 				.addAnnotatedClass(Comment.class)
-				.addAnnotatedClass(Moderator.class)
+				.addAnnotatedClass(Establishment.class)
 				.addAnnotatedClass(NightClub.class)
+				.addAnnotatedClass(Person.class)
 				.addAnnotatedClass(Restaurant.class)
-				.addAnnotatedClass(User.class)
-				.configure();
+				.configure("inmemoryhibernate.cfg.xml");
 			ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 			return configuration.buildSessionFactory(registry);
 		} catch(HibernateException ex) {

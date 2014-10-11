@@ -6,11 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-
+import java.util.List;
 
 import org.apache.commons.lang3.SerializationUtils;
 import org.hillel.it.mycity.model.entity.Administrator;
-import org.hillel.it.mycity.model.entity.Group;
+import org.hillel.it.mycity.model.entity.PersonGroup;
 import org.hillel.it.mycity.model.entity.Moderator;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.persistence.repository.UserRepository;
@@ -23,7 +23,7 @@ public class FileUserRepository extends InMemoryUserRepository implements UserRe
 	public FileUserRepository(){
 	}
 
-	protected <T>void sereializeUserData(T t, Group group) {
+	protected <T>void sereializeUserData(T t, PersonGroup group) {
 		switch (group) {
 		case User:
 			file = new File("userData.bin");
@@ -52,43 +52,43 @@ public class FileUserRepository extends InMemoryUserRepository implements UserRe
 		file = new File("administratorData.bin");
 		if(file.exists()) {
 			fis = new FileInputStream(file);
-			administrators = SerializationUtils.deserialize(fis);
+			administrators = (List<Administrator>) SerializationUtils.deserialize(fis);
 			for(Administrator administrator : administrators) {
 				if(administrator.getId() > maxId) {
 					maxId = administrator.getId() + 1;
 				}
-				userMap.put(administrator.getId(), Group.Administrator);
+				userMap.put(administrator.getId(), PersonGroup.Administrator);
 				emailSet.add(administrator.getEmail());
 			}
 		}
 		file = new File("moderatorData.bin");
 		if(file.exists()) {
 			fis = new FileInputStream(file);
-			moderators = SerializationUtils.deserialize(fis);
+			moderators = (List<Moderator>) SerializationUtils.deserialize(fis);
 			for(Moderator moderator : moderators) {
 				if(moderator.getId() > maxId) {
 					maxId = moderator.getId() + 1;
 				}
-				userMap.put(moderator.getId(), Group.Moderator);
+				userMap.put(moderator.getId(), PersonGroup.Moderator);
 				emailSet.add(moderator.getEmail());
 			}
 		}
 		file = new File("userData.bin");
 		if(file.exists()) {
 			fis = new FileInputStream(file);
-			users = SerializationUtils.deserialize(fis);
+			users = (List<User>) SerializationUtils.deserialize(fis);
 			for(User user: users) {
 				if(user.getId() > maxId) {
 					maxId = user.getId() + 1;
 				}
-				userMap.put(user.getId(), Group.User);
+				userMap.put(user.getId(), PersonGroup.User);
 				emailSet.add(user.getEmail());
 			}
 		}
 	}
 	
 	@Override
-	public <T>void flush(T t, Group group) {
+	public <T>void flush(T t, PersonGroup group) {
 		sereializeUserData(t, group);
 	}
 	

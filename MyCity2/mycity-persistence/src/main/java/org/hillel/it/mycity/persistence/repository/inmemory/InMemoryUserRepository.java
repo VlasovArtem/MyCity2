@@ -12,19 +12,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hillel.it.mycity.model.entity.Administrator;
-import org.hillel.it.mycity.model.entity.Group;
+import org.hillel.it.mycity.model.entity.PersonGroup;
 import org.hillel.it.mycity.model.entity.Moderator;
 import org.hillel.it.mycity.model.entity.Person;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.persistence.repository.UserRepository;
-
+@Deprecated
 public class InMemoryUserRepository implements UserRepository, Serializable{
 	
 	private static final long serialVersionUID = 2L;
 	protected List<Administrator> administrators;
 	protected List<Moderator> moderators;
 	protected List<User> users;
-	protected Map<Integer, Group> userMap;
+	protected Map<Integer, PersonGroup> userMap;
 	protected Set<String> emailSet;
 	protected int maxId;
 	
@@ -32,7 +32,7 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 		administrators = new ArrayList<>();
 		moderators = new ArrayList<>();
 		users = new ArrayList<>();
-		userMap = new HashMap<Integer, Group>();
+		userMap = new HashMap<Integer, PersonGroup>();
 		emailSet = new HashSet<String>();
 		maxId = 1;
 	}
@@ -41,11 +41,11 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 	public void addUser(User user) {
 		validUser(user);
 		validEmail(user.getEmail());
-		user.setGroup(Group.User);
-		userMap.put(maxId, Group.User);
+		user.setGroup(PersonGroup.User);
+		userMap.put(maxId, PersonGroup.User);
 		user.setId(maxId++);
 		users.add(user);
-		flush(users, Group.User);
+		flush(users, PersonGroup.User);
 		try {
 			flushDB(user);
 		} catch (SQLException e) {
@@ -58,11 +58,11 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 	public void addModerator(Moderator moderator) {
 		validUser(moderator);
 		validEmail(moderator.getEmail());
-		moderator.setGroup(Group.Moderator);
-		userMap.put(maxId, Group.Moderator);
+		moderator.setGroup(PersonGroup.Moderator);
+		userMap.put(maxId, PersonGroup.Moderator);
 		moderator.setId(maxId++);
 		moderators.add(moderator);
-		flush(moderators, Group.Moderator);
+		flush(moderators, PersonGroup.Moderator);
 		try {
 			flushDB(moderator);
 		} catch (SQLException e) {
@@ -75,11 +75,11 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 	public void addAdministrator(Administrator administrator) {
 		validUser(administrator);
 		validEmail(administrator.getEmail());
-		administrator.setGroup(Group.Administrator);
-		userMap.put(maxId, Group.Administrator);
+		administrator.setGroup(PersonGroup.Administrator);
+		userMap.put(maxId, PersonGroup.Administrator);
 		administrator.setId(maxId++);
 		administrators.add(administrator);
-		flush(administrators, Group.Administrator);
+		flush(administrators, PersonGroup.Administrator);
 		try {
 			flushDB(administrator);
 		} catch (SQLException e) {
@@ -147,7 +147,7 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 
 	@Override
 	public User getUser(int id) {
-		if(!checkGroup(id, Group.User)) {
+		if(!checkGroup(id, PersonGroup.User)) {
 			return null;
 		}
 		for(User user : users) {
@@ -160,7 +160,7 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 
 	@Override
 	public Moderator getModerator(int id) {
-		if(!checkGroup(id, Group.Moderator)) {
+		if(!checkGroup(id, PersonGroup.Moderator)) {
 			return null;
 		}
 		for(Moderator moderator : moderators) {
@@ -173,7 +173,7 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 
 	@Override
 	public Administrator getAdministrator(int id) {
-		if(!checkGroup(id, Group.Administrator)) {
+		if(!checkGroup(id, PersonGroup.Administrator)) {
 			return null;
 		}
 		for(Administrator administrator : administrators) {
@@ -203,7 +203,7 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 		}
 	}
 	
-	private boolean checkGroup(int id, Group group) {
+	private boolean checkGroup(int id, PersonGroup group) {
 		if(userMap.get(id) != group) {
 			System.out.println("This is no such " + group + " object by this ID");
 			return false;
@@ -218,7 +218,7 @@ public class InMemoryUserRepository implements UserRepository, Serializable{
 		emailSet.add(email);
 	}
 	
-	public <T>void flush(T t, Group group){}
+	public <T>void flush(T t, PersonGroup group){}
 	
 	@Override
 	public boolean checkUserInDB(String email, String password){ return false;}

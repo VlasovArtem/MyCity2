@@ -11,10 +11,8 @@ public class RestaurantMapper implements RowMapper<Restaurant>{
 	@Override
 	public Restaurant mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Restaurant restaurant = new Restaurant();
-		restaurant.setTimeOpen(rs.getTime("time_open").toLocalTime().getHour(), 
-				rs.getTime("time_open").toLocalTime().getMinute());
-		restaurant.setTimeClose(rs.getTime("time_close").toLocalTime().getHour(), 
-				rs.getTime("time_close").toLocalTime().getMinute());
+		restaurant.setTimeOpen(rs.getTime("time_open").toLocalTime());
+		restaurant.setTimeClose(rs.getTime("time_close").toLocalTime());
 		restaurant.setAverageCheck(rs.getInt("average_check"));
 		return restaurant;
 	}
