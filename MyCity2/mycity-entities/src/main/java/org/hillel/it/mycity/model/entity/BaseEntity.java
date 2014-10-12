@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable{
@@ -47,7 +45,7 @@ public abstract class BaseEntity implements Serializable{
 		this.createdBy = createdBy;
 	}
 	@OneToOne
-	@JoinColumn(name="created_by", referencedColumnName="person_id")
+	@JoinColumn(name="created_by", referencedColumnName="user_id")
 	public User getCreatedBy(){
 		return createdBy;
 	}
@@ -57,7 +55,7 @@ public abstract class BaseEntity implements Serializable{
 		this.modifiedBy = modifiedBy;
 	}
 	@OneToOne
-	@JoinColumn(name="modified_by", referencedColumnName="person_id")
+	@JoinColumn(name="modified_by", referencedColumnName="user_id")
 	public User getModifiedBy(){
 		return modifiedBy;
 	}
@@ -65,7 +63,7 @@ public abstract class BaseEntity implements Serializable{
 	public void setId(int id) {
 		this.id = (this.id == 0 ? id : this.id);
 	}
-	
+	@Id
 	public int getId() {
 		return id;
 	}

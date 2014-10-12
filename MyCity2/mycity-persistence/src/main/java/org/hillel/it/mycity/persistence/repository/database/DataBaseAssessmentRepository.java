@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.Establishment;
 import org.hillel.it.mycity.model.entity.User;
-import org.hillel.it.mycity.persistence.hibernate.HibernateUtil;
 import org.hillel.it.mycity.persistence.repository.AssessmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

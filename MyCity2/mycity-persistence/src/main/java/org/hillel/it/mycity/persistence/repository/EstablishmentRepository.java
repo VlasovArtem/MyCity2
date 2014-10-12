@@ -1,6 +1,5 @@
 package org.hillel.it.mycity.persistence.repository;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.hillel.it.mycity.model.entity.Cinema;

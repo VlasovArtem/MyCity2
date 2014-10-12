@@ -4,8 +4,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 import org.hillel.it.mycity.persistence.AppConfig;
-import org.hillel.it.mycity.service.ServiceMyCity;
-import org.hillel.it.mycity.service.impl.ServiceImpl;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.WebApplicationInitializer;

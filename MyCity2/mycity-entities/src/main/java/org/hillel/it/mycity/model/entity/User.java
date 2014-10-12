@@ -13,7 +13,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,7 +26,7 @@ import org.hillel.it.mycity.helper.CryptoHelper;
 @Table(name="USERS")
 @AttributeOverride(name="id", column=@Column(name="user_id", insertable=false, updatable=false))
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({@NamedQuery(name="getUsers", query="from users where persongroup = User"), 
+@NamedQueries({@NamedQuery(name="getUsers", query="from users where usergroup = User"), 
 	@NamedQuery(name="deleteUsers", query="from users"),
 	@NamedQuery(name="deleteUser", query="delete users where user_id = :id")})
 public class User extends BaseEntity implements Serializable{
@@ -96,7 +95,7 @@ public class User extends BaseEntity implements Serializable{
 	public void setGroup(UserGroup group) {
 		this.group = group;
 	}
-	@Column(name="persongroup")
+	@Column(name="usergroup")
 	@Enumerated(EnumType.STRING)
 	public UserGroup getGroup() {
 		return group;
@@ -157,9 +156,9 @@ public class User extends BaseEntity implements Serializable{
 		this.id = id;
 	}
 	/**
-	 * Method that return group of class Person (Administrator, Moderator, User)
+	 * Method that return group of class user (Administrator, Moderator, User)
 	 * @param group It is eNum of groups
-	 * @return true if group of the person equals to group in argument otherwise return false  
+	 * @return true if group of the user equals to group in argument otherwise return false  
 	 */
 	public boolean inGroup(UserGroup group){
 		return group == this.group;

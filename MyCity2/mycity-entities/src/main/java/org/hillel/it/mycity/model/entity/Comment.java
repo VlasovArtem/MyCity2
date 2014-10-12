@@ -23,9 +23,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @NamedQueries({@NamedQuery(name="getComments", query="from comments"), 
 	@NamedQuery(name="deleteComments", query="delete comments"), 
 	@NamedQuery(name="deleteCommentById", query="delete comments where comment_id = :id"),
-	@NamedQuery(name="deleteCommentsByUserId", query="delete comments where person_id = :id"),
+	@NamedQuery(name="deleteCommentsByUserId", query="delete comments where user_id = :id"),
 	@NamedQuery(name="deleteCommentsByEstablishmentId", query="delete comments where establishment_id = :id"),
-	@NamedQuery(name="deleteCommentsByEstablishmentAndUserId", query="delete comments where establishment_id = :establishment_id and person_id = :person_id")})
+	@NamedQuery(name="deleteCommentsByEstablishmentAndUserId", query="delete comments where establishment_id = :establishment_id and user_id = :user_id")})
 public class Comment extends BaseEntity{
 	public static final String GET_COMMENTSS = "getComments";
 	public static final String DELETE_COMMENTS = "deleteComments";
@@ -75,7 +75,7 @@ public class Comment extends BaseEntity{
 		return id;
 	}
 	@ManyToOne(fetch=FetchType.EAGER, optional=false, cascade={})
-	@JoinColumn(name="establishment_id")
+	@JoinColumn(name="establishmentId", referencedColumnName="establishment_id")
 	public Establishment getEstablishment() {
 		return establishment;
 	}

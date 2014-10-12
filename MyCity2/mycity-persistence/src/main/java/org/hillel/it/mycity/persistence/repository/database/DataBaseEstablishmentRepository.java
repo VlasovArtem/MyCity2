@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Restaurant;
-import org.hillel.it.mycity.persistence.hibernate.HibernateUtil;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

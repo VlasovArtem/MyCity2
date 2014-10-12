@@ -25,7 +25,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 	@NamedQuery(name="getAssessmentsByEstablishmentId", query="from assessments"),
 	@NamedQuery(name="deleteAssessments", query="delete assessments"), 
 	@NamedQuery(name="deleteAssessment", query="delete assessments where assessment_id = :id"),
-	@NamedQuery(name="deleteAssessmentByUserId", query="delete assessments where person_id = :id"),
+	@NamedQuery(name="deleteAssessmentByUserId", query="delete assessments where user_id = :id"),
 	@NamedQuery(name="deleteAssessmentByEstablishmentId", query="delete assessments where establishment_id = :id")})
 public class Assessment extends BaseEntity{
 	public static final String GET_ASSESSMENTS = "getAssessments";

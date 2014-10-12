@@ -68,7 +68,7 @@ public class Establishment extends BaseEntity{
 	public void setCommentsOfEstablishment(List<Comment> commentsOfEstablishment) {
 		this.commentsOfEstablishment = commentsOfEstablishment;
 	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment", orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
 	public List<Comment> getCommentsOfEstablishment() {
 		return commentsOfEstablishment;
 	}
@@ -76,7 +76,7 @@ public class Establishment extends BaseEntity{
 			List<Assessment> assessmentsOfEstablishment) {
 		this.assessmentsOfEstablishment = assessmentsOfEstablishment;
 	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment", orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
 	public List<Assessment> getAssessmentsOfEstablishment() {
 		return assessmentsOfEstablishment;
 	}
