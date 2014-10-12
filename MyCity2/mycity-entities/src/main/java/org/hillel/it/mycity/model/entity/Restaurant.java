@@ -1,19 +1,24 @@
 package org.hillel.it.mycity.model.entity;
 
-import java.time.Duration;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="restaurant")
+@Table(name="RESTAURANTS")
 @PrimaryKeyJoinColumn(name="restaurant_id")
+@NamedQueries({@NamedQuery(name="getRestaurants", query="from restaurants"), 
+	@NamedQuery(name="deleteRestaurants", query="delete restaurants"), 
+	@NamedQuery(name="deleteRestaurant", query="delete restaurants where restaurant_id = :id")})
 public class Restaurant extends Establishment{
+	public static final String GET_RESTAURANTS = "getRestaurants";
+	public static final String DELETE_RESTAURANTS = "deleteRestaurants";
+	public static final String DELETE_RESTAURANT = "deleteRestaurant";
 	private LocalTime timeOpen;
 	private LocalTime timeClose;
 	private int averageCheck;
@@ -45,11 +50,5 @@ public class Restaurant extends Establishment{
 	@Column(name="time_close")
 	public LocalTime getTimeClose() {	
 		return timeClose;
-	}
-	private boolean timeCheck(int hour, int minute) {
-		if(hour > 23 || hour < 0 || minute > 59 || hour < 0) {
-			throw new RuntimeException("Incorrect time. Example 23:59 or 00:01");
-		}
-		return true;
 	}
 }

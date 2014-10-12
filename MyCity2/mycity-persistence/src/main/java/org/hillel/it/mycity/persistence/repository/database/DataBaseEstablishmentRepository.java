@@ -1,11 +1,8 @@
 package org.hillel.it.mycity.persistence.repository.database;
 
-import java.sql.SQLException;
 import java.util.List;
 
-
-
-import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hillel.it.mycity.model.entity.Cinema;
@@ -13,152 +10,118 @@ import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.persistence.hibernate.HibernateUtil;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
-import org.springframework.orm.hibernate4.HibernateCallback;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class DataBaseEstablishmentRepository implements EstablishmentRepository{
-
+	@Autowired
+	private SessionFactory sessionFactory;
+	
 	@Override
 	public void addCinema(Cinema cinema) {
-		SessionFactory factory = HibernateUtil.getSessionFactory();
-		execute(factory, new Action() {
-			@Override
-			public void run(Session session) {
-				session.save(cinema);
-			}
-		});
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(cinema);
 	}
 
 	@Override
 	public void addNightClub(NightClub nightClub) {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(nightClub);
 	}
 
 	@Override
 	public void addRestaurant(Restaurant restaurant) {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(restaurant);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public Cinema getCinema(int id) {
-		/*SessionFactory factory = null;
-		Cinema cinema = null;
-		try {
-			factory = HibernateUtil.getSessionFactory();
-			execute(factory, (session) -> {
-				(Cinema) session.get(Cinema.class, id);
-			});
-		} catch (HibernateException ex) {
-			ex.printStackTrace();
-			throw new HibernateException(ex);
-		}
-		return cinema;*/
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		return (Cinema) session.get(Cinema.class, id);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public Restaurant getRestaurant(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		return (Restaurant) session.get(Restaurant.class, id);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public NightClub getNightClub(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		return (NightClub) session.get(NightClub.class, id);
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<Cinema> getCinemas() {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery(Cinema.GET_CINEMAS).list();
+
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<NightClub> getNightClubs() {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery("from nightclub").list();
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public List<Restaurant> getRestaurants() {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery("from restaurant").list();
 	}
 
 	@Override
 	public void deleteCinemas() {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.createQuery(Cinema.DELETE_CINEMAS);
 	}
 
 	@Override
 	public void deleteNightClubs() {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.createQuery(NightClub.DELETE_NIGHTCLUBS);
 	}
 
 	@Override
 	public void deleteRestaurants() {
-		// TODO Auto-generated method stub
-		
+		Session session = sessionFactory.getCurrentSession();
+		session.createQuery(Restaurant.DELETE_RESTAURANTS);
 	}
 
 	@Override
-	public void deleteEstablishments() {
-		// TODO Auto-generated method stub
-		
+	public void deleteCinema(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(Cinema.DELETE_CINEMA);
+		query.setParameter("id", id);
 	}
 
 	@Override
-	public void deleteEstablishment(int id) {
-		// TODO Auto-generated method stub
-		
+	public void deleteRestaurant(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(Restaurant.DELETE_RESTAURANT);
+		query.setParameter("id", id);
 	}
 
 	@Override
-	public void updateDataBase() throws SQLException {
-		// TODO Auto-generated method stub
-		
+	public void deleteNightClub(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(NightClub.DELETE_NIGHTCLUB);
+		query.setParameter("id", id);
 	}
-	
-	public void execute(SessionFactory factory, Action runner) {
-		Session session = factory.getCurrentSession();
-		session.beginTransaction();
-		try {
-			runner.run(session);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-		} finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-	}
-	public <T> T execute(SessionFactory factory, ReturnAction<T> runner) {
-		Session session = factory.getCurrentSession();
-		session.beginTransaction();
-		T t = null;
-		try {
-			t = runner.run(session);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-		} finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-		return t;
-	}
-	interface Action {
-		void run(Session session);
-	}
-	interface ReturnAction<T> {
-		T run(Session session);
+
+	@Override
+	public <T> void updateEstablishment(T t) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(t);
 	}
 }

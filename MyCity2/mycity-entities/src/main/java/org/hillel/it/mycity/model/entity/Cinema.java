@@ -2,13 +2,25 @@ package org.hillel.it.mycity.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
-@Table(name="cinema")
+@Table(name="CINEMAS")
 @PrimaryKeyJoinColumn(name="cinema_id")
+@NamedQueries({@NamedQuery(name="getCinemas", query="from cinemas"), 
+		@NamedQuery(name="deleteCinemas", query="delete cinemas"), 
+		@NamedQuery(name="deleteCinema", query="delete cinemas where cinema_id = :id")})
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class Cinema extends Establishment{
+	public static final String GET_CINEMAS = "getCinemas";
+	public static final String DELETE_CINEMAS = "deleteCinemas";
+	public static final String DELETE_CINEMA = "deleteCinema";
 	private int numberOfHalls;
 	private int numberOfSeatsInHall;
 	private String cinemaTechnology;

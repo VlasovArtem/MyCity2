@@ -4,17 +4,18 @@ import java.util.List;
 
 import org.hillel.it.mycity.model.entity.Comment;
 import org.hillel.it.mycity.model.entity.Establishment;
-import org.hillel.it.mycity.model.entity.Person;
+import org.hillel.it.mycity.model.entity.User;
 
 public interface CommentRepository {
 	public void addComment(Comment comment);
 	public void deleteComment(int id);
-	public void deleteComments(Person user);
+	public void deleteComments(User user);
 	public void deleteComments(Establishment establishment);
-	public void deleteComments(Establishment establishment, Person user);
+	public void deleteComments(Establishment establishment, User user);
 	public Comment getComment(int id);
-	public List<Comment> getComments(Person user);
+	public List<Comment> getComments(User user);
 	public List<Comment> getComments(Establishment establishment);
-	public List<Comment> getComments(Establishment establishment, Person user);
+	public List<Comment> getComments(Establishment establishment, User user);
 	public List<Comment> getComments();
+	public void updateComment(Comment comment);
 }

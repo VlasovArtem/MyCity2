@@ -2,23 +2,15 @@ package org.hillel.it.mycity.service.impl;
 
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.hillel.it.mycity.model.entity.Administrator;
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.BaseEntity;
 import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.Comment;
 import org.hillel.it.mycity.model.entity.Establishment;
-import org.hillel.it.mycity.model.entity.PersonGroup;
-import org.hillel.it.mycity.model.entity.Moderator;
+import org.hillel.it.mycity.model.entity.UserGroup;
 import org.hillel.it.mycity.model.entity.NightClub;
-import org.hillel.it.mycity.model.entity.Person;
-import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.model.entity.User;
+import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.persistence.repository.AssessmentRepository;
 import org.hillel.it.mycity.persistence.repository.CommentRepository;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
@@ -29,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class ServiceImpl implements ServiceMyCity {
 	@Autowired
 	private EstablishmentRepository establishmentRepository;
@@ -38,219 +31,175 @@ public class ServiceImpl implements ServiceMyCity {
 	private CommentRepository commentRepository;
 	@Autowired
 	private AssessmentRepository assessmentRepository;
-	private Person loggedUser;
-
-//	public ServiceImpl() {
-//	}
-//	public ServiceImpl(EstablishmentRepository establishmentRepository, UserRepository userRepository, CommentRepository commentRepository, AssessmentRepository assessmentRepository) {
-//		this.establishmentRepository = establishmentRepository;
-//		this.userRepository = userRepository;
-//		this.commentRepository = commentRepository;
-//		this.assessmentRepository = assessmentRepository;
-//	}
-	// CREATE Establishment
-	public void addRestaurant(Restaurant restaurant) {
-		checkUser(restaurant);
-		try {
-			establishmentRepository.addRestaurant(restaurant);
-		} catch (RuntimeException e) {
-			throw new RuntimeException(e);
-		}	
-	}
-	public void addNightClub(NightClub nightClub) {
-		checkUser(nightClub);
-		establishmentRepository.addNightClub(nightClub);
-	}
-	public void addCinema(Cinema cinema) {
-		checkUser(cinema);
-		establishmentRepository.addCinema(cinema);
-	}
-	// DELETE Establishment
-	public void deleteEstablishments() {
-		establishmentRepository.deleteEstablishments();
-	}
-
-	public void deleteEstablishment(int id) {
-		try {
-			establishmentRepository.deleteEstablishment(id);
-		} catch (NullPointerException e) {
-			System.out.println(e);
-			throw new NullPointerException();
-		} catch (RuntimeException e) {
-			System.out.println(e);
-			throw new RuntimeException();
-		}
-	}
-	// READ Establishment
-	public List<Cinema> getCinemas(){
-		return establishmentRepository.getCinemas();
-	}
-	public List<NightClub> getNightClubs() {
-		return establishmentRepository.getNightClubs();
-	}
-	public List<Restaurant> getRestaurants() {
-		return establishmentRepository.getRestaurants();
-	}
-	public Cinema getCinema(int id) {
-		try {
-			return establishmentRepository.getCinema(id);
-		} catch (NullPointerException e) {
-			throw new NullPointerException("Incorrect id");
-		}
-	}
-	public NightClub getNightClub(int id) {
-		try {
-			return establishmentRepository.getNightClub(id);
-		} catch (NullPointerException e) {
-			throw new NullPointerException("Incorrect id");
-		}
-	}
-	public Restaurant getRestaurant(int id) {
-		try {
-			return establishmentRepository.getRestaurant(id);
-		} catch (NullPointerException e) {
-			throw new NullPointerException("Incorrect id");
-		}
-	}
-	// CREATE Person
-	public void addAdministrator(Administrator administrator) {
-		try {
-			userRepository.addAdministrator(administrator);
-		} catch (RuntimeException e) {
-			throw new RuntimeException("This user is already exist");
-		}
-	}
-	public void addModerator(Moderator moderator) {
-		try {
-			userRepository.addModerator(moderator);
-		} catch (RuntimeException e) {
-			throw new RuntimeException("This user is already exist");
-		}
-		
-	}
-	public void addUser(User user) {
-		try {
-			userRepository.addUser(user);
-		} catch (RuntimeException e) {
-			throw new RuntimeException("This user is already exist");
-		}
-		
-	}
-	//READ Person
-	public List<Administrator> getAdministrators() {
-		return userRepository.getAdministrators();
-	}
-	public List<Moderator> getModerators() {
-		return userRepository.getModerators();
-	}
-	public List<User> getUsers() {
-		return userRepository.getUsers();
-	}
-	public Administrator getAdministrator(int id) {
-		return userRepository.getAdministrator(id);
-	}
-	public Moderator getModerator(int id) {
-		return userRepository.getModerator(id);
-	}
-	public User getUser(int id) {
-		return userRepository.getUser(id);
-	}
-	//DELETE Person
-	public void deletePersons() {
-		userRepository.deletePersons();
-	}
-	public void deletePerson(int id) {
-		userRepository.deletePerson(id);
-	}
-	//CREATE Comment
-	public void addComment(Comment comment) {
-		checkUser(comment);
-		commentRepository.addComment(comment);
-	}
-	//DELETE Comment
-	public void deleteComment(int id) {
-		checkUser(getComment(id));
-		commentRepository.deleteComment(id);
-	}
-	public void deleteComments(Person user) {
-		checkUser(loggedUser);
-		commentRepository.deleteComments(user);
-	}
-	public void deleteComments(Establishment establishment) {
-		checkUser(loggedUser);
-		commentRepository.deleteComments(establishment);
-	}
-	public void deleteComments(Establishment establishment, Person user) {
-		checkUser(loggedUser);
-		commentRepository.deleteComments(establishment,user);
-	}
-	//READ Comment
-	public Comment getComment(int id) {
-		return commentRepository.getComment(id);
-	}
-	public List<Comment> getComments(Person user) {
-		return commentRepository.getComments(user);
-	}
-	public List<Comment> getComments(Establishment establishment) {
-		return commentRepository.getComments(establishment);
-	}
-	public List<Comment> getComments(Establishment establishment, Person user) {
-		return commentRepository.getComments(establishment, user);
-	}
-	public List<Comment> getComments() {
-		return commentRepository.getComments();
-	}
-	//CREATE Assessment
+	private User loggedUser;
+	
+	@Override
 	public void addAssessment(Assessment assessment) {
-		checkUser(assessment);
 		assessmentRepository.addAssessment(assessment);
 	}
-	//DELETE Assessment
+	@Override
 	public void deleteAssessment(int id) {
-		checkUser(loggedUser);
 		assessmentRepository.deleteAssessment(id);
 	}
-	public void deleteAssessment(Person user) {
-		checkUser(loggedUser);
+	@Override
+	public void deleteAssessment(User user) {
 		assessmentRepository.deleteAssessment(user);
 	}
+	@Override
 	public void deleteAssessment(Establishment establishment) {
-		checkUser(loggedUser);
 		assessmentRepository.deleteAssessment(establishment);
 	}
-	//READ Assessment
+	@Override
 	public Assessment getAssessment(int id) {
-		try {
-			checkUser(loggedUser);
-			return assessmentRepository.getAssessment(id);
-		} catch (RuntimeException e) {
-			System.out.println(e);
-			throw new RuntimeException();
-		}
+		return assessmentRepository.getAssessment(id);
 	}
-	public List<Assessment> getAssessments(Person user) {
-		try {
-			checkUser(loggedUser);
-			return assessmentRepository.getAssessments(user);
-		} catch (RuntimeException e) {
-			System.out.println(e);
-			throw new RuntimeException();
-		}
+	@Override
+	public List<Assessment> getAssessments(User user) {
+		return assessmentRepository.getAssessments(user);
 	}
+	@Override
 	public List<Assessment> getAssessments(Establishment establishment) {
-		try {
-			checkUser(loggedUser);
-			return assessmentRepository.getAssessments(establishment);
-		} catch (RuntimeException e) {
-			System.out.println(e);
-			throw new RuntimeException();
-		}
+		return assessmentRepository.getAssessments(establishment);
 	}
+	@Override
 	public List<Assessment> getAssessments() {
 		return assessmentRepository.getAssessments();
 	}
-	public void setLoggedUser(Person user) {
-		loggedUser = user;
+	@Override
+	public void updateAssessment(Assessment assessment) {
+		assessmentRepository.updateAssessment(assessment);
+	}
+	@Override
+	public void addComment(Comment comment) {
+		commentRepository.addComment(comment);
+	}
+	@Override
+	public void deleteComment(int id) {
+		commentRepository.deleteComment(id);
+	}
+	@Override
+	public void deleteComments(User user) {
+		commentRepository.deleteComments(user);
+	}
+	@Override
+	public void deleteComments(Establishment establishment) {
+		commentRepository.deleteComments(establishment);
+	}
+	@Override
+	public void deleteComments(Establishment establishment, User user) {
+		commentRepository.deleteComments(establishment, user);
+	}
+	@Override
+	public Comment getComment(int id) {
+		return commentRepository.getComment(id);
+	}
+	@Override
+	public List<Comment> getComments(User user) {
+		return commentRepository.getComments(user);
+	}
+	@Override
+	public List<Comment> getComments(Establishment establishment) {
+		return commentRepository.getComments(establishment);
+	}
+	@Override
+	public List<Comment> getComments(Establishment establishment, User user) {
+		return commentRepository.getComments(establishment, user);
+	}
+	@Override
+	public List<Comment> getComments() {
+		return commentRepository.getComments();
+	}
+	@Override
+	public void updateComment(Comment comment) {
+		commentRepository.updateComment(comment);
+	}
+	@Override
+	public void addCinema(Cinema cinema) {
+		establishmentRepository.addCinema(cinema);
+	}
+	@Override
+	public void addNightClub(NightClub nightClub) {
+		establishmentRepository.addNightClub(nightClub);
+	}
+	@Override
+	public void addRestaurant(Restaurant restaurant) {
+		establishmentRepository.addRestaurant(restaurant);
+	}
+	@Override
+	public Cinema getCinema(int id) {
+		return establishmentRepository.getCinema(id);
+	}
+	@Override
+	public Restaurant getRestaurant(int id) {
+		return establishmentRepository.getRestaurant(id);
+	}
+	@Override
+	public NightClub getNightClub(int id) {
+		return establishmentRepository.getNightClub(id);
+	}
+	@Override
+	public List<Cinema> getCinemas() {
+		return establishmentRepository.getCinemas();
+	}
+	@Override
+	public List<NightClub> getNightClubs() {
+		return establishmentRepository.getNightClubs();
+	}
+	@Override
+	public List<Restaurant> getRestaurants() {
+		return establishmentRepository.getRestaurants();
+	}
+	@Override
+	public void deleteCinemas() {
+		establishmentRepository.deleteCinemas();
+	}
+	@Override
+	public void deleteNightClubs() {
+		establishmentRepository.deleteNightClubs();
+	}
+	@Override
+	public void deleteRestaurants() {
+		establishmentRepository.deleteRestaurants();
+	}
+	@Override
+	public void deleteCinema(int id) {
+		establishmentRepository.deleteCinema(id);
+	}
+	@Override
+	public void deleteRestaurant(int id) {
+		establishmentRepository.deleteRestaurant(id);
+	}
+	@Override
+	public void deleteNightClub(int id) {
+		establishmentRepository.deleteNightClub(id);
+	}
+	@Override
+	public <T> void updateEstablishment(T t) {
+		establishmentRepository.updateEstablishment(t);
+	}
+	@Override
+	public void addUser(User user) {
+		userRepository.addUser(user);
+	}
+	@Override
+	public User getUser(int id) {
+		return userRepository.getUser(id);
+	}
+	@Override
+	public List<User> getUsers() {
+		return userRepository.getUsers();
+	}
+	@Override
+	public void deleteUsers() {
+		userRepository.deleteUsers();
+	}
+	@Override
+	public void deleteUser(int id) {
+		userRepository.deleteUser(id);
+	}
+	@Override
+	public void updateUser(User user) {
+		userRepository.updateUser(user);
 	}
 	/**
 	 * Throw RuntimeException if loggerUser is not in Administrator Group and t is not belongs
@@ -260,7 +209,7 @@ public class ServiceImpl implements ServiceMyCity {
 	 * @param t
 	 */
 	private <T extends BaseEntity>void checkUser(T t) {
-		if(loggedUser.inGroup(PersonGroup.Administrator) == false && !(t.getClass() == Assessment.class) && !(t.getClass() == Comment.class)) {
+		if(loggedUser.inGroup(UserGroup.Administrator) == false && !(t.getClass() == Assessment.class) && !(t.getClass() == Comment.class)) {
 			throw new RuntimeException("Administrator has no login");
 		} else if(t.getCreatedBy().getId() == 0 || !loggedUser.equals(t.getCreatedBy())) {
 			throw new RuntimeException("This user cannot create/delete object");
@@ -268,20 +217,22 @@ public class ServiceImpl implements ServiceMyCity {
 			throw new RuntimeException("Users has no login into the system. Call setLoggedUser method");
 		}
 	}
-	public void deserializeUserData() {
-		userRepository.deserializeData();
+	public void setLoggedUser(User loggedUser) {
+		this.loggedUser = loggedUser;
 	}
-	public void setEstablishmentRepository(
-			EstablishmentRepository establishmentRepository) {
-		this.establishmentRepository = establishmentRepository;
+	private void checkLoggedUser() {
+		if(loggedUser == null) {
+			throw new RuntimeException("There is no logged user for Service, you should run setLoggedUser() method");
+		}
 	}
-	public void setUserRepository(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	private void checkUserForEstablishmentAndPerson() {
+		if(!loggedUser.inGroup(UserGroup.Administrator)) {
+			throw new RuntimeException("Only Administrators can make manipulations with Establishment repository and User repository");
+		}
 	}
-	public void setCommentRepository(CommentRepository commentRepository) {
-		this.commentRepository = commentRepository;
-	}
-	public void setAssessmentRepository(AssessmentRepository assessmentRepository) {
-		this.assessmentRepository = assessmentRepository;
+	private void checkUserForAssessment(Assessment assessment) {
+		if((loggedUser != assessment.getCreatedBy() && assessment.getCreatedBy().getId() == 0) || !loggedUser.inGroup(UserGroup.Administrator)) {
+			throw new RuntimeException("Only user how create Assessment and Administator can manipulating with Assessment repository");
+		}
 	}
 }

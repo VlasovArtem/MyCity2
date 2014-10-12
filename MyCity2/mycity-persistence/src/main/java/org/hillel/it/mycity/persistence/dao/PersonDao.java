@@ -2,9 +2,6 @@ package org.hillel.it.mycity.persistence.dao;
 
 import java.sql.SQLException;
 
-import org.hillel.it.mycity.model.entity.PersonGroup;
-import org.hillel.it.mycity.model.entity.Moderator;
-import org.hillel.it.mycity.model.entity.Person;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.persistence.rowmapper.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
-public class PersonDao implements GenericDao<Person>{
+public class PersonDao implements GenericDao<User>{
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
@@ -24,7 +21,7 @@ public class PersonDao implements GenericDao<Person>{
 	public PersonDao() {
 		baseEntityDao = new BaseEntityDao(); 
 	}
-	public void create(Person person) throws SQLException {
+	public void create(User person) throws SQLException {
 		baseEntityDao.create(person);
 		String create = "INSERT INTO person (base_entity_id,firstname,lastname,"
 				+ "username,email,password,group) VALUES(:base_entity,:firstname,:lastname"
@@ -39,20 +36,16 @@ public class PersonDao implements GenericDao<Person>{
 		source.addValue("group", person.getGroup().toString());
 		parameterJdbcTemplate.update(create, source);
 	}
-	public Person read(int id) {
+	public User read(int id) {
 		String read = "SELECT * FROM person WHERE person_id = " + id + " "
 				+ "AND group = 'Moderator' OR group = 'User'";
 		String select = "SELECT base_entity_id FROM person WHERE person_id = " + id + " "
 				+ "AND group = 'Moderator' OR group = 'User'";
-		Person person = jdbcTemplate.queryForObject(read, new PersonMapper());
+		User person = jdbcTemplate.queryForObject(read, new PersonMapper());
 		baseEntityDao.read(person, jdbcTemplate.queryForObject(select, Integer.class));
-		if(person.getGroup() == PersonGroup.Moderator) {
-			return (Moderator) person;
-		} else {
-			return (User) person;
-		}
+		return person;
 	}
-	public void update(Person person) throws DataAccessException, SQLException {
+	public void update(User person) throws DataAccessException, SQLException {
 		String select = "SELECT base_entity_id FROM person WHERE person_id=" + person.getId();
 		String create = "UPDATE person SET firstname = :firstname,"
 				+ "lastname = :lastname, username = :username, email = :email, "

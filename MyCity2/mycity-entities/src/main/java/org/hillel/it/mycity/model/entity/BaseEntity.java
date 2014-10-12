@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -14,18 +16,16 @@ public abstract class BaseEntity implements Serializable{
 	protected int id;
 	private Date createdDate;
 	private Date modifiedDate;
-	private Person createdBy;
-	private Person modifiedBy;
+	private User createdBy;
+	private User modifiedBy;
 
 	public BaseEntity(){
-		setCreatedDate(new Date());	
 	}
 	
 	public void setCreatedDate(Date createdDate){
 		this.createdDate = createdDate;
 	}
 	@Column(name="created_date", nullable=false)
-	@Temporal(TemporalType.DATE)
 	public Date getCreatedDate(){
 		return createdDate;
 	}
@@ -34,7 +34,6 @@ public abstract class BaseEntity implements Serializable{
 		this.modifiedDate = modifiedDate;
 	}
 	@Column(name="modified_date")
-	@Temporal(TemporalType.DATE)
 	public Date getModifiedDate(){
 		return modifiedDate;
 	}
@@ -43,27 +42,23 @@ public abstract class BaseEntity implements Serializable{
 	 * Add createdBy person to the object. Check if this object field createdBy is no empty
 	 * @param createdBy
 	 */
-	public void setCreatedBy(Person createdBy){
+	public void setCreatedBy(User createdBy){
 		checkDataIsNotNull(this.createdBy, "CreatedBy user is alredy exist. You can not add another one.");
 		this.createdBy = createdBy;
 	}
-	@Transient
-	/*@Column(name="created_by")
 	@OneToOne
-	@JoinColumn(name="person_id")*/
-	public Person getCreatedBy(){
+	@JoinColumn(name="created_by", referencedColumnName="person_id")
+	public User getCreatedBy(){
 		return createdBy;
 	}
 	
-	public void setModifiedBy(Person modifiedBy){
+	public void setModifiedBy(User modifiedBy){
 		checkUser(modifiedBy);
 		this.modifiedBy = modifiedBy;
 	}
-	@Transient
-	/*@Column(name="modified_by")
 	@OneToOne
-	@JoinColumn(name="person_id")*/
-	public Person getModifiedBy(){
+	@JoinColumn(name="modified_by", referencedColumnName="person_id")
+	public User getModifiedBy(){
 		return modifiedBy;
 	}
 	
@@ -88,8 +83,8 @@ public abstract class BaseEntity implements Serializable{
 		}
 	}
 	
-	public void checkUser(Person modifiedBy) {
-		if(modifiedBy != createdBy && !modifiedBy.inGroup(PersonGroup.Administrator)) {
+	public void checkUser(User modifiedBy) {
+		if(modifiedBy != createdBy && !modifiedBy.inGroup(UserGroup.Administrator)) {
 			throw new RuntimeException("This person can not modify information");
 		}
 	}

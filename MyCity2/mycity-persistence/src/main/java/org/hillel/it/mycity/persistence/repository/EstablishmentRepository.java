@@ -21,7 +21,8 @@ public interface EstablishmentRepository {
 	public void deleteCinemas();
 	public void deleteNightClubs();
 	public void deleteRestaurants();
-	public void deleteEstablishments();
-	public void deleteEstablishment(int id);
-	public void updateDataBase() throws SQLException;
+	public void deleteCinema(int id);
+	public void deleteRestaurant(int id);
+	public void deleteNightClub(int id);
+	public <T> void updateEstablishment(T t); 
 }

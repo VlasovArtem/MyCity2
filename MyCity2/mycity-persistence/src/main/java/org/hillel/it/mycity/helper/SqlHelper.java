@@ -9,12 +9,9 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import org.apache.commons.dbcp2.BasicDataSourceFactory;
 import org.apache.commons.io.IOUtils;
-import org.hillel.it.mycity.persistence.repository.inmemory.DataBaseEstablishmentRepository;
 
 public class SqlHelper {
 	public static Date getSqlDate(java.util.Date date) {

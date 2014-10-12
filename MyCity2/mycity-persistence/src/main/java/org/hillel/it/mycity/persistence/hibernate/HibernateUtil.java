@@ -21,7 +21,6 @@ public class HibernateUtil {
 				.addAnnotatedClass(Comment.class)
 				.addAnnotatedClass(Establishment.class)
 				.addAnnotatedClass(NightClub.class)
-				.addAnnotatedClass(Person.class)
 				.addAnnotatedClass(Restaurant.class)
 				.configure("inmemoryhibernate.cfg.xml");
 			ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

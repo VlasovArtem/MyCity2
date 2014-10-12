@@ -1,5 +1,6 @@
 package org.hillel.it.mycity.model.entity;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,21 +9,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-	/*
-	 * @timur Думаю объект класса Comment должен представлять 
-	 * один комментарий. Один комментарий - это комментарий 
-	 * одного пользователя (user_id) к одному заведению (establishment_id).
-	 * 
-	 * Потом уже будем делать выборки этих комментариев как угодно: 
-	 * 1) Список всех комментриев к заведению. Например, это будет поле класса Establishment.
-	 * 2) Список всех комментариев пользователя. Например, это будет поле класса RegisteredUser. 
-	 * 
-	 */
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
-@Table(name="comment")
+@Table(name="COMMENTS")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@AttributeOverride(name="id", column = @Column(name="comment_id", insertable=false, updatable=false))
+@NamedQueries({@NamedQuery(name="getComments", query="from comments"), 
+	@NamedQuery(name="deleteComments", query="delete comments"), 
+	@NamedQuery(name="deleteCommentById", query="delete comments where comment_id = :id"),
+	@NamedQuery(name="deleteCommentsByUserId", query="delete comments where person_id = :id"),
+	@NamedQuery(name="deleteCommentsByEstablishmentId", query="delete comments where establishment_id = :id"),
+	@NamedQuery(name="deleteCommentsByEstablishmentAndUserId", query="delete comments where establishment_id = :establishment_id and person_id = :person_id")})
 public class Comment extends BaseEntity{
+	public static final String GET_COMMENTSS = "getComments";
+	public static final String DELETE_COMMENTS = "deleteComments";
+	public static final String DELETE_COMMENT_BY_ID = "deleteCommentById";
+	public static final String DELETE_COMMENT_BY_USER_ID = "deleteCommentsByUserId";
+	public static final String DELETE_COMMENT_BY_ESTABLISHMENT_ID = "deleteCommentsByEstablishmentId";
+	public static final String DELETE_COMMENT_BY_ESTABLISHMENT_AND_USER_ID = "deleteCommentsByEstablishmentAndUserId";
 	private int commentAssessment;
 	private String comment;
 	private boolean needToModerate;
@@ -54,21 +64,20 @@ public class Comment extends BaseEntity{
 	public void setCommentAssessment(int commentAssessment) {
 		this.commentAssessment = commentAssessment;
 	}
-	@ManyToOne(fetch=FetchType.EAGER, optional=false, cascade={})
-	@JoinColumn(name="establishment_id")
-	public Establishment getEstablishment() {
-		return establishment;
-	}
-	public void setCommentToModerate(Person user) {
+	public void setCommentToModerate(User user) {
 		checkUserForComment(user);
 		needToModerate = true;
 	}
 	@Override
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="assessment_id")
 	public int getId() {
 		return id;
+	}
+	@ManyToOne(fetch=FetchType.EAGER, optional=false, cascade={})
+	@JoinColumn(name="establishment_id")
+	public Establishment getEstablishment() {
+		return establishment;
 	}
 	/**
 	 * This method add Establishment object to the Comment object. Check is this comment establishment 
@@ -100,8 +109,8 @@ public class Comment extends BaseEntity{
 		}
 		return this.establishment.equals(establishment);
 	}
-	public void checkUserForComment(Person user) {
-		if(!user.inGroup(PersonGroup.Moderator) && !user.inGroup(PersonGroup.Administrator)) {
+	public void checkUserForComment(User user) {
+		if(!user.inGroup(UserGroup.Moderator) && !user.inGroup(UserGroup.Administrator)) {
 			throw new RuntimeException("This user can`t mark comment to moderate");
 		}
 	}

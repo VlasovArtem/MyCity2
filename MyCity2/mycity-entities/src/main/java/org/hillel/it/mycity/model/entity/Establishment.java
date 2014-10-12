@@ -19,7 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="establishment")
+@Table(name="ESTABLISHMENTS")
 @Inheritance(strategy=InheritanceType.JOINED)
 @AttributeOverride(name="id", column = @Column(name="establishment_id", insertable=false, updatable=false))
 public class Establishment extends BaseEntity{
@@ -33,7 +33,7 @@ public class Establishment extends BaseEntity{
 		commentsOfEstablishment = new ArrayList<Comment>();
 		assessmentsOfEstablishment = new ArrayList<Assessment>();
 	}
-	public void setName(String nam){
+	public void setName(String name){
 		this.name = name;
 	}
 	@Column(name="name")
