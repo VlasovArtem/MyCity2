@@ -17,7 +17,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name="ESTABLISHMENTS")
@@ -28,9 +27,7 @@ public class Establishment extends BaseEntity{
 	private String address;
 	private String telephone;
 	private String description;
-	@Transient
 	private List<Comment> commentsOfEstablishment;
-	@Transient
 	private List<Assessment> assessmentsOfEstablishment;
 	public Establishment() {
 		commentsOfEstablishment = new ArrayList<Comment>();
@@ -71,7 +68,7 @@ public class Establishment extends BaseEntity{
 	public void setCommentsOfEstablishment(List<Comment> commentsOfEstablishment) {
 		this.commentsOfEstablishment = commentsOfEstablishment;
 	}
-	//@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
 	public List<Comment> getCommentsOfEstablishment() {
 		return commentsOfEstablishment;
 	}
@@ -79,7 +76,7 @@ public class Establishment extends BaseEntity{
 			List<Assessment> assessmentsOfEstablishment) {
 		this.assessmentsOfEstablishment = assessmentsOfEstablishment;
 	}
-	//@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
 	public List<Assessment> getAssessmentsOfEstablishment() {
 		return assessmentsOfEstablishment;
 	}
