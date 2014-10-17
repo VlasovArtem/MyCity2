@@ -3,7 +3,6 @@ package org.hillel.it.mycity.persistence.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.hillel.it.mycity.helper.SqlHelper;
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.persistence.rowmapper.NightClubMapper;
@@ -29,8 +28,8 @@ public class NightClubDao implements GenericDao<NightClub>{
 		String insert = "INTSERT INTO night_club (establishment_id, "
 				+ "time_open, time_close, average_check) VALUES (?,?,?,?)";
 		jdbcTemplate.update(insert, establishmentDao.getLastId(), 
-				SqlHelper.getSqlTime(nightClub.getTimeOpen()), 
-				SqlHelper.getSqlTime(nightClub.getTimeClose()), 
+				nightClub.getTimeOpen(), 
+				nightClub.getTimeClose(), 
 				nightClub.getAverageCheck());
 		for(Assessment assessment : nightClub.getAssessmentsOfEstablishment()) {
 			assessmentDao.create(assessment, "night_club", nightClub.getId());
@@ -50,8 +49,8 @@ public class NightClubDao implements GenericDao<NightClub>{
 		String select = "SELECT establishment_id FROM night_club WHERE night_club_id = " + nightClub.getId();
 		establishmentDao.update(nightClub, jdbcTemplate.queryForObject(select, Integer.class));
 		MapSqlParameterSource source = new MapSqlParameterSource();
-		source.addValue("time_open", SqlHelper.getSqlTime(nightClub.getTimeOpen()));
-		source.addValue("time_close", SqlHelper.getSqlTime(nightClub.getTimeClose()));
+		source.addValue("time_open", nightClub.getTimeOpen());
+		source.addValue("time_close", nightClub.getTimeClose());
 		source.addValue("average_check", nightClub.getAverageCheck());
 		parameterJdbcTemplate.update(update, source);
 		assessmentDao.update(nightClub);

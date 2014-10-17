@@ -20,19 +20,25 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name="COMMENTS")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name="id", column = @Column(name="comment_id", insertable=false, updatable=false))
-@NamedQueries({@NamedQuery(name="getComments", query="from comments"), 
-	@NamedQuery(name="deleteComments", query="delete comments"), 
-	@NamedQuery(name="deleteCommentById", query="delete comments where comment_id = :id"),
-	@NamedQuery(name="deleteCommentsByUserId", query="delete comments where user_id = :id"),
-	@NamedQuery(name="deleteCommentsByEstablishmentId", query="delete comments where establishment_id = :id"),
-	@NamedQuery(name="deleteCommentsByEstablishmentAndUserId", query="delete comments where establishment_id = :establishment_id and user_id = :user_id")})
+@NamedQueries({@NamedQuery(name="getComments", query="from Comment"), 
+	@NamedQuery(name="deleteComments", query="delete Comment"), 
+	@NamedQuery(name="deleteCommentById", query="delete Comment where comment_id = :id"),
+	@NamedQuery(name="deleteCommentsByUserId", query="delete Comment where user_id = :id"),
+	@NamedQuery(name="deleteCommentsByEstablishmentId", query="delete Comment where establishment_id = :id"),
+	@NamedQuery(name="deleteCommentsByEstablishmentAndUserId", query="delete Comment where establishment_id = :establishment_id and user_id = :user_id"),
+	@NamedQuery(name="getCommentsByUserId", query="from Comment where person_id = :id"),
+	@NamedQuery(name="getCommentsByEstablishmentId", query="from Comment where establishment_id = :id"),
+	@NamedQuery(name="getCommentsByEstablishmentAndUserId", query="from Comment where person_id = :pid and establishment_id = :eid")})
 public class Comment extends BaseEntity{
-	public static final String GET_COMMENTSS = "getComments";
+	public static final String GET_COMMENTS = "getComments";
 	public static final String DELETE_COMMENTS = "deleteComments";
 	public static final String DELETE_COMMENT_BY_ID = "deleteCommentById";
 	public static final String DELETE_COMMENT_BY_USER_ID = "deleteCommentsByUserId";
 	public static final String DELETE_COMMENT_BY_ESTABLISHMENT_ID = "deleteCommentsByEstablishmentId";
 	public static final String DELETE_COMMENT_BY_ESTABLISHMENT_AND_USER_ID = "deleteCommentsByEstablishmentAndUserId";
+	public static final String GET_COMMENT_BY_USER_ID = "getCommentsByUserId";
+	public static final String GET_COMMENT_BY_ESTABLISHMENT_ID = "getCommentsByEstablishmentId";
+	public static final String GET_COMMENT_BY_ESTABLISHMENT_AND_USER_ID = "getCommentsByEstablishmentAndUserId";
 	private int commentAssessment;
 	private String comment;
 	private boolean needToModerate;
@@ -49,7 +55,6 @@ public class Comment extends BaseEntity{
 	public String getComment() {
 		return comment;
 	}
-	//наверно нужно добавить проверка, на количество вызовов метода одним пользователем. 
 	public void setCommentPositiveAssessment() {
 		++commentAssessment;
 	}
@@ -74,7 +79,7 @@ public class Comment extends BaseEntity{
 	public int getId() {
 		return id;
 	}
-	@ManyToOne(fetch=FetchType.EAGER, optional=false, cascade={})
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="establishmentId", referencedColumnName="establishment_id")
 	public Establishment getEstablishment() {
 		return establishment;

@@ -2,83 +2,75 @@ package org.hillel.it.mycity.persistence.repository.database;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.Establishment;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.persistence.repository.AssessmentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class DataBaseAssessmentRepository implements AssessmentRepository {
-	@Autowired
-	private SessionFactory sessionFactory;
-	// think about search method.
+	@PersistenceContext
+	private EntityManager em;
 	@Override
 	public void addAssessment(Assessment assessment) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(assessment);
+		em.persist(assessment);
 	}
 
 	@Override
 	public void deleteAssessment(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(Assessment.DELETE_ASSESSMENT);
+		Query query	= em.createNamedQuery(Assessment.DELETE_ASSESSMENT);
 		query.setParameter("id", id);
 	}
 
 	@Override
 	public void deleteAssessment(User user) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session
-				.createQuery(Assessment.DELETE_ASSESSMENT_BY_USER_ID);
+		Query query = em
+				.createNamedQuery(Assessment.DELETE_ASSESSMENT_BY_USER_ID);
 		query.setParameter("id", user.getId());
 	}
 
 	@Override
 	public void deleteAssessment(Establishment establishment) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session
-				.createQuery(Assessment.DELETE_ASSESSMENT_BY_ESTABLISHMENT_ID);
+		
+		Query query = em
+				.createNamedQuery(Assessment.DELETE_ASSESSMENT_BY_ESTABLISHMENT_ID);
 		query.setParameter("id", establishment.getId());
 	}
 
 	@Override
 	public Assessment getAssessment(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		return (Assessment) session.get(Assessment.class, id);
+		
+		return em.find(Assessment.class, id);
 	}
 
 	@Override
 	public List<Assessment> getAssessments(User user) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session
-				.createQuery(Assessment.GET_ASSESSMENTS_BY_USER_ID);
+		
+		TypedQuery<Assessment> query = em
+				.createNamedQuery(Assessment.GET_ASSESSMENTS_BY_USER_ID, Assessment.class);
 		query.setParameter("id", user.getId());
-		return query.list();
+		return query.getResultList();
 	}
 
 	@Override
 	public List<Assessment> getAssessments(Establishment establishment) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session
-				.createQuery(Assessment.GET_ASSESSMENTS_BY_ESTABLISHMENT_ID);
+		
+		TypedQuery<Assessment> query = em
+				.createQuery(Assessment.GET_ASSESSMENTS_BY_ESTABLISHMENT_ID, Assessment.class);
 		query.setParameter("id", establishment.getId());
-		return query.list();
+		return query.getResultList();
 	}
 
 	@Override
 	public List<Assessment> getAssessments() {
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery(Assessment.GET_ASSESSMENTS).list();
+		
+		return em.createQuery(Assessment.GET_ASSESSMENTS, Assessment.class).getResultList();
 	}
 
-	@Override
-	public void updateAssessment(Assessment assessment) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(assessment);
-	}
 }

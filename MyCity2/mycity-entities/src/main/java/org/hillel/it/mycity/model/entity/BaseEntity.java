@@ -1,6 +1,5 @@
 package org.hillel.it.mycity.model.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
 @MappedSuperclass
-public abstract class BaseEntity implements Serializable{
+public abstract class BaseEntity{
 	protected int id;
 	private Date createdDate;
 	private Date modifiedDate;
@@ -41,7 +40,7 @@ public abstract class BaseEntity implements Serializable{
 	 * @param createdBy
 	 */
 	public void setCreatedBy(User createdBy){
-		checkDataIsNotNull(this.createdBy, "CreatedBy user is alredy exist. You can not add another one.");
+		//checkDataIsNotNull(this.createdBy, "CreatedBy user is alredy exist. You can not add another one.");
 		this.createdBy = createdBy;
 	}
 	@OneToOne
@@ -51,7 +50,7 @@ public abstract class BaseEntity implements Serializable{
 	}
 	
 	public void setModifiedBy(User modifiedBy){
-		checkUser(modifiedBy);
+		//checkUser(modifiedBy);
 		this.modifiedBy = modifiedBy;
 	}
 	@OneToOne
@@ -63,7 +62,6 @@ public abstract class BaseEntity implements Serializable{
 	public void setId(int id) {
 		this.id = (this.id == 0 ? id : this.id);
 	}
-	@Id
 	public int getId() {
 		return id;
 	}

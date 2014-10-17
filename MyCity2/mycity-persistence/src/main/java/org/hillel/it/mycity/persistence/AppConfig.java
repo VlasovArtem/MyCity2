@@ -2,6 +2,7 @@ package org.hillel.it.mycity.persistence;
 
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -14,6 +15,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -58,5 +63,26 @@ public class AppConfig {
 		bean.setEntityInterceptor(new GlobalInterceptor());
 		return bean;
 	}
-	
+	@Bean
+	public PlatformTransactionManager transactionManagerJpa(EntityManagerFactory emf) {
+		return new JpaTransactionManager(emf);
+	}
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+		bean.setPackagesToScan("org.hillel.it");
+		bean.setDataSource(dataSource);
+		Properties properties = new Properties();
+		properties.put("hinernate.dialect", env.getProperty("hibernate.dialect"));
+		properties.put("hibernate.cache.use_second_level_cache", env.getProperty("second.level.cache"));
+		properties.put("hibernate.cache.provider_class", env.getProperty("cache.provider.class"));
+		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hbm2ddl.auto"));
+		properties.put("hibernate.show_sql", env.getProperty("show_sql"));
+		properties.put("hibernate.chache.region.factory_class", env.getProperty("cache.region.class"));
+		bean.setJpaProperties(properties);
+		JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
+		bean.setJpaVendorAdapter(adapter);
+		//bean.setEntityInterceptor(new GlobalInterceptor());
+		return bean;
+	}
 }

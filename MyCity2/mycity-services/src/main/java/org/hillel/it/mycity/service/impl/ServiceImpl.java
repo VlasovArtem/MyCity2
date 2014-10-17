@@ -66,10 +66,6 @@ public class ServiceImpl implements ServiceMyCity {
 		return assessmentRepository.getAssessments();
 	}
 	@Override
-	public void updateAssessment(Assessment assessment) {
-		assessmentRepository.updateAssessment(assessment);
-	}
-	@Override
 	public void addComment(Comment comment) {
 		commentRepository.addComment(comment);
 	}
@@ -108,10 +104,6 @@ public class ServiceImpl implements ServiceMyCity {
 	@Override
 	public List<Comment> getComments() {
 		return commentRepository.getComments();
-	}
-	@Override
-	public void updateComment(Comment comment) {
-		commentRepository.updateComment(comment);
 	}
 	@Override
 	public void addCinema(Cinema cinema) {
@@ -174,10 +166,6 @@ public class ServiceImpl implements ServiceMyCity {
 		establishmentRepository.deleteNightClub(id);
 	}
 	@Override
-	public <T> void updateEstablishment(T t) {
-		establishmentRepository.updateEstablishment(t);
-	}
-	@Override
 	public void addUser(User user) {
 		userRepository.addUser(user);
 	}
@@ -196,10 +184,6 @@ public class ServiceImpl implements ServiceMyCity {
 	@Override
 	public void deleteUser(int id) {
 		userRepository.deleteUser(id);
-	}
-	@Override
-	public void updateUser(User user) {
-		userRepository.updateUser(user);
 	}
 	/**
 	 * Throw RuntimeException if loggerUser is not in Administrator Group and t is not belongs

@@ -16,12 +16,7 @@ public class EstablishmentMapper implements RowMapper<Establishment>{
 	public Establishment mapRow(ResultSet rs, int rowNum) throws SQLException {
 		establishment.setName(rs.getString("name"));
 		establishment.setAddress(rs.getString("address"));
-		try {
-			establishment.setTelephone(rs.getString("telephone"));
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		establishment.setTelephone(rs.getString("telephone"));
 		establishment.setDescription(rs.getString("description"));
 		return establishment;
 	}

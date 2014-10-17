@@ -2,125 +2,104 @@ package org.hillel.it.mycity.persistence.repository.database;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import javax.persistence.Query;
 import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.Restaurant;
 import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class DataBaseEstablishmentRepository implements EstablishmentRepository{
-	@Autowired
-	private SessionFactory sessionFactory;
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
 	public void addCinema(Cinema cinema) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(cinema);
+		em.persist(cinema);
 	}
 
 	@Override
 	public void addNightClub(NightClub nightClub) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(nightClub);
+		em.persist(nightClub);
 	}
 
 	@Override
 	public void addRestaurant(Restaurant restaurant) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(restaurant);
+		em.persist(restaurant);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Cinema getCinema(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		return (Cinema) session.get(Cinema.class, id);
+		return em.find(Cinema.class, id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Restaurant getRestaurant(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		return (Restaurant) session.get(Restaurant.class, id);
+		return em.find(Restaurant.class, id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public NightClub getNightClub(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		return (NightClub) session.get(NightClub.class, id);
+		return em.find(NightClub.class, id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<Cinema> getCinemas() {
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery(Cinema.GET_CINEMAS).list();
+		return em.createNamedQuery(Cinema.GET_CINEMAS, Cinema.class).getResultList();
 
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<NightClub> getNightClubs() {
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("from nightclub").list();
+		return em.createNamedQuery(NightClub.GET_NIGTHCLUBS, NightClub.class).getResultList();
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<Restaurant> getRestaurants() {
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("from restaurant").list();
+		return em.createNamedQuery(Restaurant.GET_RESTAURANTS, Restaurant.class).getResultList();
 	}
 
 	@Override
 	public void deleteCinemas() {
-		Session session = sessionFactory.getCurrentSession();
-		session.createQuery(Cinema.DELETE_CINEMAS);
+		em.createNamedQuery(Cinema.DELETE_CINEMAS);
 	}
 
 	@Override
 	public void deleteNightClubs() {
-		Session session = sessionFactory.getCurrentSession();
-		session.createQuery(NightClub.DELETE_NIGHTCLUBS);
+		em.createNamedQuery(NightClub.DELETE_NIGHTCLUBS);
 	}
 
 	@Override
 	public void deleteRestaurants() {
-		Session session = sessionFactory.getCurrentSession();
-		session.createQuery(Restaurant.DELETE_RESTAURANTS);
+		em.createNamedQuery(Restaurant.DELETE_RESTAURANTS);
 	}
 
 	@Override
 	public void deleteCinema(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(Cinema.DELETE_CINEMA);
+		Query query = em.createNamedQuery(Cinema.DELETE_CINEMA);
 		query.setParameter("id", id);
 	}
 
 	@Override
 	public void deleteRestaurant(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(Restaurant.DELETE_RESTAURANT);
+		Query query = em.createNamedQuery(Restaurant.DELETE_RESTAURANT);
 		query.setParameter("id", id);
 	}
 
 	@Override
-	public void deleteNightClub(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(NightClub.DELETE_NIGHTCLUB);
+	public void deleteNightClub(int id) {	
+		Query query = em.createNamedQuery(NightClub.DELETE_NIGHTCLUB);
 		query.setParameter("id", id);
-	}
-
-	@Override
-	public <T> void updateEstablishment(T t) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(t);
 	}
 }

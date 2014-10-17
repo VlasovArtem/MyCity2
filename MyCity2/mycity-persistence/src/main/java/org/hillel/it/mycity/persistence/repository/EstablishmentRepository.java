@@ -22,6 +22,5 @@ public interface EstablishmentRepository {
 	public void deleteRestaurants();
 	public void deleteCinema(int id);
 	public void deleteRestaurant(int id);
-	public void deleteNightClub(int id);
-	public <T> void updateEstablishment(T t); 
+	public void deleteNightClub(int id); 
 }

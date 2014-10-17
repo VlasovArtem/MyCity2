@@ -21,7 +21,6 @@ public interface ServiceMyCity {
 	public List<Assessment> getAssessments(User user);
 	public List<Assessment> getAssessments(Establishment establishment);
 	public List<Assessment> getAssessments();
-	public void updateAssessment(Assessment assessment);
 	
 	//Comment
 	public void addComment(Comment comment);
@@ -34,7 +33,6 @@ public interface ServiceMyCity {
 	public List<Comment> getComments(Establishment establishment);
 	public List<Comment> getComments(Establishment establishment, User user);
 	public List<Comment> getComments();
-	public void updateComment(Comment comment);
 	
 	//Establishment
 	public void addCinema(Cinema cinema);
@@ -52,7 +50,6 @@ public interface ServiceMyCity {
 	public void deleteCinema(int id);
 	public void deleteRestaurant(int id);
 	public void deleteNightClub(int id);
-	public <T> void updateEstablishment(T t);
 	
 	//User
 	public void addUser(User user);
@@ -60,5 +57,4 @@ public interface ServiceMyCity {
 	public List<User> getUsers();
 	public void deleteUsers();
 	public void deleteUser(int id);
-	public void updateUser(User user);
 }

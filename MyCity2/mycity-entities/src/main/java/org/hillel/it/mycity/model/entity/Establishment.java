@@ -36,39 +36,35 @@ public class Establishment extends BaseEntity{
 	public void setName(String name){
 		this.name = name;
 	}
-	@Column(name="name")
+	@Column(name="name", nullable=false, length = 100)
 	public String getName() {
 		return name;
 	}
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	@Column(name="address")
+	@Column(name = "address", nullable = false, length = 150)
 	public String getAddress() {
 		return address;
 	}
-	public void setTelephone(String telephone) throws ClassNotFoundException {
-		if(!checkTelephoneOfEstablishment(telephone)) {
-			System.out.println("Incorrect format");
-			return;
-		}
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	@Column(name="telephone")
+	@Column(name="telephone", nullable=false, unique=true, length = 13)
 	public String getTelephone() {
 		return telephone;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	@Column(name="description")
+	@Column(name="description",columnDefinition="BLOB(500) DEFAULT NULL")
 	public String getDescription() {
 		return description;
 	}
 	public void setCommentsOfEstablishment(List<Comment> commentsOfEstablishment) {
 		this.commentsOfEstablishment = commentsOfEstablishment;
 	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment", orphanRemoval=true)
 	public List<Comment> getCommentsOfEstablishment() {
 		return commentsOfEstablishment;
 	}
@@ -76,7 +72,7 @@ public class Establishment extends BaseEntity{
 			List<Assessment> assessmentsOfEstablishment) {
 		this.assessmentsOfEstablishment = assessmentsOfEstablishment;
 	}
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishments", orphanRemoval=true)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="establishment", orphanRemoval=true)
 	public List<Assessment> getAssessmentsOfEstablishment() {
 		return assessmentsOfEstablishment;
 	}
@@ -112,12 +108,12 @@ public class Establishment extends BaseEntity{
 	 * Odessa Region.
 	 * @param telephoneOfEstablishment
 	 * @return true if telephone number is in standart format
-	 */
+	 *//*
 	private boolean checkTelephoneOfEstablishment(String telephoneOfEstablishment) throws ClassNotFoundException{
 		Pattern telephonePattern = Pattern.compile("(^0([6][3678]|[9][1-9]|39|48|50))\\d{7}");
 		Matcher telephoneMatcher = telephonePattern.matcher(telephoneOfEstablishment);
 		return telephoneMatcher.find();
-	}
+	}*/
 	protected void checkAddComment(Comment comment) {
 		try {
 			comment.checkEstablishment(this);

@@ -11,10 +11,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="NIGHTCLUBS")
-@PrimaryKeyJoinColumn(name="nightclub_id")
-@NamedQueries({@NamedQuery(name="getNightClubs", query="from nightclubs"), 
-	@NamedQuery(name="deleteNightClubs", query="delete nightclubs"), 
-	@NamedQuery(name="deleteNightClub", query="delete nightclubs where nightclub_id = :id")})
+@PrimaryKeyJoinColumn(name="establishment_id")
+@NamedQueries({@NamedQuery(name="getNightClubs", query="from NightClub"), 
+	@NamedQuery(name="deleteNightClubs", query="delete NightClub"), 
+	@NamedQuery(name="deleteNightClub", query="delete NightClub where nightclub_id = :id")})
 public class NightClub extends Establishment{
 	public static final String GET_NIGTHCLUBS = "getNightClubs";
 	public static final String DELETE_NIGHTCLUBS = "deleteNightClubs";

@@ -1,10 +1,11 @@
 package org.hillel.it.mycity.model.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,24 +27,22 @@ import org.hillel.it.mycity.helper.CryptoHelper;
 @Table(name="USERS")
 @AttributeOverride(name="id", column=@Column(name="user_id", insertable=false, updatable=false))
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({@NamedQuery(name="getUsers", query="from users where usergroup = User"), 
-	@NamedQuery(name="deleteUsers", query="from users"),
-	@NamedQuery(name="deleteUser", query="delete users where user_id = :id")})
-public class User extends BaseEntity implements Serializable{
+@NamedQueries({@NamedQuery(name="getUsers", query="from User"), 
+	@NamedQuery(name="deleteUsers", query="delete User"),
+	@NamedQuery(name="deleteUser", query="delete User where user_id = :id"),
+	@NamedQuery(name="getUsersByGroup", query="from User where usergroup = :usergroup")})
+public class User extends BaseEntity{
 	public final static String GET_USERS = "getUsers";
 	public final static String DELETE_USERS = "deleteUsers";
 	public final static String DELETE_USER = "deleteUser";
-	
+	public final static String GET_USERS_BY_GROUP ="getUsersByGroup";
 	private String firstName;
 	private String lastName;
 	private String username;
 	private String email;
 	private String password;
 	private UserGroup group;
-	private boolean emailVerified; //прошел ли email проверку на подлинность, можно использовать
-	//при вызове методов добавления и удаление файлов.
-	//private boolean deleted - есть пользователь удалил аккаунт, сообщения остаются, если их не удаляют
-	//в ручную, но удаляются оценки.
+	private boolean emailVerified; 
 	
 	public User(String email, String password) {
 		setEmail(email);
@@ -56,14 +55,14 @@ public class User extends BaseEntity implements Serializable{
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	@Column(name="firstname")
+	@Column(name="firstname", length = 15)
 	public String getFirstName() {
 		return firstName;
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	@Column(name="lastname")
+	@Column(name="lastname", length = 20)
 	public String getLastName() {
 		return lastName;
 	}
@@ -73,7 +72,7 @@ public class User extends BaseEntity implements Serializable{
 		}
 		this.username = username;
 	}
-	@Column(name="username")
+	@Column(name="username", nullable = false, unique = true, length = 30)
 	public String getUsername() {
 		return username;
 	}
@@ -81,14 +80,14 @@ public class User extends BaseEntity implements Serializable{
 		checkEmail(email);
 		this.email = email;
 	}
-	@Column(name="email", unique=true, nullable=false)
+	@Column(name = "email", unique = true, nullable = false, length = 25)
 	public String getEmail() {
 		return email;
 	}
 	public void setPassword(String password) {
 		this.password = CryptoHelper.shaOne(password);
 	}
-	@Column(name="password", nullable=false)
+	@Column(name = "password", nullable = false, length = 100)
 	public String getPassword() {
 		return password;
 	}
@@ -100,7 +99,7 @@ public class User extends BaseEntity implements Serializable{
 	public UserGroup getGroup() {
 		return group;
 	}
-	@Column(name="verified")
+	@Column(name="verified", columnDefinition="INT(1) DEFAULT 0")
 	public boolean isEmailVerified() {
 		return emailVerified;
 	}

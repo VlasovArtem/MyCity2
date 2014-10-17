@@ -6,8 +6,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSourceFactory;
@@ -28,10 +26,6 @@ public class SqlHelper {
 			lastInsertedId = rskey.getInt(1);
 		}
 		return lastInsertedId;
-	}
-	public static Time getSqlTime(LocalTime time) {
-		Time sqlTime = new Time(time.getHour(),time.getMinute(),0);
-		return sqlTime;
 	}
 	public static DataSource getDataSource() {
 		Properties properties = new Properties();

@@ -15,5 +15,4 @@ public interface AssessmentRepository {
 	public List<Assessment> getAssessments(User user);
 	public List<Assessment> getAssessments(Establishment establishment);
 	public List<Assessment> getAssessments();
-	public void updateAssessment(Assessment assessment);
 }

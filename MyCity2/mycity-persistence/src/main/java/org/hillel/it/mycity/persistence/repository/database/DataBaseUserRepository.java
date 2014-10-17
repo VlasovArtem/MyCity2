@@ -2,53 +2,48 @@ package org.hillel.it.mycity.persistence.repository.database;
 
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 import org.hillel.it.mycity.model.entity.User;
+import org.hillel.it.mycity.model.entity.UserGroup;
 import org.hillel.it.mycity.persistence.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class DataBaseUserRepository implements UserRepository{
-	@Autowired
-	private SessionFactory sessionFactory;
-	
+	@PersistenceContext
+	private EntityManager em;
 	@Override
 	public void addUser(User user) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(user);
+		em.persist(user);
 	}
 	@Override
 	public void deleteUser(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(User.DELETE_USER);
+		Query query = em.createNamedQuery(User.DELETE_USER);
 		query.setParameter("id", id);
 	}
-
 	@Override
 	@Transactional(readOnly=true)
 	public User getUser(int id) {
-		Session session = sessionFactory.getCurrentSession();
-		return (User) session.get(User.class, id);
+		return em.find(User.class, id);
 	}
-
 	@Override
 	@Transactional(readOnly=true)
 	public List<User> getUsers() {
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery(User.GET_USERS).list();
+		return em.createNamedQuery(User.GET_USERS, User.class).getResultList();
 	}
 	@Override
 	public void deleteUsers() {
-		Session session = sessionFactory.getCurrentSession();
-		session.createQuery(User.DELETE_USERS);
+		em.createNamedQuery(User.DELETE_USERS);
 	}
 	@Override
-	public void updateUser(User user) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(user);
+	public <T> List<T> getUsersByGroup(Class<T> resultClass, UserGroup group) {
+		TypedQuery<T> query = em.createNamedQuery(User.GET_USERS_BY_GROUP, resultClass);
+		query.setParameter("usergroup", group.name());
+		return query.getResultList();
 	}
 }
