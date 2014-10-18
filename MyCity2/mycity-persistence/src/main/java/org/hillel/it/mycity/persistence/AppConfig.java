@@ -2,6 +2,7 @@ package org.hillel.it.mycity.persistence;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -30,7 +31,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AppConfig {
 	@Autowired
 	private Environment env;
-	@Autowired
+	/*@Autowired*/
+	@Resource(lookup="java:/jdbc/MyCity")
 	private DataSource dataSource;
 	
 	@Bean
@@ -47,7 +49,7 @@ public class AppConfig {
 		dataSource.setPassword(env.getProperty("db.password"));
 		return dataSource;
 	}
-	@Bean
+	/*@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
 		bean.setPackagesToScan("org.hillel.it");
@@ -62,7 +64,7 @@ public class AppConfig {
 		bean.setHibernateProperties(properties);
 		bean.setEntityInterceptor(new GlobalInterceptor());
 		return bean;
-	}
+	}*/
 	@Bean
 	public PlatformTransactionManager transactionManagerJpa(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
