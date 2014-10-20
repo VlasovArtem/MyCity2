@@ -3,7 +3,6 @@ package org.hillel.it.mycity.model.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
@@ -66,7 +65,6 @@ public abstract class BaseEntity{
 		return id;
 	}
 	
-	//TODO нужно добавить проверка на maxId из нужного Repository
 	public void checkId(int id) {
 		if(id < 1) {
 			throw new RuntimeException("Incorrect id");

@@ -2,7 +2,6 @@ package org.hillel.it.mycity.persistence;
 
 import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -31,8 +31,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AppConfig {
 	@Autowired
 	private Environment env;
-	/*@Autowired*/
-	@Resource(lookup="java:/jdbc/MyCity")
+	/*@Resource(lookup="java:/jdbc/MyCity", type=DataSource.class)*/
+	@Autowired
 	private DataSource dataSource;
 	
 	@Bean
@@ -43,13 +43,16 @@ public class AppConfig {
 	@Bean
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
+		/*JndiDataSourceLookup sourceLookup = new JndiDataSourceLookup();
+		sourceLookup.setResourceRef(true);
+		DataSource dataSource = sourceLookup.getDataSource("java:/jdbc/MyCity");*/
 		dataSource.setDriverClassName(env.getProperty("db.driver"));
 		dataSource.setUrl(env.getProperty("db.url"));
 		dataSource.setUsername(env.getProperty("db.username"));
 		dataSource.setPassword(env.getProperty("db.password"));
 		return dataSource;
 	}
-	/*@Bean
+	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
 		bean.setPackagesToScan("org.hillel.it");
@@ -64,7 +67,7 @@ public class AppConfig {
 		bean.setHibernateProperties(properties);
 		bean.setEntityInterceptor(new GlobalInterceptor());
 		return bean;
-	}*/
+	}
 	@Bean
 	public PlatformTransactionManager transactionManagerJpa(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
@@ -84,7 +87,6 @@ public class AppConfig {
 		bean.setJpaProperties(properties);
 		JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		bean.setJpaVendorAdapter(adapter);
-		//bean.setEntityInterceptor(new GlobalInterceptor());
 		return bean;
 	}
 }

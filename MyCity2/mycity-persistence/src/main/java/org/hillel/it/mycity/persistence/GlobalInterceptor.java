@@ -11,6 +11,11 @@ import org.hillel.it.mycity.model.entity.BaseEntity;
 
 public class GlobalInterceptor extends EmptyInterceptor{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public boolean onFlushDirty(Object entity, Serializable id,
 			Object[] currentState, Object[] previousState,

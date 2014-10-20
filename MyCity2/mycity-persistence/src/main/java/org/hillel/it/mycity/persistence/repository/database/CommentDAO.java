@@ -14,7 +14,7 @@ import org.hillel.it.mycity.persistence.repository.CommentRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DataBaseCommentRepository implements CommentRepository{
+public class CommentDAO implements CommentRepository{
 	@PersistenceContext
 	private EntityManager em;
 	

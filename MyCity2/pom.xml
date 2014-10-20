@@ -65,10 +65,10 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.glassfish.jersey.containers.glassfish</groupId>
 			<artifactId>jersey-gf-cdi</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

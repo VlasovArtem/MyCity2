@@ -7,7 +7,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import org.hillel.it.mycity.model.entity.Cinema;
-import org.hillel.it.mycity.model.entity.Establishment;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.model.entity.UserGroup;
 

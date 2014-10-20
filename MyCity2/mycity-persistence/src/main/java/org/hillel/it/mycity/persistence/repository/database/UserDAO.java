@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class DataBaseUserRepository implements UserRepository{
+public class UserDAO implements UserRepository{
 	@PersistenceContext
 	private EntityManager em;
 	@Override

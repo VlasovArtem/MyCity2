@@ -3,11 +3,9 @@ package org.hillel.it.mycity.service.impl;
 import java.util.List;
 
 import org.hillel.it.mycity.model.entity.Assessment;
-import org.hillel.it.mycity.model.entity.BaseEntity;
 import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.Comment;
 import org.hillel.it.mycity.model.entity.Establishment;
-import org.hillel.it.mycity.model.entity.UserGroup;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.model.entity.Restaurant;
@@ -31,7 +29,7 @@ public class ServiceImpl implements ServiceMyCity {
 	private CommentRepository commentRepository;
 	@Autowired
 	private AssessmentRepository assessmentRepository;
-	private User loggedUser;
+	/*private User loggedUser;*/
 	
 	@Override
 	public void addAssessment(Assessment assessment) {
@@ -192,7 +190,7 @@ public class ServiceImpl implements ServiceMyCity {
 	 * and CreateBy user is not the same.
 	 * @param t
 	 */
-	private <T extends BaseEntity>void checkUser(T t) {
+	/*private <T extends BaseEntity>void checkUser(T t) {
 		if(loggedUser.inGroup(UserGroup.Administrator) == false && !(t.getClass() == Assessment.class) && !(t.getClass() == Comment.class)) {
 			throw new RuntimeException("Administrator has no login");
 		} else if(t.getCreatedBy().getId() == 0 || !loggedUser.equals(t.getCreatedBy())) {
@@ -218,5 +216,5 @@ public class ServiceImpl implements ServiceMyCity {
 		if((loggedUser != assessment.getCreatedBy() && assessment.getCreatedBy().getId() == 0) || !loggedUser.inGroup(UserGroup.Administrator)) {
 			throw new RuntimeException("Only user how create Assessment and Administator can manipulating with Assessment repository");
 		}
-	}
+	}*/
 }

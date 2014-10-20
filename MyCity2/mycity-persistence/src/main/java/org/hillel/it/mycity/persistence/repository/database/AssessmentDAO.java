@@ -14,7 +14,7 @@ import org.hillel.it.mycity.persistence.repository.AssessmentRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DataBaseAssessmentRepository implements AssessmentRepository {
+public class AssessmentDAO implements AssessmentRepository {
 	@PersistenceContext
 	private EntityManager em;
 	@Override
@@ -37,7 +37,6 @@ public class DataBaseAssessmentRepository implements AssessmentRepository {
 
 	@Override
 	public void deleteAssessment(Establishment establishment) {
-		
 		Query query = em
 				.createNamedQuery(Assessment.DELETE_ASSESSMENT_BY_ESTABLISHMENT_ID);
 		query.setParameter("id", establishment.getId());

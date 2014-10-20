@@ -9,8 +9,8 @@ public class CommentDao {
 	private JdbcTemplate jdbcTemplate;
 	@Autowired
 	private NamedParameterJdbcTemplate parameterJdbcTemplate;
-	private BaseEntityDao baseEntityDao;
+	/*private BaseEntityDao baseEntityDao;
 	public CommentDao() {
 		baseEntityDao = new BaseEntityDao();
-	}
+	}*/
 }

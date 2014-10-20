@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class DataBaseEstablishmentRepository implements EstablishmentRepository{
+public class EstablishmentDAO implements EstablishmentRepository{
 	@PersistenceContext
 	private EntityManager em;
 	
