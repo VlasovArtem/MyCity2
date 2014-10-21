@@ -58,7 +58,7 @@ public class AppConfig {
 		bean.setPackagesToScan("org.hillel.it");
 		bean.setDataSource(dataSource);
 		Properties properties = new Properties();
-		properties.put("hinernate.dialect", env.getProperty("hibernate.dialect"));
+		properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		properties.put("hibernate.cache.use_second_level_cache", env.getProperty("second.level.cache"));
 		properties.put("hibernate.cache.provider_class", env.getProperty("cache.provider.class"));
 		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hbm2ddl.auto"));
@@ -78,7 +78,7 @@ public class AppConfig {
 		bean.setPackagesToScan("org.hillel.it");
 		bean.setDataSource(dataSource);
 		Properties properties = new Properties();
-		properties.put("hinernate.dialect", env.getProperty("hibernate.dialect"));
+		properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
 		properties.put("hibernate.cache.use_second_level_cache", env.getProperty("second.level.cache"));
 		properties.put("hibernate.cache.provider_class", env.getProperty("cache.provider.class"));
 		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hbm2ddl.auto"));
