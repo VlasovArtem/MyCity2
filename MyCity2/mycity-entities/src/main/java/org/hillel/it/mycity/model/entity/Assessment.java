@@ -1,5 +1,4 @@
 package org.hillel.it.mycity.model.entity;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 @Table(name="ASSESSMENTS")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
@@ -35,17 +32,16 @@ public class Assessment extends BaseEntity{
 	public static final String DELETE_ASSESSMENT = "deleteAssessment";
 	public static final String DELETE_ASSESSMENT_BY_USER_ID = "deleteAssessmentByUserId";
 	public static final String DELETE_ASSESSMENT_BY_ESTABLISHMENT_ID = "deleteAssessmentByEstablishmentId";
-	private int assessment;
+	private int establishmentAssessment;
 	private Establishment establishment;
 	public void setAssessment(int assessment) {
-		this.assessment = assessment;
+		this.establishmentAssessment = assessment;
 	}
-	@Column(name="assessment")
+	@Column(name="establishmentAssessment")
 	public int getAssessment() {
-		return assessment;
+		return establishmentAssessment;
 	}
 	public void setEstablishment(Establishment establishment) {
-		checkDataIsNotNull(this.establishment, "You cannot add another Establishment");
 		this.establishment = establishment;
 	}
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -62,8 +58,7 @@ public class Assessment extends BaseEntity{
 	public boolean checkEstablishment(Establishment establishment) {
 		if(this.establishment == null) {
 			return true;
-		}
-		else if(!this.establishment.equals(establishment)) {
+		} else if(!this.establishment.equals(establishment)) {
 			System.out.println("You can not add additional Establishment to this Assessment");
 			return false;
 		}

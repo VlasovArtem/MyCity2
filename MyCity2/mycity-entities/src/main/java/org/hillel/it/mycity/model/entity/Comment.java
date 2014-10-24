@@ -1,5 +1,4 @@
 package org.hillel.it.mycity.model.entity;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,10 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 @Entity
 @Table(name="COMMENTS")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
@@ -40,25 +37,23 @@ public class Comment extends BaseEntity{
 	public static final String GET_COMMENT_BY_ESTABLISHMENT_ID = "getCommentsByEstablishmentId";
 	public static final String GET_COMMENT_BY_ESTABLISHMENT_AND_USER_ID = "getCommentsByEstablishmentAndUserId";
 	private int commentAssessment;
-	private String comment;
+	private String userComment;
 	private boolean needToModerate;
 	private Establishment establishment;
-	
 	public Comment() {
 		commentAssessment = 0;
 		needToModerate = false;
 	}
 	public void setComment(String comment) {
-		this.comment = comment;
+		this.userComment = comment;
 	}
 	@Column(name="comment")
 	public String getComment() {
-		return comment;
+		return userComment;
 	}
 	public void setCommentPositiveAssessment() {
 		++commentAssessment;
 	}
-	
 	public void setCommentNegativeAssessment() {
 		--commentAssessment;
 	}
@@ -90,10 +85,8 @@ public class Comment extends BaseEntity{
 	 * @param establishment
 	 */
 	public void setEstablishment(Establishment establishment) {
-		checkDataIsNotNull(this.establishment, "You can not add additional Establishment to this Comment");
 		this.establishment = establishment;
 	}
-	
 	public boolean isNeedToModerate() {
 		return needToModerate;
 	}
@@ -115,7 +108,7 @@ public class Comment extends BaseEntity{
 		return this.establishment.equals(establishment);
 	}
 	public void checkUserForComment(User user) {
-		if(!user.inGroup(UserGroup.Moderator) && !user.inGroup(UserGroup.Administrator)) {
+		if(!user.inGroup(UserGroup.MODERATOR) && !user.inGroup(UserGroup.ADMINISTRATOR)) {
 			throw new RuntimeException("This user can`t mark comment to moderate");
 		}
 	}

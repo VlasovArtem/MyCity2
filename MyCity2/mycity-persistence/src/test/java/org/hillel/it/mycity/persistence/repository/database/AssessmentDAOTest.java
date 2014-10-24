@@ -24,9 +24,9 @@ public class AssessmentDAOTest {
 	private static User user;
 	private static Establishment establishment;
 	@BeforeClass
-	public static void setup() {
+	public static void setup() throws ClassNotFoundException {
 		user = new User();
-		user.setGroup(UserGroup.Administrator);
+		user.setGroup(UserGroup.ADMINISTRATOR);
 		user.setEmail("vlasovartem21@gmail.com");
 		user.setUsername("vlasovartem");
 		user.setPassword("helloworld");

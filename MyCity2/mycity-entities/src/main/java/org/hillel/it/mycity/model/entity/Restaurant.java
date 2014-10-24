@@ -1,14 +1,11 @@
 package org.hillel.it.mycity.model.entity;
-
 import java.time.LocalTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
 @Entity
 @Table(name="RESTAURANTS")
 @PrimaryKeyJoinColumn(name="establishment_id")
