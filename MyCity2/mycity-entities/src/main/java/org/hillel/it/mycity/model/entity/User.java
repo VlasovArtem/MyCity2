@@ -1,5 +1,4 @@
 package org.hillel.it.mycity.model.entity;
-
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +19,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hillel.it.mycity.helper.CryptoHelper;
-
+import org.hillel.it.mycity.model.entity.exception.CheckUserException;
 @Entity
 @Table(name="USERS")
 @AttributeOverride(name="id", column=@Column(name="user_id", insertable=false, updatable=false))
@@ -41,14 +40,12 @@ public class User extends BaseEntity{
 	private String password;
 	private UserGroup group;
 	private boolean emailVerified; 
-	
 	public User(String email, String password) {
 		setEmail(email);
 		setPassword(password);
 		emailVerified = false;
 	}
 	public User() {
-	
 	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -122,8 +119,9 @@ public class User extends BaseEntity{
 	 * @param comment
 	 * @param userComment
 	 * @return
+	 * @throws CheckUserException 
 	 */
-	public void changeComment(Comment comment, String userComment) {
+	public void changeComment(Comment comment, String userComment) throws CheckUserException {
 		checkUserData(comment);
 		comment.setComment(userComment);
 		comment.setModifiedBy(this);
@@ -136,7 +134,7 @@ public class User extends BaseEntity{
 		assessment.setAssessment(userAssessment);
 		return assessment;
 	}
-	public void changeAssessment(Assessment assessment, int userAssessment) {
+	public void changeAssessment(Assessment assessment, int userAssessment) throws CheckUserException {
 		checkUserData(assessment);
 		assessment.setAssessment(userAssessment);
 		assessment.setModifiedBy(this);
@@ -186,16 +184,13 @@ public class User extends BaseEntity{
 	 * pass successful if creater of this Comment is this user or user with aministrator rights
 	 * For class Assessment check pass successful if creater of this Assessment is this user.
 	 * @param t one of classes Comment or Assessment
+	 * @throws CheckUserException 
 	 */
-	public <T extends BaseEntity> void checkUserData(T t) {
-		if(t.getClass() == Comment.class) {
-			if(t.getCreatedBy() != this && !inGroup(UserGroup.Administrator)) {
-				throw new RuntimeException("This user cannot change this comment");
-			}
-		} else if(t.getClass() == Assessment.class) {
-			if(t.getCreatedBy() != this) {
-				throw new RuntimeException("This user can not change this comment");
-			}
+	public <T extends BaseEntity> void checkUserData(T t) throws CheckUserException {
+		if(t.getClass() == Comment.class && t.getCreatedBy() != this && !inGroup(UserGroup.ADMINISTRATOR)) {
+			throw new CheckUserException("This user cannot change this comment");
+		} else if(t.getClass() == Assessment.class && t.getCreatedBy() != this) {
+			throw new CheckUserException("This user can not change this comment");
 		}
 	}
 	/**

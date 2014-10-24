@@ -1,7 +1,9 @@
 package org.hillel.it.mycity.model.entity;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +16,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 @Entity
 @Table(name="ESTABLISHMENTS")
 @Inheritance(strategy=InheritanceType.JOINED)
@@ -44,7 +45,8 @@ public class Establishment extends BaseEntity{
 	public String getAddress() {
 		return address;
 	}
-	public void setTelephone(String telephone) {
+	public void setTelephone(String telephone) throws ClassNotFoundException {
+		checkTelephoneOfEstablishment(telephone);
 		this.telephone = telephone;
 	}
 	@Column(name="telephone", nullable=false, unique=true, length = 13)
@@ -105,12 +107,12 @@ public class Establishment extends BaseEntity{
 	 * Odessa Region.
 	 * @param telephoneOfEstablishment
 	 * @return true if telephone number is in standart format
-	 *//*
-	private boolean checkTelephoneOfEstablishment(String telephoneOfEstablishment) throws ClassNotFoundException{
+	 */
+	private boolean checkTelephoneOfEstablishment(String telephone) throws ClassNotFoundException{
 		Pattern telephonePattern = Pattern.compile("(^0([6][3678]|[9][1-9]|39|48|50))\\d{7}");
-		Matcher telephoneMatcher = telephonePattern.matcher(telephoneOfEstablishment);
+		Matcher telephoneMatcher = telephonePattern.matcher(telephone);
 		return telephoneMatcher.find();
-	}*/
+	}
 	protected void checkAddComment(Comment comment) {
 		try {
 			comment.checkEstablishment(this);

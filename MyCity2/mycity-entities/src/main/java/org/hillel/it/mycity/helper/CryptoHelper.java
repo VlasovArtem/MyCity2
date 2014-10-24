@@ -4,6 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class CryptoHelper {
+	private CryptoHelper() {
+		
+	}
 
 	public static String shaOne(String str){
 		MessageDigest sha;

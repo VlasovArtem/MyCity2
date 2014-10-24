@@ -11,12 +11,12 @@ import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.model.entity.UserGroup;
 
 public class JpaTest {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("mycity");
 		EntityManager em = emf.createEntityManager();
 		try {
 			User user = new User();
-			user.setGroup(UserGroup.Administrator);
+			user.setGroup(UserGroup.ADMINISTRATOR);
 			user.setEmail("vlasovartem21@gmail.com");
 			user.setUsername("vlasovartem");
 			user.setPassword("helloworld");

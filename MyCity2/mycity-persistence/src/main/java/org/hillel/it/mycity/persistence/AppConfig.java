@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class AppConfig {
 	@Autowired
 	private Environment env;
-	/*@Resource(lookup="java:/jdbc/MyCity", type=DataSource.class)*/
 	@Autowired
 	private DataSource dataSource;
 	
