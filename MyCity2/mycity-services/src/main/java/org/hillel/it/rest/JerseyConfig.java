@@ -1,9 +1,19 @@
 package org.hillel.it.rest;
-import javax.ws.rs.ApplicationPath;
-import org.glassfish.jersey.server.ResourceConfig;
-@ApplicationPath("")
-public class JerseyConfig extends ResourceConfig{
-	public JerseyConfig() {
-		packages("org.hillel.it");
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.ws.rs.core.Application;
+
+import org.hillel.it.resource.TestResource;
+
+public class JerseyConfig extends Application{
+	
+	@Override
+	public Set<Class<?>> getClasses() {
+		Set<Class<?>> s = new HashSet<Class<?>>();
+		s.add(TestResource.class);
+		return s;
 	}
+	
 }
