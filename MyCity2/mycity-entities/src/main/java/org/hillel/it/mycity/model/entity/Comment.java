@@ -11,11 +11,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name="COMMENTS")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name="id", column = @Column(name="comment_id", insertable=false, updatable=false))
 @NamedQueries({@NamedQuery(name="getComments", query="from Comment"), 
 	@NamedQuery(name="deleteComments", query="delete Comment"), 
@@ -26,6 +30,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 	@NamedQuery(name="getCommentsByUserId", query="from Comment where person_id = :id"),
 	@NamedQuery(name="getCommentsByEstablishmentId", query="from Comment where establishment_id = :id"),
 	@NamedQuery(name="getCommentsByEstablishmentAndUserId", query="from Comment where person_id = :pid and establishment_id = :eid")})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Comment extends BaseEntity{
 	public static final String GET_COMMENTS = "getComments";
 	public static final String DELETE_COMMENTS = "deleteComments";
