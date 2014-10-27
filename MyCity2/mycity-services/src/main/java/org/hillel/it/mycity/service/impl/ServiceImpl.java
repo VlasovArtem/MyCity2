@@ -1,5 +1,6 @@
 package org.hillel.it.mycity.service.impl;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.hillel.it.mycity.model.entity.Assessment;
@@ -9,180 +10,323 @@ import org.hillel.it.mycity.model.entity.Establishment;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.model.entity.Restaurant;
-import org.hillel.it.mycity.persistence.repository.AssessmentRepository;
-import org.hillel.it.mycity.persistence.repository.CommentRepository;
-import org.hillel.it.mycity.persistence.repository.EstablishmentRepository;
-import org.hillel.it.mycity.persistence.repository.UserRepository;
+import org.hillel.it.mycity.model.entity.UserGroup;
+import org.hillel.it.mycity.persistence.repository.AssessmentCrudRepository;
+import org.hillel.it.mycity.persistence.repository.CinemaCrudRepository;
+import org.hillel.it.mycity.persistence.repository.CommentCrudRepository;
+import org.hillel.it.mycity.persistence.repository.NightClubCrudRepository;
+import org.hillel.it.mycity.persistence.repository.RestaurantCrudRepository;
+import org.hillel.it.mycity.persistence.repository.UserCrudRepistory;
 import org.hillel.it.mycity.service.ServiceMyCity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class ServiceImpl implements ServiceMyCity {
 	@Autowired
-	private EstablishmentRepository establishmentRepository;
+	private CinemaCrudRepository cinemaCrudRepository;
 	@Autowired
-	private UserRepository userRepository;
+	private RestaurantCrudRepository restaurantCrudRepository;
 	@Autowired
-	private CommentRepository commentRepository;
+	private NightClubCrudRepository nightClubCrudRepository;
 	@Autowired
-	private AssessmentRepository assessmentRepository;
-	/*private User loggedUser;*/
+	private CommentCrudRepository commentCrudRepository;
+	@Autowired
+	private AssessmentCrudRepository assessmentCrudRepository;
+	@Autowired
+	private UserCrudRepistory userCrudRepistory;
 	
 	@Override
 	public void addAssessment(Assessment assessment) {
-		assessmentRepository.addAssessment(assessment);
+		assessmentCrudRepository.save(assessment);
 	}
 	@Override
 	public void deleteAssessment(int id) {
-		assessmentRepository.deleteAssessment(id);
+		assessmentCrudRepository.delete(id);
 	}
 	@Override
 	public void deleteAssessment(User user) {
-		assessmentRepository.deleteAssessment(user);
+		assessmentCrudRepository.removeByCreatedBy(user);
 	}
 	@Override
 	public void deleteAssessment(Establishment establishment) {
-		assessmentRepository.deleteAssessment(establishment);
+		assessmentCrudRepository.removeByEstablishment(establishment);
 	}
 	@Override
 	public Assessment getAssessment(int id) {
-		return assessmentRepository.getAssessment(id);
+		return assessmentCrudRepository.findOne(id);
 	}
 	@Override
 	public List<Assessment> getAssessments(User user) {
-		return assessmentRepository.getAssessments(user);
+		return assessmentCrudRepository.findByCreatedBy(user);
 	}
 	@Override
 	public List<Assessment> getAssessments(Establishment establishment) {
-		return assessmentRepository.getAssessments(establishment);
+		return assessmentCrudRepository.findByEstablishment(establishment);
 	}
 	@Override
 	public List<Assessment> getAssessments() {
-		return assessmentRepository.getAssessments();
+		return (List<Assessment>) assessmentCrudRepository.findAll();
 	}
 	@Override
 	public void addComment(Comment comment) {
-		commentRepository.addComment(comment);
+		commentCrudRepository.save(comment);
 	}
 	@Override
 	public void deleteComment(int id) {
-		commentRepository.deleteComment(id);
+		commentCrudRepository.delete(id);
 	}
 	@Override
-	public void deleteComments(User user) {
-		commentRepository.deleteComments(user);
+	public List<Comment> deleteComments(User user) {
+		return commentCrudRepository.removeByCreatedBy(user);
 	}
 	@Override
-	public void deleteComments(Establishment establishment) {
-		commentRepository.deleteComments(establishment);
+	public List<Comment> deleteComments(Establishment establishment) {
+		return commentCrudRepository.removeByEstablishment(establishment);
 	}
 	@Override
-	public void deleteComments(Establishment establishment, User user) {
-		commentRepository.deleteComments(establishment, user);
+	public List<Comment> deleteComments(User user, Establishment establishment) {
+		return commentCrudRepository.removeByCreatedByAndEstablishment(user, establishment);
 	}
 	@Override
 	public Comment getComment(int id) {
-		return commentRepository.getComment(id);
+		return commentCrudRepository.findOne(id);
 	}
 	@Override
 	public List<Comment> getComments(User user) {
-		return commentRepository.getComments(user);
+		return commentCrudRepository.findByCreatedBy(user);
 	}
 	@Override
 	public List<Comment> getComments(Establishment establishment) {
-		return commentRepository.getComments(establishment);
+		return commentCrudRepository.findByEstablishment(establishment);
 	}
 	@Override
-	public List<Comment> getComments(Establishment establishment, User user) {
-		return commentRepository.getComments(establishment, user);
+	public List<Comment> getComments(User user, Establishment establishment) {
+		return commentCrudRepository.findByCreatedByAndEstablishment(user, establishment);
 	}
 	@Override
 	public List<Comment> getComments() {
-		return commentRepository.getComments();
+		return (List<Comment>) commentCrudRepository.findAll();
 	}
 	@Override
 	public void addCinema(Cinema cinema) {
-		establishmentRepository.addCinema(cinema);
-	}
-	@Override
-	public void addNightClub(NightClub nightClub) {
-		establishmentRepository.addNightClub(nightClub);
-	}
-	@Override
-	public void addRestaurant(Restaurant restaurant) {
-		establishmentRepository.addRestaurant(restaurant);
+		cinemaCrudRepository.save(cinema);
 	}
 	@Override
 	public Cinema getCinema(int id) {
-		return establishmentRepository.getCinema(id);
-	}
-	@Override
-	public Restaurant getRestaurant(int id) {
-		return establishmentRepository.getRestaurant(id);
-	}
-	@Override
-	public NightClub getNightClub(int id) {
-		return establishmentRepository.getNightClub(id);
+		return cinemaCrudRepository.findOne(id);
 	}
 	@Override
 	public List<Cinema> getCinemas() {
-		return establishmentRepository.getCinemas();
+		return (List<Cinema>) cinemaCrudRepository.findAll();
 	}
 	@Override
-	public List<NightClub> getNightClubs() {
-		return establishmentRepository.getNightClubs();
+	public List<Cinema> getCinemaByName(String name) {
+		return cinemaCrudRepository.findByName(name);
 	}
 	@Override
-	public List<Restaurant> getRestaurants() {
-		return establishmentRepository.getRestaurants();
+	public List<Cinema> getCinemaByAddress(String address) {
+		return cinemaCrudRepository.findByAddress(address);
+	}
+	@Override
+	public List<Cinema> getCinemaByCinemaTechnology(String cinemaTechnology) {
+		return cinemaCrudRepository.findByCinemaTechnology(cinemaTechnology);
+	}
+	@Override
+	public List<Cinema> getCinemaByNameAndAddress(String name, String address) {
+		return cinemaCrudRepository.findByNameAndAddress(name, address);
 	}
 	@Override
 	public void deleteCinemas() {
-		establishmentRepository.deleteCinemas();
-	}
-	@Override
-	public void deleteNightClubs() {
-		establishmentRepository.deleteNightClubs();
-	}
-	@Override
-	public void deleteRestaurants() {
-		establishmentRepository.deleteRestaurants();
+		cinemaCrudRepository.deleteAll();
 	}
 	@Override
 	public void deleteCinema(int id) {
-		establishmentRepository.deleteCinema(id);
+		cinemaCrudRepository.delete(id);
+	}
+	@Override
+	public List<Cinema> deleteCinemaByName(String name) {
+		return cinemaCrudRepository.removeByName(name);
+	}
+	@Override
+	public List<Cinema> deleteCinemaByAddress(String address) {
+		return cinemaCrudRepository.removeByAddress(address);
+	}
+	@Override
+	public List<Cinema> deleteCinemaByNameAndAddress(String name, String address) {
+		return cinemaCrudRepository.removeByNameAndAddress(name, address);
+	}
+	@Override
+	public void addRestaurant(Restaurant restaurant) {
+		restaurantCrudRepository.save(restaurant);
+	}
+	@Override
+	public Restaurant getRestaurant(int id) {
+		return restaurantCrudRepository.findOne(id);
+	}
+	@Override
+	public List<Restaurant> getRestaurants() {
+		return (List<Restaurant>) restaurantCrudRepository.findAll();
+	}
+	@Override
+	public List<Restaurant> getRestaurantByName(String name) {
+		return restaurantCrudRepository.findByName(name);
+	}
+	@Override
+	public List<Restaurant> getRestaurantByAddress(String address) {
+		return restaurantCrudRepository.findByAddress(address);
+	}
+	@Override
+	public List<Restaurant> getRestaurantByNameAndAddress(String name,
+			String address) {
+		return restaurantCrudRepository.findByNameAndAddress(name, address);
+	}
+	@Override
+	public List<Restaurant> getRestaurantByTimeOpen(LocalTime timeOpen) {
+		return restaurantCrudRepository.findByTimeOpen(timeOpen);	
+	}
+	@Override
+	public List<Restaurant> getRestaurantByTimeClose(LocalTime timeClose) {
+		return restaurantCrudRepository.findByTimeClose(timeClose);
+	}
+	@Override
+	public List<Restaurant> getRestaurantByAverageCheck(
+			int averageCheck) {
+		return restaurantCrudRepository.findByAverageCheckOrderByAverageCheckAsc(averageCheck);
+	}
+	@Override
+	public void deleteRestaurants() {
+		restaurantCrudRepository.deleteAll();
 	}
 	@Override
 	public void deleteRestaurant(int id) {
-		establishmentRepository.deleteRestaurant(id);
+		restaurantCrudRepository.delete(id);
+	}
+	@Override
+	public List<Restaurant> deleteRestaurantByName(String name) {
+		return restaurantCrudRepository.removeByName(name);
+	}
+	@Override
+	public List<Restaurant> deleteRestaurantByAddress(String address) {
+		return restaurantCrudRepository.removeByAddress(address);
+	}
+	@Override
+	public List<Restaurant> deleteRestaurantByNameAndAddress(String name,
+			String address) {
+		return restaurantCrudRepository.removeByNameAndAddress(name, address);
+	}
+	@Override
+	public void addNightClub(NightClub nightClub) {
+		nightClubCrudRepository.save(nightClub);
+	}
+	@Override
+	public NightClub getNightClub(int id) {
+		return nightClubCrudRepository.findOne(id);
+	}
+	@Override
+	public List<NightClub> getNightClubs() {
+		return (List<NightClub>) nightClubCrudRepository.findAll();
+	}
+	@Override
+	public List<NightClub> getNightClubByName(String name) {
+		return nightClubCrudRepository.findByName(name);
+	}
+	@Override
+	public List<NightClub> getNightClubByAddress(String address) {
+		return nightClubCrudRepository.findByAddress(address);
+	}
+	@Override
+	public List<NightClub> getNightClubByNameAndAddress(String name,
+			String address) {
+		return nightClubCrudRepository.findByNameAndAddress(name, address);
+	}
+	@Override
+	public List<NightClub> getNightClubByTimeOpen(LocalTime timeOpen) {
+		return nightClubCrudRepository.findByTimeOpen(timeOpen);
+	}
+	@Override
+	public List<NightClub> getNightClubByTimeClose(LocalTime timeClose) {
+		return nightClubCrudRepository.findByTimeClose(timeClose);
+	}
+	@Override
+	public List<NightClub> getNightClubByAverageCheck(
+			int averageCheck) {
+		return nightClubCrudRepository.findByAverageCheckOrderByAverageCheckAsc(averageCheck);
+	}
+	@Override
+	public void deleteNightClubs() {
+		nightClubCrudRepository.deleteAll();
 	}
 	@Override
 	public void deleteNightClub(int id) {
-		establishmentRepository.deleteNightClub(id);
+		nightClubCrudRepository.delete(id);
+	}
+	@Override
+	public List<NightClub> deleteNightClubByName(String name) {
+		return nightClubCrudRepository.removeByName(name);
+	}
+	@Override
+	public List<NightClub> deleteNightClubByAddress(String address) {
+		return nightClubCrudRepository.removeByAddress(address);
+	}
+	@Override
+	public List<NightClub> deleteNightClubByNameAndAddress(String name,
+			String address) {
+		return nightClubCrudRepository.removeByNameAndAddress(name, address);
 	}
 	@Override
 	public void addUser(User user) {
-		userRepository.addUser(user);
+		userCrudRepistory.save(user);
 	}
 	@Override
 	public User getUser(int id) {
-		return userRepository.getUser(id);
+		return userCrudRepistory.findOne(id);
 	}
 	@Override
 	public List<User> getUsers() {
-		return userRepository.getUsers();
+		return (List<User>) userCrudRepistory.findAll();
+	}
+	@Override
+	public List<User> getUserByEmail(String email) {
+		return userCrudRepistory.findByEmail(email);
+	}
+	@Override
+	public List<User> getUserByUsername(String username) {
+		return userCrudRepistory.findByUsername(username);
+	}
+	@Override
+	public List<User> getUserByGroup(UserGroup group) {
+		return userCrudRepistory.findByGroup(group);
+	}
+	@Override
+	public List<User> getUserByCreatedBy(User user) {
+		return userCrudRepistory.findByCreatedBy(user);
 	}
 	@Override
 	public void deleteUsers() {
-		userRepository.deleteUsers();
+		userCrudRepistory.deleteAll();
 	}
 	@Override
 	public void deleteUser(int id) {
-		userRepository.deleteUser(id);
+		userCrudRepistory.delete(id);
 	}
+	@Override
+	public List<User> deleteUserByEmail(String email) {
+		return userCrudRepistory.removeByEmail(email);
+	}
+	@Override
+	public List<User> deleteUserByUsername(String username) {
+		return userCrudRepistory.removeByUsername(username);
+	}
+	@Override
+	public List<User> deleteUserByGroup(UserGroup group) {
+		return userCrudRepistory.removeByGroup(group);
+	}
+	@Override
+	public List<User> deleteUserByUser(User user) {
+		return userCrudRepistory.removeByCreatedBy(user);
+	}
+	
 	/**
 	 * Throw RuntimeException if loggerUser is not in Administrator Group and t is not belongs
 	 * to Assessment and Comment classes.

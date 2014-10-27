@@ -1,21 +1,21 @@
 package org.hillel.it.mycity.model.entity;
 import java.time.LocalTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="RESTAURANTS")
 @PrimaryKeyJoinColumn(name="establishment_id")
-@NamedQueries({@NamedQuery(name="getRestaurants", query="from Restaurant"), 
-	@NamedQuery(name="deleteRestaurants", query="delete Restaurant"), 
-	@NamedQuery(name="deleteRestaurant", query="delete Restaurant where restaurant_id = :id")})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Restaurant extends Establishment{
-	public static final String GET_RESTAURANTS = "getRestaurants";
-	public static final String DELETE_RESTAURANTS = "deleteRestaurants";
-	public static final String DELETE_RESTAURANT = "deleteRestaurant";
 	private LocalTime timeOpen;
 	private LocalTime timeClose;
 	private int averageCheck;

@@ -14,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.annotations.Cache;
@@ -24,15 +27,9 @@ import org.hillel.it.mycity.model.entity.exception.CheckUserException;
 @Table(name="USERS")
 @AttributeOverride(name="id", column=@Column(name="user_id", insertable=false, updatable=false))
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-@NamedQueries({@NamedQuery(name="getUsers", query="from User"), 
-	@NamedQuery(name="deleteUsers", query="delete User"),
-	@NamedQuery(name="deleteUser", query="delete User where user_id = :id"),
-	@NamedQuery(name="getUsersByGroup", query="from User where usergroup = :usergroup")})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class User extends BaseEntity{
-	public final static String GET_USERS = "getUsers";
-	public final static String DELETE_USERS = "deleteUsers";
-	public final static String DELETE_USER = "deleteUser";
-	public final static String GET_USERS_BY_GROUP ="getUsersByGroup";
 	private String firstName;
 	private String lastName;
 	private String username;

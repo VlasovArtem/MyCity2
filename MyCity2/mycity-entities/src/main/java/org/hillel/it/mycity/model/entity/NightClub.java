@@ -1,21 +1,21 @@
 package org.hillel.it.mycity.model.entity;
 import java.time.LocalTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="NIGHTCLUBS")
 @PrimaryKeyJoinColumn(name="establishment_id")
-@NamedQueries({@NamedQuery(name="getNightClubs", query="from NightClub"), 
-	@NamedQuery(name="deleteNightClubs", query="delete NightClub"), 
-	@NamedQuery(name="deleteNightClub", query="delete NightClub where nightclub_id = :id")})
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class NightClub extends Establishment{
-	public static final String GET_NIGTHCLUBS = "getNightClubs";
-	public static final String DELETE_NIGHTCLUBS = "deleteNightClubs";
-	public static final String DELETE_NIGHTCLUB = "deleteNightClub";
 	private LocalTime timeOpen;
 	private LocalTime timeClose;
 	private int averageCheck;
