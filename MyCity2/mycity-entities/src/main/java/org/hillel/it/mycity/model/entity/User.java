@@ -29,7 +29,26 @@ import org.hillel.it.mycity.model.entity.exception.CheckUserException;
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
+@NamedQueries({
+		@NamedQuery(name = User.REMOVE_BY_EMAIL, query = "DELETE FROM User u "
+				+ "WHERE u.email = ?1"),
+		@NamedQuery(name = User.REMOVE_BY_USERNAME, query = "DELETE FROM User u "
+				+ "WHERE u.username = ?1"),
+		@NamedQuery(name = User.REMOVE_BY_GROUP, query = "DELETE FROM User u "
+				+ "WHERE u.usergroup = ?1"),
+		@NamedQuery(name = User.FIND_BY_EMAIL, query = "SELECT * FROM User u "
+				+ "WHERE u.email = ?1"),
+		@NamedQuery(name = User.FIND_BY_USERNAME, query = "SELECT * FROM User u "
+				+ "WHERE u.username = ?1"),
+		@NamedQuery(name = User.FIND_BY_GROUP, query = "SELECT * FROM User u "
+				+ "WHERE u.usergroup = ?1") })
 public class User extends BaseEntity{
+	public static final String REMOVE_BY_EMAIL = "removeByEmail";
+	public static final String REMOVE_BY_USERNAME = "removeByUsername";
+	public static final String REMOVE_BY_GROUP = "removeByGroup";
+	public static final String FIND_BY_EMAIL = "findByEmail";
+	public static final String FIND_BY_USERNAME = "findByUsername";
+	public static final String FIND_BY_GROUP = "findByGroup";
 	private String firstName;
 	private String lastName;
 	private String username;

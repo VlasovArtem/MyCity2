@@ -45,24 +45,24 @@ public class ServiceImpl implements ServiceMyCity {
 		assessmentCrudRepository.delete(id);
 	}
 	@Override
-	public void deleteAssessment(User user) {
-		assessmentCrudRepository.removeByCreatedBy(user);
+	public void deleteAssessmentByUser(String username) {
+		assessmentCrudRepository.removeByUser(username);
 	}
 	@Override
-	public void deleteAssessment(Establishment establishment) {
-		assessmentCrudRepository.removeByEstablishment(establishment);
+	public void deleteAssessmentByEstablishment(String establishmentName) {
+		assessmentCrudRepository.removeByEstablishment(establishmentName);
 	}
 	@Override
 	public Assessment getAssessment(int id) {
 		return assessmentCrudRepository.findOne(id);
 	}
 	@Override
-	public List<Assessment> getAssessments(User user) {
-		return assessmentCrudRepository.findByCreatedBy(user);
+	public List<Assessment> getAssessmentsByUser(String username) {
+		return assessmentCrudRepository.findByUser(username);
 	}
 	@Override
-	public List<Assessment> getAssessments(Establishment establishment) {
-		return assessmentCrudRepository.findByEstablishment(establishment);
+	public List<Assessment> getAssessmentsByEstablishment(String establishmentName) {
+		return assessmentCrudRepository.findByEstablishment(establishmentName);
 	}
 	@Override
 	public List<Assessment> getAssessments() {
@@ -77,32 +77,32 @@ public class ServiceImpl implements ServiceMyCity {
 		commentCrudRepository.delete(id);
 	}
 	@Override
-	public List<Comment> deleteComments(User user) {
-		return commentCrudRepository.removeByCreatedBy(user);
+	public void deleteCommentsByUser(String username) {
+		commentCrudRepository.removeByUser(username);
 	}
 	@Override
-	public List<Comment> deleteComments(Establishment establishment) {
-		return commentCrudRepository.removeByEstablishment(establishment);
+	public void deleteCommentsByEstablishment(String name) {
+		commentCrudRepository.removeByEstablishment(name);
 	}
 	@Override
-	public List<Comment> deleteComments(User user, Establishment establishment) {
-		return commentCrudRepository.removeByCreatedByAndEstablishment(user, establishment);
+	public void deleteCommentsByUserAndEstablishment(String username, String name) {
+		commentCrudRepository.removeByCreatedByAndEstablishment(username, name);
 	}
 	@Override
 	public Comment getComment(int id) {
 		return commentCrudRepository.findOne(id);
 	}
 	@Override
-	public List<Comment> getComments(User user) {
-		return commentCrudRepository.findByCreatedBy(user);
+	public List<Comment> getCommentsByUser(String username) {
+		return commentCrudRepository.findByCreatedBy(username);
 	}
 	@Override
-	public List<Comment> getComments(Establishment establishment) {
-		return commentCrudRepository.findByEstablishment(establishment);
+	public List<Comment> getCommentsByEstablishment(String name) {
+		return commentCrudRepository.findByEstablishment(name);
 	}
 	@Override
-	public List<Comment> getComments(User user, Establishment establishment) {
-		return commentCrudRepository.findByCreatedByAndEstablishment(user, establishment);
+	public List<Comment> getCommentsByUserAndEstablishment(String username, String name) {
+		return commentCrudRepository.findByCreatedByAndEstablishment(username, name);
 	}
 	@Override
 	public List<Comment> getComments() {
@@ -145,16 +145,16 @@ public class ServiceImpl implements ServiceMyCity {
 		cinemaCrudRepository.delete(id);
 	}
 	@Override
-	public List<Cinema> deleteCinemaByName(String name) {
-		return cinemaCrudRepository.removeByName(name);
+	public void deleteCinemaByName(String name) {
+		cinemaCrudRepository.removeByName(name);
 	}
 	@Override
-	public List<Cinema> deleteCinemaByAddress(String address) {
-		return cinemaCrudRepository.removeByAddress(address);
+	public void deleteCinemaByAddress(String address) {
+		cinemaCrudRepository.removeByAddress(address);
 	}
 	@Override
-	public List<Cinema> deleteCinemaByNameAndAddress(String name, String address) {
-		return cinemaCrudRepository.removeByNameAndAddress(name, address);
+	public void deleteCinemaByNameAndAddress(String name, String address) {
+		cinemaCrudRepository.removeByNameAndAddress(name, address);
 	}
 	@Override
 	public void addRestaurant(Restaurant restaurant) {
@@ -192,7 +192,7 @@ public class ServiceImpl implements ServiceMyCity {
 	@Override
 	public List<Restaurant> getRestaurantByAverageCheck(
 			int averageCheck) {
-		return restaurantCrudRepository.findByAverageCheckOrderByAverageCheckAsc(averageCheck);
+		return restaurantCrudRepository.findByAverageCheck(averageCheck);
 	}
 	@Override
 	public void deleteRestaurants() {
@@ -203,17 +203,17 @@ public class ServiceImpl implements ServiceMyCity {
 		restaurantCrudRepository.delete(id);
 	}
 	@Override
-	public List<Restaurant> deleteRestaurantByName(String name) {
-		return restaurantCrudRepository.removeByName(name);
+	public void deleteRestaurantByName(String name) {
+		restaurantCrudRepository.removeByName(name);
 	}
 	@Override
-	public List<Restaurant> deleteRestaurantByAddress(String address) {
-		return restaurantCrudRepository.removeByAddress(address);
+	public void deleteRestaurantByAddress(String address) {
+		restaurantCrudRepository.removeByAddress(address);
 	}
 	@Override
-	public List<Restaurant> deleteRestaurantByNameAndAddress(String name,
+	public void deleteRestaurantByNameAndAddress(String name,
 			String address) {
-		return restaurantCrudRepository.removeByNameAndAddress(name, address);
+		restaurantCrudRepository.removeByNameAndAddress(name, address);
 	}
 	@Override
 	public void addNightClub(NightClub nightClub) {
@@ -251,7 +251,7 @@ public class ServiceImpl implements ServiceMyCity {
 	@Override
 	public List<NightClub> getNightClubByAverageCheck(
 			int averageCheck) {
-		return nightClubCrudRepository.findByAverageCheckOrderByAverageCheckAsc(averageCheck);
+		return nightClubCrudRepository.findByAverageCheck(averageCheck);
 	}
 	@Override
 	public void deleteNightClubs() {
@@ -262,17 +262,17 @@ public class ServiceImpl implements ServiceMyCity {
 		nightClubCrudRepository.delete(id);
 	}
 	@Override
-	public List<NightClub> deleteNightClubByName(String name) {
-		return nightClubCrudRepository.removeByName(name);
+	public void deleteNightClubByName(String name) {
+		nightClubCrudRepository.removeByName(name);
 	}
 	@Override
-	public List<NightClub> deleteNightClubByAddress(String address) {
-		return nightClubCrudRepository.removeByAddress(address);
+	public void deleteNightClubByAddress(String address) {
+		nightClubCrudRepository.removeByAddress(address);
 	}
 	@Override
-	public List<NightClub> deleteNightClubByNameAndAddress(String name,
+	public void deleteNightClubByNameAndAddress(String name,
 			String address) {
-		return nightClubCrudRepository.removeByNameAndAddress(name, address);
+		nightClubCrudRepository.removeByNameAndAddress(name, address);
 	}
 	@Override
 	public void addUser(User user) {
@@ -299,10 +299,6 @@ public class ServiceImpl implements ServiceMyCity {
 		return userCrudRepistory.findByGroup(group);
 	}
 	@Override
-	public List<User> getUserByCreatedBy(User user) {
-		return userCrudRepistory.findByCreatedBy(user);
-	}
-	@Override
 	public void deleteUsers() {
 		userCrudRepistory.deleteAll();
 	}
@@ -311,20 +307,16 @@ public class ServiceImpl implements ServiceMyCity {
 		userCrudRepistory.delete(id);
 	}
 	@Override
-	public List<User> deleteUserByEmail(String email) {
-		return userCrudRepistory.removeByEmail(email);
+	public void deleteUserByEmail(String email) {
+		userCrudRepistory.removeByEmail(email);
 	}
 	@Override
-	public List<User> deleteUserByUsername(String username) {
-		return userCrudRepistory.removeByUsername(username);
+	public void deleteUserByUsername(String username) {
+		userCrudRepistory.removeByUsername(username);
 	}
 	@Override
-	public List<User> deleteUserByGroup(UserGroup group) {
-		return userCrudRepistory.removeByGroup(group);
-	}
-	@Override
-	public List<User> deleteUserByUser(User user) {
-		return userCrudRepistory.removeByCreatedBy(user);
+	public void deleteUserByGroup(UserGroup group) {
+		userCrudRepistory.removeByGroup(group);
 	}
 	
 	/**

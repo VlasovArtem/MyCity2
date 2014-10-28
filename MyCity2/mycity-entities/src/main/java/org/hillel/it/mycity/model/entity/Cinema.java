@@ -17,7 +17,29 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
+@NamedQueries({
+	@NamedQuery(name = Cinema.REMOVE_BY_NAME, query = "DELETE FROM Cinema c "
+			+ "WHERE c.name = ?1"),
+	@NamedQuery(name = Cinema.REMOVE_BY_ADDRESS, query = "DELETE FROM Cinema c "
+			+ "WHERE c.address = ?1"),
+	@NamedQuery(name = Cinema.REMOVE_BY_NAME_AND_ADDRESS, query = "DELETE FROM Cinema c "
+			+ "WHERE c.name = ?1 AND c.address = ?2"),
+	@NamedQuery(name = Cinema.FIND_BY_NAME, query = "SELECT * FROM Cinema c "
+			+ "WHERE c.name = ?1"),
+	@NamedQuery(name = Cinema.FIND_BY_ADDRESS, query = "SELECT * FROM Cinema c "
+			+ "WHERE c.address = ?1"),
+	@NamedQuery(name = Cinema.FIND_BY_NAME_AND_ADDRESS, query = "SELECT * FROM Cinema c "
+			+ "WHERE c.name = ?1 AND c.address = ?2"),
+	@NamedQuery(name = Cinema.FIND_BY_CINEMATECHNOLOGY, query = "SELECT * FROM Cinema c "
+			+ "c.cinema_technology = ?1")})
 public class Cinema extends Establishment{
+	public static final String REMOVE_BY_NAME = "removeByName";
+	public static final String REMOVE_BY_ADDRESS = "removeByAddress";
+	public static final String REMOVE_BY_NAME_AND_ADDRESS = "removeByNameAndAddress";
+	public static final String FIND_BY_NAME = "findByName";
+	public static final String FIND_BY_ADDRESS = "findByAddress";
+	public static final String FIND_BY_NAME_AND_ADDRESS = "findByNameAndAddress";
+	public static final String FIND_BY_CINEMATECHNOLOGY = "findByCinemaTechnology";
 	private int numberOfHalls;
 	private int numberOfSeatsInHall;
 	private String cinemaTechnology;

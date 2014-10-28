@@ -23,7 +23,27 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @AttributeOverride(name="id", column = @Column(name="assessment_id", insertable=false, updatable=false))
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
+@NamedQueries({@NamedQuery(name=Assessment.REMOVE_BY_USER, 
+		query="DELETE FROM Assessment a "
+				+ "INNER JOIN User u ON a.created_by = u.user_id "
+				+ "WHERE u.username = ?1"),
+	@NamedQuery(name=Assessment.REMOVE_BY_ESTABLISHMENT, 
+		query="DELETE FROM Assessment a "
+				+ "INNER JOIN Establishment e ON a.establishment_id = e.establishment_id "
+				+ "WHERE e.name = ?1"),
+	@NamedQuery(name=Assessment.FIND_BY_USER, 
+		query="SELECT * FROM Assessment a "
+				+ "INNER JOIN User u ON a.created_by = u.user_id "
+				+ "WHERE u.username = ?1"),
+	@NamedQuery(name=Assessment.FIND_BY_ESTABLISHMENT, 
+		query="SELECT * FROM Assessment a "
+				+ "INNER JOIN Establishment e ON a.establishment_id = e.establishment_id "
+				+ "WHERE e.name = ?1")})
 public class Assessment extends BaseEntity{
+	public static final String REMOVE_BY_USER = "removeByUser";
+	public static final String REMOVE_BY_ESTABLISHMENT = "removeByEstablishment";
+	public static final String FIND_BY_USER = "findByUser";
+	public static final String FIND_BY_ESTABLISHMENT = "findByEstablishment";
 	private int establishmentAssessment;
 	private Establishment establishment;
 	public void setAssessment(int assessment) {
@@ -37,7 +57,7 @@ public class Assessment extends BaseEntity{
 		this.establishment = establishment;
 	}
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="establishmentId", referencedColumnName="establishment_id")
+	@JoinColumn(name="establishment_id", referencedColumnName="establishment_id")
 	public Establishment getEstablishment() {
 		return establishment;
 	}
