@@ -9,22 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserCrudRepistory extends CrudRepository<User, Integer> {
-	@Modifying
-	@Query(name=User.REMOVE_BY_EMAIL)
-	public void removeByEmail(String email);
-	@Modifying
-	@Query(name=User.REMOVE_BY_USERNAME)
-	public void removeByUsername(String username);
-	@Modifying
-	@Query(name=User.REMOVE_BY_GROUP)
-	public void removeByGroup(UserGroup group);
-	@Modifying
-	@Query(name=User.FIND_BY_EMAIL)
-	public List<User> findByEmail(String email);
-	@Modifying
-	@Query(name=User.FIND_BY_USERNAME)
-	public List<User> findByUsername(String username);
-	@Modifying
-	@Query(name=User.FIND_BY_GROUP)
-	public List<User> findByGroup(UserGroup group);
+//	public void removeByEmail(String email);
+//	public void removeByUsername(String username);
+//	public void removeByGroup(UserGroup group);
+//	public List<User> findByEmail(String email);
+//	public List<User> findByUsername(String username);
+//	public List<User> findByGroup(UserGroup group);
 }

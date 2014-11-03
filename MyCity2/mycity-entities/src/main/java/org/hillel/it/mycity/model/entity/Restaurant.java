@@ -16,34 +16,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({
-	@NamedQuery(name = Restaurant.REMOVE_BY_NAME, query = "DELETE FROM Restaurant r "
+	@NamedQuery(name = "Restaurant.removeByName", query = "DELETE FROM Restaurant r "
 			+ "WHERE r.name = ?1"),
-	@NamedQuery(name = Restaurant.REMOVE_BY_ADDRESS, query = "DELETE FROM Restaurant r "
+	@NamedQuery(name = "Restaurant.removeByAddress", query = "DELETE FROM Restaurant r "
 			+ "WHERE r.address = ?1"),
-	@NamedQuery(name = Restaurant.REMOVE_BY_NAME_AND_ADDRESS, query = "DELETE FROM Restaurant r "
+	@NamedQuery(name = "Restaurant.removeByNameAndAddress", query = "DELETE FROM Restaurant r "
 			+ "WHERE r.name = ?1 AND r.address = ?2"),
-	@NamedQuery(name = Restaurant.FIND_BY_NAME, query = "SELECT * FROM Restaurant r "
+	@NamedQuery(name = "Restaurant.findByName", query = "FROM Restaurant r "
 			+ "WHERE r.name = ?1"),
-	@NamedQuery(name = Restaurant.FIND_BY_ADDRESS, query = "SELECT * FROM Restaurant r "
+	@NamedQuery(name = "Restaurant.findByAddress", query = "FROM Restaurant r "
 			+ "WHERE r.address = ?1"),
-	@NamedQuery(name = Restaurant.FIND_BY_NAME_AND_ADDRESS, query = "SELECT * FROM Restaurant r "
+	@NamedQuery(name = "Restaurant.findByNameAndAddress", query = "FROM Restaurant r "
 			+ "WHERE r.name = ?1 AND r.address = ?2"),
-	@NamedQuery(name = Restaurant.FIND_BY_TIME_OPEN, query = "SELECT * FROM Restaurant r "
-			+ "WHERE r.time_open = ?1"),
-	@NamedQuery(name = Restaurant.FIND_BY_TIME_CLOSE, query = "SELECT * FROM Restaurant r "
-			+ "WHERE r.time_close = ?1"),
-	@NamedQuery(name = Restaurant.FIND_BY_AVERAGE_CHECK, query = "SELECT * FROM Restaurant r "
-			+ "WHERE r.average_check ORDER BY average_check")})
+	@NamedQuery(name = "Restaurant.findByTimeOpen", query = "FROM Restaurant r "
+			+ "WHERE r.timeOpen = ?1"),
+	@NamedQuery(name = "Restaurant.findByTimeClose", query = "FROM Restaurant r "
+			+ "WHERE r.timeClose = ?1"),
+	@NamedQuery(name = "Restaurant.findByAverageCheck", query = "FROM Restaurant r "
+			+ "WHERE r.averageCheck = ?1 ORDER BY r.averageCheck ASC")})
 public class Restaurant extends Establishment{
-	public static final String REMOVE_BY_NAME = "removeByName";
-	public static final String REMOVE_BY_ADDRESS = "removeByAddress";
-	public static final String REMOVE_BY_NAME_AND_ADDRESS = "removeByNameAndAddress";
-	public static final String FIND_BY_NAME = "findByName";
-	public static final String FIND_BY_ADDRESS = "findByAddress";
-	public static final String FIND_BY_NAME_AND_ADDRESS = "findByNameAndAddress";
-	public static final String FIND_BY_TIME_OPEN = "findByTimeOpen";
-	public static final String FIND_BY_TIME_CLOSE = "findByTimeClose";
-	public static final String FIND_BY_AVERAGE_CHECK = "findByAverageCheck";
 	private LocalTime timeOpen;
 	private LocalTime timeClose;
 	private int averageCheck;

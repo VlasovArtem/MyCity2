@@ -23,27 +23,23 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @AttributeOverride(name="id", column = @Column(name="assessment_id", insertable=false, updatable=false))
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
-@NamedQueries({@NamedQuery(name=Assessment.REMOVE_BY_USER, 
+@NamedQueries({@NamedQuery(name="Assessment.removeByUser", 
 		query="DELETE FROM Assessment a "
-				+ "INNER JOIN User u ON a.created_by = u.user_id "
-				+ "WHERE u.username = ?1"),
-	@NamedQuery(name=Assessment.REMOVE_BY_ESTABLISHMENT, 
+				+ "WHERE a.createdBy in "
+				+ "(FROM User u WHERE u.username = ?1)"),
+	@NamedQuery(name="Assessment.removeByEstablishment", 
 		query="DELETE FROM Assessment a "
-				+ "INNER JOIN Establishment e ON a.establishment_id = e.establishment_id "
-				+ "WHERE e.name = ?1"),
-	@NamedQuery(name=Assessment.FIND_BY_USER, 
-		query="SELECT * FROM Assessment a "
-				+ "INNER JOIN User u ON a.created_by = u.user_id "
-				+ "WHERE u.username = ?1"),
-	@NamedQuery(name=Assessment.FIND_BY_ESTABLISHMENT, 
-		query="SELECT * FROM Assessment a "
-				+ "INNER JOIN Establishment e ON a.establishment_id = e.establishment_id "
+				+ "WHERE a.establishment in "
+				+ "(FROM Establishment e WHERE e.name = ?1)"),
+	@NamedQuery(name="Assessment.findByUser", 
+		query="SELECT a FROM Assessment a "
+				+ "JOIN a.createdBy cb "
+				+ "WHERE cb.username = ?1"),
+	@NamedQuery(name="Assessment.findByEstablishment", 
+		query="SELECT a FROM Assessment a "
+				+ "JOIN a.establishment e "
 				+ "WHERE e.name = ?1")})
 public class Assessment extends BaseEntity{
-	public static final String REMOVE_BY_USER = "removeByUser";
-	public static final String REMOVE_BY_ESTABLISHMENT = "removeByEstablishment";
-	public static final String FIND_BY_USER = "findByUser";
-	public static final String FIND_BY_ESTABLISHMENT = "findByEstablishment";
 	private int establishmentAssessment;
 	private Establishment establishment;
 	public void setAssessment(int assessment) {

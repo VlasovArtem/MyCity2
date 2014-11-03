@@ -7,7 +7,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Component;
 
-@Path("/testresource")
+@Path("hello")
 @Component
 public class TestResource {
 	

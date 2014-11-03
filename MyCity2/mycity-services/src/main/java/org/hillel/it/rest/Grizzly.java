@@ -8,7 +8,7 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
 public class Grizzly {
-	public static final String BASE_URI = "http://localhost:8080/webapp/";
+	public static final String BASE_URI = "http://localhost:8080/jersey/";
 	public static HttpServer startServer() {
 		final ResourceConfig rc = new ResourceConfig().packages("org.hillel.it");
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI));

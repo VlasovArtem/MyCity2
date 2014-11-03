@@ -24,33 +24,21 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({
-	@NamedQuery(name = Comment.REMOVE_BY_USER, query = "DELETE FROM Comment c "
-			+ "INNER JOIN User u ON c.created_by = u.user_id "
-			+ "WHERE u.username = ?1"),
-	@NamedQuery(name = Comment.REMOVE_BY_ESTABLISHMENT, query = "DELETE FROM Comment c "
-			+ "INNER JOIN Establishment e ON c.establishment_id = e.establishment_id "
-			+ "WHERE e.name = ?1"),
-	@NamedQuery(name = Comment.REMOVE_BY_USER_AND_ESTABLISHMENT, query = "DELETE FROM Comment c "
-			+ "INNER JOIN User u ON c.created_by = u.user_id "
-			+ "INNER JOIN Establishment e ON c.establishment_id = e.establishment_id"
-			+ "WHERE u.username = ?1"),
-	@NamedQuery(name = Comment.FIND_BY_USER, query = "SELECT * FROM Comment c "
-			+ "INNER JOIN User u ON c.created_by = u.user_id "
-			+ "WHERE u.username = ?1"),
-	@NamedQuery(name = Comment.FIND_BY_ESTABLISHMENT, query = "SELECT * FROM Comment c "
-			+ "INNER JOIN Establishment e ON c.establishment_id = e.establishment_id "
-			+ "WHERE e.name = ?1"),
-	@NamedQuery(name = Comment.FIND_BY_USER_AND_ESTABLISHMENT, query = "SELECT * FROM Comment c "
-			+ "INNER JOIN User u ON c.created_by = u.user_id "
-			+ "INNER JOIN Establishment e ON c.establishment_id = e.establishment_id"
-			+ "WHERE u.username = ?1") })
+	@NamedQuery(name = "Comment.removeByUser", query = "DELETE FROM Comment c "
+			+ "WHERE c.createdBy IN (FROM User u WHERE u.username = ?1)"),
+	@NamedQuery(name = "Comment.removeByEstablishment", query = "DELETE FROM Comment c "
+			+ "WHERE c.establishment IN (FROM Establishment e WHERE e.name = ?1)"),
+	@NamedQuery(name = "Comment.removeByUserAndEstablishment", query = "DELETE FROM Comment c "
+			+ "WHERE c.createdBy IN (FROM User u WHERE u.username = ?1)"
+			+ "AND c.establishment IN (FROM Establishment e WHERE e.name = ?2)"),
+	@NamedQuery(name = "Comment.findByUser", query = "FROM Comment c "
+			+ "WHERE c.createdBy IN (FROM User u WHERE u.username = ?1)"),
+	@NamedQuery(name = "Comment.findByEstablishment", query = "FROM Comment c "
+			+ "WHERE c.establishment IN (FROM Establishment e WHERE e.name = ?1)"),
+	@NamedQuery(name = "Comment.findByUserAndEstablishment", query = "FROM Comment c "
+			+ "WHERE c.createdBy IN (FROM User u WHERE u.username = ?1)"
+			+ "AND c.establishment IN (FROM Establishment e WHERE e.name = ?2)")})
 public class Comment extends BaseEntity{
-	public static final String REMOVE_BY_USER = "removeByUser";
-	public static final String REMOVE_BY_ESTABLISHMENT = "removeByEstablishment";
-	public static final String REMOVE_BY_USER_AND_ESTABLISHMENT = "removeByUserAndEstablishment";
-	public static final String FIND_BY_USER = "findByUser";
-	public static final String FIND_BY_ESTABLISHMENT = "findByEstablishment";
-	public static final String FIND_BY_USER_AND_ESTABLISHMENT = "findByUserAndEstablishment";
 	private int commentAssessment;
 	private String userComment;
 	private boolean needToModerate;
