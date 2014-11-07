@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
@@ -11,16 +12,14 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.model.entity.UserGroup;
-import org.hillel.it.mycity.rest.Grizzly;
+import org.hillel.it.rest.Grizzly;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-@Ignore
 public class AssessmentResourceTest {
 	private static HttpServer httpServer;
 	private WebTarget webTarget;

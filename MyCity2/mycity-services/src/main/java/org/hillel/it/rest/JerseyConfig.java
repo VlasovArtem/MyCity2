@@ -1,4 +1,4 @@
-package org.hillel.it.mycity.rest;
+package org.hillel.it.rest;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,9 +6,9 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import org.hillel.it.mycity.resource.TestResource;
+import org.hillel.it.resource.TestResource;
 
-@ApplicationPath("/")
+@ApplicationPath("/jersey/")
 public class JerseyConfig extends Application{
 	
 	@Override

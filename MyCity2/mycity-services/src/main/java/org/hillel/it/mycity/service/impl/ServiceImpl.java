@@ -6,6 +6,7 @@ import java.util.List;
 import org.hillel.it.mycity.model.entity.Assessment;
 import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.Comment;
+import org.hillel.it.mycity.model.entity.Establishment;
 import org.hillel.it.mycity.model.entity.NightClub;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.model.entity.Restaurant;

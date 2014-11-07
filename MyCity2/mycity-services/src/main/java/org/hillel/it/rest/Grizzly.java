@@ -1,4 +1,4 @@
-package org.hillel.it.mycity.rest;
+package org.hillel.it.rest;
 
 import java.io.IOException;
 import java.net.URI;

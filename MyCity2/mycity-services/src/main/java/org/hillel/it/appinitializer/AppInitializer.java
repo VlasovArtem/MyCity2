@@ -1,4 +1,4 @@
-package org.hillel.it.mycity.appinitializer;
+package org.hillel.it.appinitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

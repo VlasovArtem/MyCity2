@@ -1,17 +1,14 @@
 package org.hillel.it.mycity.persistence;
 
 import java.util.Properties;
-
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,8 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef="entityManagerFactory")
-@ComponentScan(basePackages="org.hillel.it", excludeFilters = 
-{ @ComponentScan.Filter( type = FilterType.ASSIGNABLE_TYPE, value = { AppConfig.class})})
+@ComponentScan("org.hillel.it")
 public class AppConfig {
 	@Autowired
 	private Environment env;

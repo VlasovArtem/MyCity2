@@ -5,4 +5,8 @@
 		<servlet-name>JerseyConfig</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>JerseyConfig</servlet-name>
+		<url-pattern>/jersey/*</url-pattern>
+	</servlet-mapping>
 </web-app>     
