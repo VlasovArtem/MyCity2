@@ -7,7 +7,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>mycity-services</artifactId>
-	<packaging>war</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>org.hillel.it</groupId>
@@ -20,4 +19,5 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	<packaging>war</packaging>
 </project>

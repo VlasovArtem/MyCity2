@@ -1,0 +1,50 @@
+Apache Maven 3.2.3 (33f8c3e1027c3ddde99d3cdebad2656a31e8fdf4; 2014-08-11T23:58:10+03:00)
+Maven home: C:\Programming\Maven
+Java version: 1.8.0_25, vendor: Oracle Corporation
+Java home: C:\Program Files\Java\jdk1.8.0_25\jre
+Default locale: ru_RU, platform encoding: Cp1251
+OS name: "windows 8.1", version: "6.3", arch: "amd64", family: "dos"
+[INFO] Error stacktraces are turned on.
+[DEBUG] Reading global settings from C:\Programming\Maven\conf\settings.xml
+[DEBUG] Reading user settings from C:\Users\vlasovartem\.m2\settings.xml
+[DEBUG] Using local repository at C:\Users\vlasovartem\.m2\repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for C:\Users\vlasovartem\.m2\repository
+[INFO] Scanning for projects...
+[DEBUG] Extension realms for project org.hillel.it:mycity:pom:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecyle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.hillel.it:mycity-entities:jar:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecyle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.hillel.it:mycity-model:jar:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecyle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.hillel.it:mycity-persistence:jar:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecyle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.hillel.it:mycity-services:war:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecyle mappings for packaging war from ClassRealm[plexus.core, parent: null]
+[ERROR] The projects in the reactor contain a cyclic reference: Edge between 'Vertex{label='org.hillel.it:mycity-services:0.0.1-SNAPSHOT'}' and 'Vertex{label='org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT'}' introduces to cycle in the graph org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT --> org.hillel.it:mycity-services:0.0.1-SNAPSHOT --> org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT -> [Help 1]
+org.apache.maven.ProjectCycleException: The projects in the reactor contain a cyclic reference: Edge between 'Vertex{label='org.hillel.it:mycity-services:0.0.1-SNAPSHOT'}' and 'Vertex{label='org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT'}' introduces to cycle in the graph org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT --> org.hillel.it:mycity-services:0.0.1-SNAPSHOT --> org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT
+	at org.apache.maven.DefaultMaven.createProjectDependencyGraph(DefaultMaven.java:826)
+	at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:261)
+	at org.apache.maven.DefaultMaven.execute(DefaultMaven.java:154)
+	at org.apache.maven.cli.MavenCli.execute(MavenCli.java:582)
+	at org.apache.maven.cli.MavenCli.doMain(MavenCli.java:214)
+	at org.apache.maven.cli.MavenCli.main(MavenCli.java:158)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:483)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced(Launcher.java:289)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.launch(Launcher.java:229)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode(Launcher.java:415)
+	at org.codehaus.plexus.classworlds.launcher.Launcher.main(Launcher.java:356)
+Caused by: org.codehaus.plexus.util.dag.CycleDetectedException: Edge between 'Vertex{label='org.hillel.it:mycity-services:0.0.1-SNAPSHOT'}' and 'Vertex{label='org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT'}' introduces to cycle in the graph org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT --> org.hillel.it:mycity-services:0.0.1-SNAPSHOT --> org.hillel.it:mycity-persistence:0.0.1-SNAPSHOT
+	at org.codehaus.plexus.util.dag.DAG.addEdge(DAG.java:141)
+	at org.apache.maven.project.ProjectSorter.addEdge(ProjectSorter.java:220)
+	at org.apache.maven.project.ProjectSorter.addEdge(ProjectSorter.java:185)
+	at org.apache.maven.project.ProjectSorter.<init>(ProjectSorter.java:116)
+	at org.apache.maven.DefaultProjectDependencyGraph.<init>(DefaultProjectDependencyGraph.java:53)
+	at org.apache.maven.DefaultMaven.createProjectDependencyGraph(DefaultMaven.java:805)
+	... 13 more
+[ERROR] 
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/ProjectCycleException

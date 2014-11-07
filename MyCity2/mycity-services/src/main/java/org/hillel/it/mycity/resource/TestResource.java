@@ -1,4 +1,4 @@
-package org.hillel.it.resource;
+package org.hillel.it.mycity.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
