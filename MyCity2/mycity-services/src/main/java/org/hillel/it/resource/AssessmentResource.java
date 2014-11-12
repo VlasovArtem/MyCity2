@@ -1,4 +1,4 @@
-package org.hillel.it.mycity.resource;
+package org.hillel.it.resource;
 
 import java.util.List;
 
