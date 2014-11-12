@@ -1,6 +1,5 @@
 package org.hillel.it.mycity.resource;
 
-import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.client.WebTarget;
@@ -19,7 +18,7 @@ import org.junit.runner.RunWith;
 
 import com.google.common.collect.ImmutableSet;
 
-//@Ignore
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {AppConfig.class} )
 public class TestResourceTest extends JerseyTest{
