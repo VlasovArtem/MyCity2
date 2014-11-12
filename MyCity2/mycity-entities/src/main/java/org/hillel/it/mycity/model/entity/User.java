@@ -19,14 +19,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hillel.it.mycity.helper.CryptoHelper;
 import org.hillel.it.mycity.model.entity.exception.CheckUserException;
 @Entity
 @Table(name="USERS")
 @AttributeOverride(name="id", column=@Column(name="user_id", insertable=false, updatable=false))
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({

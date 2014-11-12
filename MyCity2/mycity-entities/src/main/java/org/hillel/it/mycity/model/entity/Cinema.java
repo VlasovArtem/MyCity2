@@ -8,13 +8,9 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name="CINEMAS")
 @PrimaryKeyJoinColumn(name="establishment_id")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({

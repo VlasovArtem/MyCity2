@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -28,8 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef="entityManagerFactory")
-@ComponentScan(basePackages="org.hillel.it", excludeFilters = 
-{ @ComponentScan.Filter( type = FilterType.ASSIGNABLE_TYPE, value = { AppConfig.class})})
+@ComponentScan("org.hillel.it")
 public class AppConfig {
 	@Autowired
 	private Environment env;
@@ -44,9 +42,6 @@ public class AppConfig {
 	@Bean
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
-		/*JndiDataSourceLookup sourceLookup = new JndiDataSourceLookup();
-		sourceLookup.setResourceRef(true);
-		DataSource dataSource = sourceLookup.getDataSource("java:/jdbc/MyCity");*/
 		dataSource.setDriverClassName(env.getProperty("db.driver"));
 		dataSource.setUrl(env.getProperty("db.url"));
 		dataSource.setUsername(env.getProperty("db.username"));
@@ -60,11 +55,8 @@ public class AppConfig {
 		bean.setDataSource(dataSource);
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-		properties.put("hibernate.cache.use_second_level_cache", env.getProperty("second.level.cache"));
-		properties.put("hibernate.cache.provider_class", env.getProperty("cache.provider.class"));
 		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hbm2ddl.auto"));
 		properties.put("hibernate.show_sql", env.getProperty("show_sql"));
-		properties.put("hibernate.chache.region.factory_class", env.getProperty("cache.region.class"));
 		bean.setHibernateProperties(properties);
 		bean.setEntityInterceptor(new GlobalInterceptor());
 		return bean;
@@ -80,11 +72,8 @@ public class AppConfig {
 		bean.setDataSource(dataSource);
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-		properties.put("hibernate.cache.use_second_level_cache", env.getProperty("second.level.cache"));
-		properties.put("hibernate.cache.provider_class", env.getProperty("cache.provider.class"));
 		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hbm2ddl.auto"));
 		properties.put("hibernate.show_sql", env.getProperty("show_sql"));
-		properties.put("hibernate.chache.region.factory_class", env.getProperty("cache.region.class"));
 		bean.setJpaProperties(properties);
 		JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		bean.setJpaVendorAdapter(adapter);

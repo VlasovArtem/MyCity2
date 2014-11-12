@@ -14,12 +14,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name="ASSESSMENTS")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @AttributeOverride(name="id", column = @Column(name="assessment_id", insertable=false, updatable=false))
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
