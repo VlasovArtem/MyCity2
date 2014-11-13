@@ -56,11 +56,8 @@ public class AppConfig {
 		bean.setDataSource(dataSource);
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-		properties.put("hibernate.cache.use_second_level_cache", env.getProperty("second.level.cache"));
-		properties.put("hibernate.cache.provider_class", env.getProperty("cache.provider.class"));
 		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hbm2ddl.auto"));
 		properties.put("hibernate.show_sql", env.getProperty("show_sql"));
-		properties.put("hibernate.chache.region.factory_class", env.getProperty("cache.region.class"));
 		bean.setHibernateProperties(properties);
 		bean.setEntityInterceptor(new GlobalInterceptor());
 		return bean;
