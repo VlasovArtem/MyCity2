@@ -13,33 +13,29 @@ import org.hillel.it.mycity.model.entity.Cinema;
 import org.hillel.it.mycity.model.entity.User;
 import org.hillel.it.mycity.model.entity.UserGroup;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class JpaTest {
 	private static int i = 1;
 	private static String username = "User" + i;
-	public static void main(String[] args) throws ClassNotFoundException, JsonProcessingException {
+	public static void main(String[] args) throws ClassNotFoundException {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("mycity");
 		EntityManager em = emf.createEntityManager();
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();
 			User user = new User();
 			user.setGroup(UserGroup.ADMINISTRATOR);
-			user.setEmail("vlasovartem21@gmail.com");
-			user.setUsername("vlasovartem");
-			user.setPassword("helloworld");
+			user.setEmail("vlasovartem211@gmail.com");
+			user.setUsername("vlasovartem1");
+			user.setPassword("helloworld1");
 			user.setCreatedDate(new Date());
 			Cinema cinema = new Cinema();
-			cinema.setAddress("Hello");
-			cinema.setName("MyFirstCinema");
-			cinema.setTelephone("+38063745133");
+			cinema.setAddress("Hello1");
+			cinema.setName("MyFirstCinema1");
+			cinema.setTelephone("+38063745134");
 			cinema.setCreatedDate(new Date());
 			cinema.setCreatedBy(user);
 			Cinema cinema2 = new Cinema();
-			cinema2.setAddress("Hello2");
-			cinema2.setName("MyFirstCinema2");
-			cinema2.setTelephone("+380637395133");
+			cinema2.setAddress("Hello12");
+			cinema2.setName("MyFirstCinema12");
+			cinema2.setTelephone("+380637395134");
 			cinema2.setCreatedDate(new Date());
 			cinema2.setCreatedBy(user);
 			Assessment assessment = new Assessment();
@@ -50,8 +46,6 @@ public class JpaTest {
 			assessment2.setCreatedDate(new Date());
 			assessment2.setAssessment(10);
 			assessment2.setEstablishment(cinema2);
-			String jsonBeforPersist = objectMapper.writeValueAsString(cinema2);
-			System.out.println(jsonBeforPersist);
 			em.getTransaction().begin();
 			em.persist(user);
 			em.persist(assessment);
